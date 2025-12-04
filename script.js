@@ -20,25 +20,32 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-// Variáveis Globais de Controle
-let dbRef;      // Referência do banco
-let userPath;   // String do caminho (ex: 'bot_manager/herick')
+// Variáveis Globais
+let dbRef;
+let userPath;
 
-// --- LOGIN ---
+// =================================================================
+// 🔐 LOGIN & ROTEAMENTO (Separação Herick/Reysson)
+// =================================================================
 const telaLogin = document.getElementById('tela-login');
 const sistemaPrincipal = document.getElementById('sistema-principal');
 const formLogin = document.getElementById('form-login');
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
+        // Pega 'herick' ou 'reysson' do email
         const username = user.email.split('@')[0];
+        
+        // Define o caminho exclusivo: bot_manager/herick
         userPath = `bot_manager/${username}`;
         dbRef = ref(db, userPath);
         
+        // Atualiza UI
         telaLogin.style.display = 'none';
         sistemaPrincipal.style.display = 'block';
         document.getElementById('usuario-logado').innerText = username.toUpperCase();
         
+        // Inicia o listener de dados
         carregarClientes();
     } else {
         telaLogin.style.display = 'flex';
@@ -51,26 +58,43 @@ if (formLogin) {
         e.preventDefault();
         const usuario = document.getElementById('login-usuario').value.trim().toLowerCase();
         const senha = document.getElementById('login-senha').value.trim();
+        
+        // Autentica com domínio fixo
         signInWithEmailAndPassword(auth, `${usuario}@hdbyte.com`, senha)
-            .catch(() => alert("Login inválido"));
+            .catch((error) => {
+                const msg = document.getElementById('msg-erro');
+                msg.style.display = 'block';
+                msg.innerText = "ACESSO NEGADO";
+            });
     });
 }
 
 window.fazerLogout = () => signOut(auth);
 
-// --- LÓGICA DE INTERFACE DINÂMICA (INPUTS DE PARCELAS) ---
+// =================================================================
+// 🧠 LÓGICA DE UI (Formulário e Inputs Dinâmicos)
+// =================================================================
+
+// 1. Mostrar/Esconder o formulário no mobile
 window.toggleForm = () => {
     const f = document.getElementById('form-cliente');
     f.style.display = f.style.display === 'none' ? 'block' : 'none';
 };
 
-// Gera os inputs baseados na quantidade escolhida
+// 2. Mostrar/Esconder Input de Taxa
+window.toggleInputTaxa = () => {
+    const chk = document.getElementById('check-taxa');
+    const container = document.getElementById('container-valor-taxa');
+    container.style.display = chk.checked ? 'block' : 'none';
+};
+
+// 3. Gerar inputs de parcelas baseado na quantidade
 window.gerarCamposParcelas = () => {
     const qtd = parseInt(document.getElementById('qtd-parcelas').value) || 1;
     const valBase = document.getElementById('valor-base').value || "";
     const container = document.getElementById('container-inputs-parcelas');
     
-    container.innerHTML = ''; // Limpa anteriores
+    container.innerHTML = ''; // Limpa
 
     for(let i = 1; i <= qtd; i++) {
         const div = document.createElement('div');
@@ -83,11 +107,13 @@ window.gerarCamposParcelas = () => {
     }
 };
 
-// Inicializa com 1 campo
+// Inicialização
 if(document.getElementById('qtd-parcelas')) window.gerarCamposParcelas();
 
 
-// --- LÓGICA DO DATABASE ---
+// =================================================================
+// 💾 BANCO DE DADOS E RENDERIZAÇÃO
+// =================================================================
 const formCliente = document.getElementById('form-cliente');
 const listaClientes = document.getElementById('lista-clientes');
 
@@ -99,62 +125,91 @@ function carregarClientes() {
 
         const data = snapshot.val();
         if (data) {
-            // Converte objeto em array e ordena
             const clientes = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            
+            // Ordena por data mais recente
             clientes.sort((a, b) => new Date(b.dataInicio) - new Date(a.dataInicio));
 
             clientes.forEach(c => {
-                // Renderiza HTML
                 renderizarLinha(c);
 
-                // Calcula totais
+                // --- CÁLCULO FINANCEIRO TOTAL ---
+                
+                // Soma Taxa
+                if (c.taxa && c.taxa.ativa) {
+                    const valorTaxa = parseFloat(c.taxa.valor);
+                    if (c.taxa.pago) somaRecebido += valorTaxa;
+                    else somaPendente += valorTaxa;
+                }
+
+                // Soma Parcelas
                 if(c.parcelas) {
                     c.parcelas.forEach(p => {
-                        if(p.pago) somaRecebido += parseFloat(p.valor);
-                        else somaPendente += parseFloat(p.valor);
+                        const valorParc = parseFloat(p.valor);
+                        if(p.pago) somaRecebido += valorParc;
+                        else somaPendente += valorParc;
                     });
                 }
             });
         }
-        document.getElementById('total-recebido').innerText = `R$ ${somaRecebido.toFixed(2)}`;
-        document.getElementById('total-pendente').innerText = `R$ ${somaPendente.toFixed(2)}`;
+        
+        // Atualiza Dashboard
+        document.getElementById('total-recebido').innerText = `R$ ${somaRecebido.toFixed(2).replace('.', ',')}`;
+        document.getElementById('total-pendente').innerText = `R$ ${somaPendente.toFixed(2).replace('.', ',')}`;
     });
 }
 
 function renderizarLinha(c) {
     const tr = document.createElement('tr');
     
-    // Calcula progresso (Ex: 2/12 Pagos)
+    // Calcula progresso (Apenas mensalidades)
     const totalP = c.parcelas ? c.parcelas.length : 0;
     const pagos = c.parcelas ? c.parcelas.filter(p => p.pago).length : 0;
     const porcentagem = totalP > 0 ? Math.round((pagos / totalP) * 100) : 0;
     
-    // Cria as bolinhas interativas
-    let htmlBolinhas = '<div class="grid-pagamentos">';
+    // --- GERA HTML DA GESTÃO FINANCEIRA ---
+    let htmlGestao = '<div class="grid-pagamentos">';
+
+    // 1. Botão da Taxa (Se houver)
+    if (c.taxa && c.taxa.ativa) {
+        const classeTaxa = c.taxa.pago ? 'pago' : 'pendente';
+        const textoStatus = c.taxa.pago ? 'PAGO' : 'PENDENTE';
+        
+        htmlGestao += `
+            <div class="badge-taxa ${classeTaxa}"
+                 title="Taxa Instalação: R$ ${parseFloat(c.taxa.valor).toFixed(2)}"
+                 onclick="window.toggleTaxa('${c.id}', ${c.taxa.pago})">
+                 <i class="fas fa-wrench"></i> Taxa (${textoStatus})
+            </div>
+        `;
+    }
+
+    // 2. Bolinhas das Parcelas
     if(c.parcelas) {
         c.parcelas.forEach((p, index) => {
             const classeStatus = p.pago ? 'pago' : 'pendente';
-            const statusTexto = p.pago ? 'Pago!' : 'Aguardando Pagamento';
+            const statusTexto = p.pago ? 'Pago!' : 'Aguardando';
             
-            // Note que passamos o INDEX para saber qual mês atualizar
-            htmlBolinhas += `
+            // Passamos o ID e o INDEX da parcela no array
+            htmlGestao += `
                 <div class="ball-parcela ${classeStatus}" 
-                     title="Mês ${p.numero}: R$ ${p.valor} - ${statusTexto}"
+                     title="Mês ${p.numero}: R$ ${parseFloat(p.valor).toFixed(2)} - ${statusTexto}"
                      onclick="window.toggleParcela('${c.id}', ${index}, ${p.pago})">
                      ${p.numero}
                 </div>`;
         });
     }
-    htmlBolinhas += '</div>';
+    htmlGestao += '</div>';
 
+    // Monta a linha da tabela (com data-label para mobile)
     tr.innerHTML = `
-        <td data-label="Início">${c.dataInicio.split('-').reverse().join('/')}</td>
+        <td data-label="Início" style="color:var(--neon-blue); font-family:monospace;">${c.dataInicio.split('-').reverse().join('/')}</td>
         <td data-label="Cliente" style="color:#fff; font-weight:bold;">${c.cliente}</td>
         <td data-label="Plano">${c.plano}</td>
-        <td data-label="Progresso" style="color:var(--neon-blue);">${pagos}/${totalP} (${porcentagem}%)</td>
-        <td data-label="Parcelas">${htmlBolinhas}</td>
+        <td data-label="Progresso">${pagos}/${totalP} (${porcentagem}%)</td>
+        <td data-label="Financeiro">${htmlGestao}</td>
         <td data-label="Ações">
-            <button onclick="window.excluirCliente('${c.id}')" class="btn-logout" style="border-color:#555;"><i class="fas fa-trash"></i></button>
+            <button onclick="window.excluirCliente('${c.id}')" class="btn-logout" title="Excluir"><i class="fas fa-trash"></i></button>
         </td>
     `;
     listaClientes.appendChild(tr);
@@ -165,7 +220,7 @@ if(formCliente) {
     formCliente.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Coleta os valores individuais dos inputs gerados
+        // 1. Coleta e constrói o array de parcelas
         const inputsValores = document.querySelectorAll('.input-valor-mes');
         let arrayParcelas = [];
         
@@ -173,42 +228,64 @@ if(formCliente) {
             arrayParcelas.push({
                 numero: parseInt(input.dataset.mes),
                 valor: parseFloat(input.value) || 0,
-                pago: false // Começa sempre como não pago
+                pago: false 
             });
         });
 
+        // 2. Coleta dados da Taxa
+        const temTaxa = document.getElementById('check-taxa').checked;
+        const valorTaxa = parseFloat(document.getElementById('valor-taxa').value) || 0;
+
+        // 3. Monta o objeto completo
         const novoCliente = {
             cliente: document.getElementById('cliente').value,
             plano: document.getElementById('plano').value,
             dataInicio: document.getElementById('data-inicio').value,
-            parcelas: arrayParcelas // Array complexo salvo no banco
+            taxa: {
+                ativa: temTaxa,
+                valor: temTaxa ? valorTaxa : 0,
+                pago: false
+            },
+            parcelas: arrayParcelas
         };
 
+        // 4. Envia para a pasta do usuário logado
         push(dbRef, novoCliente);
-        alert("Contrato Gerado!");
+        
+        alert("Contrato Gerado com Sucesso!");
         formCliente.reset();
-        window.gerarCamposParcelas(); // Reseta os inputs
+        
+        // Reseta visual
+        document.getElementById('container-valor-taxa').style.display = 'none';
+        window.gerarCamposParcelas(); 
         window.toggleForm(); // Fecha o form no mobile
     });
 }
 
-// --- AÇÕES ---
+// =================================================================
+// ⚡ AÇÕES (UPDATE/DELETE)
+// =================================================================
 
-// Alternar status de UMA parcela específica
+// Atualizar status da Taxa
+window.toggleTaxa = (id, statusAtual) => {
+    update(ref(db, `${userPath}/${id}/taxa`), { pago: !statusAtual });
+};
+
+// Atualizar status de uma Parcela Específica
 window.toggleParcela = (id, indexParcela, statusAtual) => {
-    // Caminho exato: bot_manager/usuario/ID_CLIENTE/parcelas/INDEX/pago
+    // Acessa diretamente o índice no array de parcelas
     const pathParcela = `${userPath}/${id}/parcelas/${indexParcela}`;
-    
-    // Inverte o status
     update(ref(db, pathParcela), { pago: !statusAtual });
 };
 
+// Excluir Contrato
 window.excluirCliente = (id) => {
-    if(confirm("Excluir contrato?")) {
+    if(confirm("ATENÇÃO: Isso apagará todo o histórico financeiro deste cliente. Continuar?")) {
         remove(ref(db, `${userPath}/${id}`));
     }
 };
 
+// Filtro de Busca
 window.filtrarTabela = () => {
     const termo = document.getElementById('busca').value.toLowerCase();
     const linhas = document.querySelectorAll('#lista-clientes tr');
