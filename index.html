@@ -3,40 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot Manager AI - Financeiro V4</title>
+    <title>HDBYTE - Soluções em IA</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="tela-login" class="login-overlay">
-        <div class="login-card">
+    <div id="landing-page">
+        
+        <header class="hero-header">
             <div class="logo-area">
-                <i class="fas fa-robot fa-3x" style="color: var(--neon-red);"></i>
-                <h2>SYSTEM ACCESS</h2>
+                <i class="fas fa-robot fa-2x" style="color: var(--neon-red);"></i>
+                <h1>HDBYTE <span style="color: var(--neon-blue);">AI SOLUTIONS</span></h1>
             </div>
-            <form id="form-login">
-                <div class="form-group">
-                    <label>USER ID</label>
-                    <input type="text" id="login-usuario" required autocomplete="off" placeholder="ex: herick">
-                </div>
-                <div class="form-group">
-                    <label>PASSWORD</label>
-                    <input type="password" id="login-senha" required>
-                </div>
-                <button type="submit" class="btn-cyber">INICIAR SISTEMA</button>
-            </form>
-            <p id="msg-erro" class="glitch-text" style="display: none;">ACESSO NEGADO</p>
-        </div>
-    </div>
+            <p class="hero-subtitle">Automação Inteligente para Negócios de Elite</p>
+        </header>
 
+        <section class="pricing-container">
+            
+            <div class="plan-card">
+                <div class="plan-header">
+                    <h3>BOT BÁSICO</h3>
+                    <div class="price">R$ 70<span class="period">/mês</span></div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-key"></i> Resposta por <strong>Palavras-Chave</strong></li>
+                    <li><i class="fas fa-map-marker-alt"></i> Envia Localização & Cardápio</li>
+                    <li><i class="fas fa-bolt"></i> Respostas Instantâneas</li>
+                    <li class="disabled"><i class="fas fa-times"></i> Sem Inteligência Artificial</li>
+                    <li><i class="fas fa-server"></i> Hospedagem: +R$ 20,00</li>
+                </ul>
+                <div class="plan-footer">
+                    <span class="badge-tech">KEYWORDS</span>
+                </div>
+            </div>
+
+            <div class="plan-card featured-blue">
+                <div class="plan-header">
+                    <h3>IA ESSENCIAL</h3>
+                    <div class="price">R$ 120<span class="period">/mês</span></div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-brain"></i> <strong>IA Otimizada</strong> (Low Cost)</li>
+                    <li><i class="fas fa-comment-alt"></i> Entende Texto Natural</li>
+                    <li><i class="fas fa-image"></i> Leitura de Imagens (Básica)</li>
+                    <li class="disabled"><i class="fas fa-microphone-slash"></i> Não transcreve áudio</li>
+                    <li><i class="fas fa-server"></i> Hospedagem: +R$ 20,00</li>
+                </ul>
+                <div class="plan-footer">
+                    <span class="badge-tech">SMART AI</span>
+                </div>
+            </div>
+
+            <div class="plan-card featured-red">
+                <div class="plan-header">
+                    <h3>IA PRO 100%</h3>
+                    <div class="price">R$ 180<span class="period">/mês</span></div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-microchip"></i> <strong>IA Pura (Sem Otimização)</strong></li>
+                    <li><i class="fas fa-comments"></i> Fluidez Humana Máxima</li>
+                    <li><i class="fas fa-user-shield"></i> Comandos de Admin</li>
+                    <li><i class="fas fa-stop-circle"></i> Função "Parar Robô"</li>
+                    <li><i class="fas fa-server"></i> Hospedagem: +R$ 20,00</li>
+                </ul>
+                <div class="plan-footer">
+                    <span class="badge-tech">FULL POWER</span>
+                </div>
+            </div>
+
+            <div class="plan-card premium-gold">
+                <div class="plan-header">
+                    <h3>IA ELITE + DB</h3>
+                    <div class="price">R$ 250+<span class="period">/mês</span></div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-database"></i> <strong>Memória & Banco de Dados</strong></li>
+                    <li><i class="fas fa-history"></i> Lembra do Cliente/Histórico</li>
+                    <li><i class="fas fa-user-check"></i> Personalização Extrema</li>
+                    <li><i class="fas fa-calendar-alt"></i> Ideal para Agendamentos</li>
+                    <li><i class="fas fa-server"></i> Hospedagem: +R$ 20,00</li>
+                </ul>
+                <div class="plan-footer">
+                    <span class="badge-tech">MEMORY SYSTEM</span>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="login-footer">
+            <div class="login-container-box">
+                <h2><i class="fas fa-lock"></i> Acesso Administrativo</h2>
+                <form id="form-login">
+                    <div class="login-row">
+                        <input type="text" id="login-usuario" required autocomplete="off" placeholder="Usuário (ex: herick)">
+                        <input type="password" id="login-senha" required placeholder="Senha">
+                        <button type="submit" class="btn-cyber-login">ACESSAR</button>
+                    </div>
+                </form>
+                <p id="msg-erro" class="glitch-text" style="display: none; margin-top: 10px; color: var(--neon-red);">ACESSO NEGADO</p>
+            </div>
+            <p class="copyright">© 2024 HDBYTE AI SYSTEMS</p>
+        </footer>
+
+    </div>
     <div id="sistema-principal" class="container" style="display: none;">
         <header class="main-header">
             <div class="header-content">
                 <div class="brand">
                     <i class="fas fa-microchip"></i>
-                    <h1>BOT MANAGER <span style="color: var(--neon-red);">V4</span></h1>
+                    <h1>BOT MANAGER <span style="color: var(--neon-red);">V5</span></h1>
                 </div>
                 <div class="user-info">
                     <span id="usuario-logado">...</span>
@@ -46,150 +123,75 @@
         </header>
 
         <div class="dashboard-financeiro" style="margin-bottom: 20px;">
-            <div class="card-metric">
-                <span>Total Recebido</span>
-                <strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong>
-            </div>
-            <div class="card-metric">
-                <span>Custos Operacionais</span>
-                <strong id="total-custos" style="color: var(--neon-red);">R$ 0,00</strong>
-            </div>
-            <div class="card-metric highlight">
-                <span>Lucro Líquido</span>
-                <strong id="lucro-liquido" style="color: var(--neon-blue);">R$ 0,00</strong>
-            </div>
+            <div class="card-metric"><span>Total Recebido</span><strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong></div>
+            <div class="card-metric"><span>Custos Operacionais</span><strong id="total-custos" style="color: var(--neon-red);">R$ 0,00</strong></div>
+            <div class="card-metric highlight"><span>Lucro Líquido</span><strong id="lucro-liquido" style="color: var(--neon-blue);">R$ 0,00</strong></div>
         </div>
 
         <section class="card cyber-border">
             <h2 onclick="toggleForm('form-cliente')" style="cursor: pointer; display: flex; justify-content: space-between;">
                 <span><i class="fas fa-user-plus"></i> Novo Contrato</span>
-                <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
+                <i class="fas fa-chevron-down"></i>
             </h2>
-            
             <form id="form-cliente" style="display: none;">
-                
                 <div class="form-row" style="background: rgba(0,243,255,0.05); padding: 10px; border-radius: 5px; border: 1px dashed var(--neon-blue);">
                     <div class="form-group" style="flex: 2;">
-                        <label style="color: var(--neon-blue);">Selecione o Modelo:</label>
+                        <label>Selecione o Modelo:</label>
                         <select id="select-modelo-plano" onchange="autoPreencherPlano()">
                             <option value="">-- Personalizado --</option>
-                            <option value="basico">🟦 PLANO 1 — BOT BÁSICO (Sem IA)</option>
-                            <option value="essencial">🟩 PLANO 2 — BOT IA ESSENCIAL</option>
-                            <option value="profissional">🟨 PLANO 3 — BOT IA PROFISSIONAL</option>
-                            <option value="premium">🟧 PLANO 4 — BOT IA PREMIUM</option>
+                            <option value="basico">🟦 PLANO 1 — BOT BÁSICO</option>
+                            <option value="essencial">🟩 PLANO 2 — IA ESSENCIAL</option>
+                            <option value="profissional">🟨 PLANO 3 — IA PRO</option>
+                            <option value="premium">🟧 PLANO 4 — IA ELITE + DB</option>
                         </select>
                     </div>
                     <div class="form-group" style="display: flex; align-items: center; padding-top: 20px;">
-                         <input type="checkbox" id="check-hospedagem" onchange="autoPreencherPlano()" style="width: 20px; height: 20px; margin-right: 10px;">
-                         <label for="check-hospedagem" style="margin: 0; cursor: pointer;">+ Hospedagem (R$ 20)</label>
+                         <input type="checkbox" id="check-hospedagem" onchange="autoPreencherPlano()" style="margin-right: 10px;">
+                         <label for="check-hospedagem">+ Hospedagem (R$ 20)</label>
                     </div>
                 </div>
-
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Cliente / Telegram:</label>
-                        <input type="text" id="cliente" required placeholder="@usuario">
-                    </div>
-                    <div class="form-group">
-                        <label>Nome do Plano (Auto):</label>
-                        <input type="text" id="plano" required placeholder="Ex: Avançado+">
-                    </div>
+                    <div class="form-group"><label>Cliente:</label><input type="text" id="cliente" required placeholder="@usuario"></div>
+                    <div class="form-group"><label>Plano:</label><input type="text" id="plano" required placeholder="Ex: Pro"></div>
                 </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Data Início:</label>
-                        <input type="date" id="data-inicio" required>
-                    </div>
-                </div>
-
+                <div class="form-row"><div class="form-group"><label>Início:</label><input type="date" id="data-inicio" required></div></div>
                 <div class="taxa-setup">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
-                        <input type="checkbox" id="check-taxa" onchange="toggleInputTaxa()" style="width: 20px; height: 20px; margin: 0; cursor: pointer;">
-                        <label for="check-taxa" style="margin: 0; font-size: 0.9rem; cursor: pointer; color: #fff;">Cobrar Tarifa de Instalação?</label>
-                    </div>
-                    
-                    <div id="container-valor-taxa" style="display: none; margin-top: 10px; border-top: 1px dashed #333; padding-top: 10px;">
-                        <label>Valor da Taxa (R$):</label>
-                        <input type="number" id="valor-taxa" step="0.01" placeholder="Sugerido pelo plano...">
-                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;"><input type="checkbox" id="check-taxa" onchange="toggleInputTaxa()"><label for="check-taxa">Cobrar Taxa de Instalação?</label></div>
+                    <div id="container-valor-taxa" style="display: none; margin-top: 10px;"><label>Valor (R$):</label><input type="number" id="valor-taxa" step="0.01"></div>
                 </div>
-
                 <div class="parcelas-setup">
                     <h3><i class="fas fa-calculator"></i> Mensalidades</h3>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Qtd. Meses/Parcelas:</label>
-                            <input type="number" id="qtd-parcelas" min="1" max="48" value="12" onchange="gerarCamposParcelas()">
-                        </div>
-                        <div class="form-group">
-                            <label>Valor Mensal (R$):</label>
-                            <input type="number" id="valor-base" step="0.01" placeholder="0.00" onchange="gerarCamposParcelas()">
-                        </div>
+                        <div class="form-group"><label>Qtd:</label><input type="number" id="qtd-parcelas" min="1" max="48" value="12" onchange="gerarCamposParcelas()"></div>
+                        <div class="form-group"><label>Valor (R$):</label><input type="number" id="valor-base" step="0.01" onchange="gerarCamposParcelas()"></div>
                     </div>
-                    
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Ajuste manual (se necessário):</p>
                     <div id="container-inputs-parcelas" class="grid-parcelas-input"></div>
                 </div>
-
                 <button type="submit" class="btn-cyber btn-full">CRIAR CONTRATO</button>
             </form>
         </section>
 
         <section class="card cyber-border" style="border-top-color: var(--neon-red);">
             <h2 onclick="toggleForm('form-custos')" style="cursor: pointer; display: flex; justify-content: space-between; color: var(--neon-red);">
-                <span><i class="fas fa-file-invoice-dollar"></i> Registrar Custo Operacional</span>
-                <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
+                <span><i class="fas fa-file-invoice-dollar"></i> Custo Operacional</span>
+                <i class="fas fa-chevron-down"></i>
             </h2>
-            
             <form id="form-custos" style="display: none;">
                 <div class="form-row">
-                    <div class="form-group" style="flex: 2;">
-                        <label>Descrição do Custo:</label>
-                        <input type="text" id="custo-nome" required placeholder="Ex: VPS Contabo, OpenAI API...">
-                    </div>
-                    <div class="form-group">
-                        <label>Valor (R$):</label>
-                        <input type="number" id="custo-valor" step="0.01" required placeholder="0.00">
-                    </div>
+                    <div class="form-group" style="flex: 2;"><label>Descrição:</label><input type="text" id="custo-nome" required></div>
+                    <div class="form-group"><label>Valor:</label><input type="number" id="custo-valor" step="0.01" required></div>
                 </div>
-                <button type="submit" class="btn-cyber btn-full" style="border-color: var(--neon-red); color: var(--neon-red);">ADICIONAR DESPESA</button>
+                <button type="submit" class="btn-cyber btn-full" style="border-color: var(--neon-red); color: var(--neon-red);">ADD CUSTO</button>
             </form>
-
             <div id="lista-custos-container" style="margin-top: 20px;">
-                <table class="tabela-custos">
-                    <thead>
-                        <tr>
-                            <th>Descrição</th>
-                            <th>Valor</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lista-custos"></tbody>
-                </table>
+                <table class="tabela-custos"><thead><tr><th>Descrição</th><th>Valor</th><th>X</th></tr></thead><tbody id="lista-custos"></tbody></table>
             </div>
         </section>
 
         <section class="card">
-            <div class="header-lista">
-                <h2><i class="fas fa-list"></i> Carteira de Clientes</h2>
-                <input type="text" id="busca" class="search-input" placeholder="Buscar..." onkeyup="filtrarTabela()">
-            </div>
-
+            <div class="header-lista"><h2>Carteira</h2><input type="text" id="busca" class="search-input" placeholder="Buscar..." onkeyup="filtrarTabela()"></div>
             <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Início</th>
-                            <th>Cliente</th>
-                            <th>Plano</th>
-                            <th>Progresso</th>
-                            <th>Gestão Financeira</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lista-clientes"></tbody>
-                </table>
+                <table><thead><tr><th>Início</th><th>Cliente</th><th>Plano</th><th>Progresso</th><th>Financeiro</th><th>X</th></tr></thead><tbody id="lista-clientes"></tbody></table>
             </div>
         </section>
     </div>

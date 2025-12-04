@@ -22,39 +22,42 @@ const auth = getAuth(app);
 
 // === VARIÁVEIS GLOBAIS ===
 let dbRef;
-let dbRefCustos; // Referência separada para custos
+let dbRefCustos; 
 let userPath;
 
 // === TABELA DE PREÇOS (AUTO-PREENCHIMENTO) ===
 const PLANOS_INFO = {
-    "basico": { nome: "Bot Básico (0% IA)", instalacao: 200, mensal: 70 },
+    "basico": { nome: "Bot Básico (0% IA)", instalacao: 70, mensal: 70 }, // Ajuste instalação conforme sua estratégia
     "essencial": { nome: "Bot IA Essencial", instalacao: 300, mensal: 120 },
     "profissional": { nome: "Bot IA Profissional", instalacao: 400, mensal: 180 },
-    "premium": { nome: "Bot IA Premium (+BD)", instalacao: 500, mensal: 250 } // Coloquei a média, vc pode editar na hora
+    "premium": { nome: "Bot IA Elite + DB", instalacao: 500, mensal: 250 }
 };
 
 // =================================================================
-// 🔐 LOGIN
+// 🔐 LOGIN (ALTERADO PARA ESCONDER LANDING PAGE)
 // =================================================================
-const telaLogin = document.getElementById('tela-login');
+const landingPage = document.getElementById('landing-page'); // A página inteira de vendas
 const sistemaPrincipal = document.getElementById('sistema-principal');
 const formLogin = document.getElementById('form-login');
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
+        // --- USUÁRIO LOGADO ---
         const username = user.email.split('@')[0];
         userPath = `bot_manager/${username}`;
         
         dbRef = ref(db, `${userPath}/clientes`);
-        dbRefCustos = ref(db, `${userPath}/custos`); // Pasta separada
+        dbRefCustos = ref(db, `${userPath}/custos`);
         
-        telaLogin.style.display = 'none';
+        // Esconde a Landing Page e mostra o Painel
+        landingPage.style.display = 'none';
         sistemaPrincipal.style.display = 'block';
-        document.getElementById('usuario-logado').innerText = username.toUpperCase();
         
+        document.getElementById('usuario-logado').innerText = username.toUpperCase();
         carregarDadosCompletos();
     } else {
-        telaLogin.style.display = 'flex';
+        // --- USUÁRIO DESLOGADO ---
+        landingPage.style.display = 'block';
         sistemaPrincipal.style.display = 'none';
     }
 });
@@ -64,7 +67,15 @@ if (formLogin) {
         e.preventDefault();
         const usuario = document.getElementById('login-usuario').value.trim().toLowerCase();
         const senha = document.getElementById('login-senha').value.trim();
-        signInWithEmailAndPassword(auth, `${usuario}@hdbyte.com`, senha).catch(() => alert("Acesso Negado"));
+        
+        signInWithEmailAndPassword(auth, `${usuario}@hdbyte.com`, senha)
+            .catch((error) => {
+                const msg = document.getElementById('msg-erro');
+                msg.style.display = 'block';
+                // Efeito visual de erro
+                document.querySelector('.login-container-box').style.borderColor = '#fff';
+                setTimeout(() => document.querySelector('.login-container-box').style.borderColor = '#333', 200);
+            });
     });
 }
 window.fazerLogout = () => signOut(auth);
@@ -79,27 +90,24 @@ window.autoPreencherPlano = () => {
     if (selecao && PLANOS_INFO[selecao]) {
         const p = PLANOS_INFO[selecao];
         
-        // Nome
         document.getElementById('plano').value = p.nome;
         
-        // Instalação (Ativa o check e põe o valor)
+        // Lógica de Instalação
         document.getElementById('check-taxa').checked = true;
         window.toggleInputTaxa();
         document.getElementById('valor-taxa').value = p.instalacao;
         
-        // Mensalidade
+        // Lógica Mensalidade
         let valorMensalFinal = p.mensal;
-        if (checkHospedagem) valorMensalFinal += 20; // Adiciona hospedagem
+        if (checkHospedagem) valorMensalFinal += 20;
         
         document.getElementById('valor-base').value = valorMensalFinal;
-        
-        // Recalcula os inputs
         window.gerarCamposParcelas();
     }
 };
 
 // =================================================================
-// 🧠 LÓGICA DE UI
+// 🧠 RESTANTE DA LÓGICA (MANTIDA IGUAL AO PASSO ANTERIOR)
 // =================================================================
 window.toggleForm = (idForm) => {
     const f = document.getElementById(idForm);
@@ -117,63 +125,42 @@ window.gerarCamposParcelas = () => {
     const container = document.getElementById('container-inputs-parcelas');
     container.innerHTML = '';
     for(let i = 1; i <= qtd; i++) {
-        container.innerHTML += `
-            <div class="input-parcela-wrapper">
-                <label>Mês ${i}</label>
-                <input type="number" step="0.01" class="input-valor-mes" data-mes="${i}" value="${valBase}">
-            </div>`;
+        container.innerHTML += `<div class="input-parcela-wrapper"><label>Mês ${i}</label><input type="number" step="0.01" class="input-valor-mes" data-mes="${i}" value="${valBase}"></div>`;
     }
 };
 
-// =================================================================
-// 💾 DADOS (CLIENTES + CUSTOS)
-// =================================================================
 let totalRecebidoCache = 0;
 let totalCustosCache = 0;
 
 function carregarDadosCompletos() {
-    // 1. Carregar Clientes
     onValue(dbRef, (snapshot) => {
         const lista = document.getElementById('lista-clientes');
         lista.innerHTML = '';
         totalRecebidoCache = 0;
-        
         const data = snapshot.val();
         if (data) {
             const clientes = Object.keys(data).map(key => ({ id: key, ...data[key] }));
             clientes.sort((a, b) => new Date(b.dataInicio) - new Date(a.dataInicio));
-
             clientes.forEach(c => {
                 renderizarCliente(c);
-                
-                // Soma Recebimentos
                 if (c.taxa?.ativa && c.taxa.pago) totalRecebidoCache += parseFloat(c.taxa.valor);
-                if(c.parcelas) {
-                    c.parcelas.forEach(p => { if(p.pago) totalRecebidoCache += parseFloat(p.valor); });
-                }
+                if(c.parcelas) c.parcelas.forEach(p => { if(p.pago) totalRecebidoCache += parseFloat(p.valor); });
             });
         }
         atualizarDashboard();
     });
 
-    // 2. Carregar Custos
     onValue(dbRefCustos, (snapshot) => {
         const lista = document.getElementById('lista-custos');
         lista.innerHTML = '';
         totalCustosCache = 0;
-
         const data = snapshot.val();
         if (data) {
             Object.keys(data).forEach(key => {
                 const custo = data[key];
                 totalCustosCache += parseFloat(custo.valor);
-                
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${custo.nome}</td>
-                    <td style="color: var(--neon-red);">R$ ${parseFloat(custo.valor).toFixed(2)}</td>
-                    <td><button onclick="window.excluirCusto('${key}')" class="btn-logout" style="border:none;"><i class="fas fa-trash"></i></button></td>
-                `;
+                tr.innerHTML = `<td>${custo.nome}</td><td style="color:var(--neon-red);">R$ ${parseFloat(custo.valor).toFixed(2)}</td><td><button onclick="window.excluirCusto('${key}')" class="btn-logout" style="border:none;"><i class="fas fa-trash"></i></button></td>`;
                 lista.appendChild(tr);
             });
         }
@@ -183,10 +170,8 @@ function carregarDadosCompletos() {
 
 function atualizarDashboard() {
     const lucro = totalRecebidoCache - totalCustosCache;
-    
     document.getElementById('total-recebido').innerText = `R$ ${totalRecebidoCache.toFixed(2)}`;
     document.getElementById('total-custos').innerText = `R$ ${totalCustosCache.toFixed(2)}`;
-    
     const elLucro = document.getElementById('lucro-liquido');
     elLucro.innerText = `R$ ${lucro.toFixed(2)}`;
     elLucro.style.color = lucro >= 0 ? 'var(--neon-blue)' : 'var(--neon-red)';
@@ -195,21 +180,14 @@ function atualizarDashboard() {
 function renderizarCliente(c) {
     const lista = document.getElementById('lista-clientes');
     const tr = document.createElement('tr');
-    
-    // Progresso
     const totalP = c.parcelas ? c.parcelas.length : 0;
     const pagos = c.parcelas ? c.parcelas.filter(p => p.pago).length : 0;
     
-    // HTML Financeiro
     let htmlGestao = '<div class="grid-pagamentos">';
-    
-    // Taxa
     if (c.taxa && c.taxa.ativa) {
         const st = c.taxa.pago ? 'pago' : 'pendente';
         htmlGestao += `<div class="badge-taxa ${st}" title="Instalação: R$ ${c.taxa.valor}" onclick="window.toggleTaxa('${c.id}', ${c.taxa.pago})"><i class="fas fa-wrench"></i> Inst.</div>`;
     }
-    
-    // Parcelas
     if(c.parcelas) {
         c.parcelas.forEach((p, i) => {
             const st = p.pago ? 'pago' : 'pendente';
@@ -218,45 +196,29 @@ function renderizarCliente(c) {
     }
     htmlGestao += '</div>';
 
-    tr.innerHTML = `
-        <td data-label="Início" style="color:var(--neon-blue); font-family:monospace;">${c.dataInicio.split('-').reverse().join('/')}</td>
-        <td data-label="Cliente" style="font-weight:bold;">${c.cliente}</td>
-        <td data-label="Plano">${c.plano}</td>
-        <td data-label="Progresso">${pagos}/${totalP}</td>
-        <td data-label="Financeiro">${htmlGestao}</td>
-        <td data-label="Ações"><button onclick="window.excluirCliente('${c.id}')" class="btn-logout"><i class="fas fa-trash"></i></button></td>
-    `;
+    tr.innerHTML = `<td data-label="Início" style="color:var(--neon-blue); font-family:monospace;">${c.dataInicio.split('-').reverse().join('/')}</td><td data-label="Cliente" style="font-weight:bold;">${c.cliente}</td><td data-label="Plano">${c.plano}</td><td data-label="Progresso">${pagos}/${totalP}</td><td data-label="Financeiro">${htmlGestao}</td><td data-label="Ações"><button onclick="window.excluirCliente('${c.id}')" class="btn-logout"><i class="fas fa-trash"></i></button></td>`;
     lista.appendChild(tr);
 }
 
-// =================================================================
-// 📝 CADASTROS
-// =================================================================
-
-// Novo Cliente
+// CADASTROS
 const formCliente = document.getElementById('form-cliente');
 if(formCliente) {
     formCliente.addEventListener('submit', (e) => {
         e.preventDefault();
-        
         const inputsValores = document.querySelectorAll('.input-valor-mes');
         let arrayParcelas = [];
-        inputsValores.forEach(input => {
-            arrayParcelas.push({ numero: parseInt(input.dataset.mes), valor: parseFloat(input.value) || 0, pago: false });
-        });
+        inputsValores.forEach(input => { arrayParcelas.push({ numero: parseInt(input.dataset.mes), valor: parseFloat(input.value) || 0, pago: false }); });
 
         const temTaxa = document.getElementById('check-taxa').checked;
         const valorTaxa = parseFloat(document.getElementById('valor-taxa').value) || 0;
 
-        const novo = {
+        push(dbRef, {
             cliente: document.getElementById('cliente').value,
             plano: document.getElementById('plano').value,
             dataInicio: document.getElementById('data-inicio').value,
             taxa: { ativa: temTaxa, valor: temTaxa ? valorTaxa : 0, pago: false },
             parcelas: arrayParcelas
-        };
-
-        push(dbRef, novo);
+        });
         alert("Contrato Gerado!");
         formCliente.reset();
         document.getElementById('container-valor-taxa').style.display = 'none';
@@ -264,29 +226,20 @@ if(formCliente) {
         window.toggleForm('form-cliente');
     });
 }
-
-// Novo Custo
 const formCustos = document.getElementById('form-custos');
 if(formCustos) {
     formCustos.addEventListener('submit', (e) => {
         e.preventDefault();
-        push(dbRefCustos, {
-            nome: document.getElementById('custo-nome').value,
-            valor: document.getElementById('custo-valor').value
-        });
+        push(dbRefCustos, { nome: document.getElementById('custo-nome').value, valor: document.getElementById('custo-valor').value });
         formCustos.reset();
-        alert("Custo registrado!");
     });
 }
 
-// =================================================================
-// ⚡ AÇÕES
-// =================================================================
+// AÇÕES
 window.toggleTaxa = (id, st) => update(ref(db, `${userPath}/clientes/${id}/taxa`), { pago: !st });
 window.toggleParcela = (id, idx, st) => update(ref(db, `${userPath}/clientes/${id}/parcelas/${idx}`), { pago: !st });
 window.excluirCliente = (id) => { if(confirm("Excluir cliente?")) remove(ref(db, `${userPath}/clientes/${id}`)); };
 window.excluirCusto = (id) => { if(confirm("Remover despesa?")) remove(ref(db, `${userPath}/custos/${id}`)); };
-
 window.filtrarTabela = () => {
     const termo = document.getElementById('busca').value.toLowerCase();
     document.querySelectorAll('#lista-clientes tr').forEach(l => l.style.display = l.innerText.toLowerCase().includes(termo) ? '' : 'none');
