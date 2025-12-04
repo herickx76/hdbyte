@@ -20,12 +20,21 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-// Variáveis Globais
+// === VARIÁVEIS GLOBAIS ===
 let dbRef;
+let dbRefCustos; // Referência separada para custos
 let userPath;
 
+// === TABELA DE PREÇOS (AUTO-PREENCHIMENTO) ===
+const PLANOS_INFO = {
+    "basico": { nome: "Bot Básico (0% IA)", instalacao: 200, mensal: 70 },
+    "essencial": { nome: "Bot IA Essencial", instalacao: 300, mensal: 120 },
+    "profissional": { nome: "Bot IA Profissional", instalacao: 400, mensal: 180 },
+    "premium": { nome: "Bot IA Premium (+BD)", instalacao: 500, mensal: 250 } // Coloquei a média, vc pode editar na hora
+};
+
 // =================================================================
-// 🔐 LOGIN & ROTEAMENTO (Separação Herick/Reysson)
+// 🔐 LOGIN
 // =================================================================
 const telaLogin = document.getElementById('tela-login');
 const sistemaPrincipal = document.getElementById('sistema-principal');
@@ -33,20 +42,17 @@ const formLogin = document.getElementById('form-login');
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // Pega 'herick' ou 'reysson' do email
         const username = user.email.split('@')[0];
-        
-        // Define o caminho exclusivo: bot_manager/herick
         userPath = `bot_manager/${username}`;
-        dbRef = ref(db, userPath);
         
-        // Atualiza UI
+        dbRef = ref(db, `${userPath}/clientes`);
+        dbRefCustos = ref(db, `${userPath}/custos`); // Pasta separada
+        
         telaLogin.style.display = 'none';
         sistemaPrincipal.style.display = 'block';
         document.getElementById('usuario-logado').innerText = username.toUpperCase();
         
-        // Inicia o listener de dados
-        carregarClientes();
+        carregarDadosCompletos();
     } else {
         telaLogin.style.display = 'flex';
         sistemaPrincipal.style.display = 'none';
@@ -58,238 +64,230 @@ if (formLogin) {
         e.preventDefault();
         const usuario = document.getElementById('login-usuario').value.trim().toLowerCase();
         const senha = document.getElementById('login-senha').value.trim();
-        
-        // Autentica com domínio fixo
-        signInWithEmailAndPassword(auth, `${usuario}@hdbyte.com`, senha)
-            .catch((error) => {
-                const msg = document.getElementById('msg-erro');
-                msg.style.display = 'block';
-                msg.innerText = "ACESSO NEGADO";
-            });
+        signInWithEmailAndPassword(auth, `${usuario}@hdbyte.com`, senha).catch(() => alert("Acesso Negado"));
     });
 }
-
 window.fazerLogout = () => signOut(auth);
 
 // =================================================================
-// 🧠 LÓGICA DE UI (Formulário e Inputs Dinâmicos)
+// 🤖 AUTO-PREENCHIMENTO DE PLANOS
 // =================================================================
+window.autoPreencherPlano = () => {
+    const selecao = document.getElementById('select-modelo-plano').value;
+    const checkHospedagem = document.getElementById('check-hospedagem').checked;
+    
+    if (selecao && PLANOS_INFO[selecao]) {
+        const p = PLANOS_INFO[selecao];
+        
+        // Nome
+        document.getElementById('plano').value = p.nome;
+        
+        // Instalação (Ativa o check e põe o valor)
+        document.getElementById('check-taxa').checked = true;
+        window.toggleInputTaxa();
+        document.getElementById('valor-taxa').value = p.instalacao;
+        
+        // Mensalidade
+        let valorMensalFinal = p.mensal;
+        if (checkHospedagem) valorMensalFinal += 20; // Adiciona hospedagem
+        
+        document.getElementById('valor-base').value = valorMensalFinal;
+        
+        // Recalcula os inputs
+        window.gerarCamposParcelas();
+    }
+};
 
-// 1. Mostrar/Esconder o formulário no mobile
-window.toggleForm = () => {
-    const f = document.getElementById('form-cliente');
+// =================================================================
+// 🧠 LÓGICA DE UI
+// =================================================================
+window.toggleForm = (idForm) => {
+    const f = document.getElementById(idForm);
     f.style.display = f.style.display === 'none' ? 'block' : 'none';
 };
 
-// 2. Mostrar/Esconder Input de Taxa
 window.toggleInputTaxa = () => {
     const chk = document.getElementById('check-taxa');
-    const container = document.getElementById('container-valor-taxa');
-    container.style.display = chk.checked ? 'block' : 'none';
+    document.getElementById('container-valor-taxa').style.display = chk.checked ? 'block' : 'none';
 };
 
-// 3. Gerar inputs de parcelas baseado na quantidade
 window.gerarCamposParcelas = () => {
     const qtd = parseInt(document.getElementById('qtd-parcelas').value) || 1;
     const valBase = document.getElementById('valor-base').value || "";
     const container = document.getElementById('container-inputs-parcelas');
-    
-    container.innerHTML = ''; // Limpa
-
+    container.innerHTML = '';
     for(let i = 1; i <= qtd; i++) {
-        const div = document.createElement('div');
-        div.className = 'input-parcela-wrapper';
-        div.innerHTML = `
-            <label>Mês ${i}</label>
-            <input type="number" step="0.01" class="input-valor-mes" data-mes="${i}" value="${valBase}">
-        `;
-        container.appendChild(div);
+        container.innerHTML += `
+            <div class="input-parcela-wrapper">
+                <label>Mês ${i}</label>
+                <input type="number" step="0.01" class="input-valor-mes" data-mes="${i}" value="${valBase}">
+            </div>`;
     }
 };
 
-// Inicialização
-if(document.getElementById('qtd-parcelas')) window.gerarCamposParcelas();
-
-
 // =================================================================
-// 💾 BANCO DE DADOS E RENDERIZAÇÃO
+// 💾 DADOS (CLIENTES + CUSTOS)
 // =================================================================
-const formCliente = document.getElementById('form-cliente');
-const listaClientes = document.getElementById('lista-clientes');
+let totalRecebidoCache = 0;
+let totalCustosCache = 0;
 
-function carregarClientes() {
+function carregarDadosCompletos() {
+    // 1. Carregar Clientes
     onValue(dbRef, (snapshot) => {
-        listaClientes.innerHTML = '';
-        let somaRecebido = 0;
-        let somaPendente = 0;
-
+        const lista = document.getElementById('lista-clientes');
+        lista.innerHTML = '';
+        totalRecebidoCache = 0;
+        
         const data = snapshot.val();
         if (data) {
             const clientes = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-            
-            // Ordena por data mais recente
             clientes.sort((a, b) => new Date(b.dataInicio) - new Date(a.dataInicio));
 
             clientes.forEach(c => {
-                renderizarLinha(c);
-
-                // --- CÁLCULO FINANCEIRO TOTAL ---
+                renderizarCliente(c);
                 
-                // Soma Taxa
-                if (c.taxa && c.taxa.ativa) {
-                    const valorTaxa = parseFloat(c.taxa.valor);
-                    if (c.taxa.pago) somaRecebido += valorTaxa;
-                    else somaPendente += valorTaxa;
-                }
-
-                // Soma Parcelas
+                // Soma Recebimentos
+                if (c.taxa?.ativa && c.taxa.pago) totalRecebidoCache += parseFloat(c.taxa.valor);
                 if(c.parcelas) {
-                    c.parcelas.forEach(p => {
-                        const valorParc = parseFloat(p.valor);
-                        if(p.pago) somaRecebido += valorParc;
-                        else somaPendente += valorParc;
-                    });
+                    c.parcelas.forEach(p => { if(p.pago) totalRecebidoCache += parseFloat(p.valor); });
                 }
             });
         }
-        
-        // Atualiza Dashboard
-        document.getElementById('total-recebido').innerText = `R$ ${somaRecebido.toFixed(2).replace('.', ',')}`;
-        document.getElementById('total-pendente').innerText = `R$ ${somaPendente.toFixed(2).replace('.', ',')}`;
+        atualizarDashboard();
+    });
+
+    // 2. Carregar Custos
+    onValue(dbRefCustos, (snapshot) => {
+        const lista = document.getElementById('lista-custos');
+        lista.innerHTML = '';
+        totalCustosCache = 0;
+
+        const data = snapshot.val();
+        if (data) {
+            Object.keys(data).forEach(key => {
+                const custo = data[key];
+                totalCustosCache += parseFloat(custo.valor);
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${custo.nome}</td>
+                    <td style="color: var(--neon-red);">R$ ${parseFloat(custo.valor).toFixed(2)}</td>
+                    <td><button onclick="window.excluirCusto('${key}')" class="btn-logout" style="border:none;"><i class="fas fa-trash"></i></button></td>
+                `;
+                lista.appendChild(tr);
+            });
+        }
+        atualizarDashboard();
     });
 }
 
-function renderizarLinha(c) {
+function atualizarDashboard() {
+    const lucro = totalRecebidoCache - totalCustosCache;
+    
+    document.getElementById('total-recebido').innerText = `R$ ${totalRecebidoCache.toFixed(2)}`;
+    document.getElementById('total-custos').innerText = `R$ ${totalCustosCache.toFixed(2)}`;
+    
+    const elLucro = document.getElementById('lucro-liquido');
+    elLucro.innerText = `R$ ${lucro.toFixed(2)}`;
+    elLucro.style.color = lucro >= 0 ? 'var(--neon-blue)' : 'var(--neon-red)';
+}
+
+function renderizarCliente(c) {
+    const lista = document.getElementById('lista-clientes');
     const tr = document.createElement('tr');
     
-    // Calcula progresso (Apenas mensalidades)
+    // Progresso
     const totalP = c.parcelas ? c.parcelas.length : 0;
     const pagos = c.parcelas ? c.parcelas.filter(p => p.pago).length : 0;
-    const porcentagem = totalP > 0 ? Math.round((pagos / totalP) * 100) : 0;
     
-    // --- GERA HTML DA GESTÃO FINANCEIRA ---
+    // HTML Financeiro
     let htmlGestao = '<div class="grid-pagamentos">';
-
-    // 1. Botão da Taxa (Se houver)
+    
+    // Taxa
     if (c.taxa && c.taxa.ativa) {
-        const classeTaxa = c.taxa.pago ? 'pago' : 'pendente';
-        const textoStatus = c.taxa.pago ? 'PAGO' : 'PENDENTE';
-        
-        htmlGestao += `
-            <div class="badge-taxa ${classeTaxa}"
-                 title="Taxa Instalação: R$ ${parseFloat(c.taxa.valor).toFixed(2)}"
-                 onclick="window.toggleTaxa('${c.id}', ${c.taxa.pago})">
-                 <i class="fas fa-wrench"></i> Taxa (${textoStatus})
-            </div>
-        `;
+        const st = c.taxa.pago ? 'pago' : 'pendente';
+        htmlGestao += `<div class="badge-taxa ${st}" title="Instalação: R$ ${c.taxa.valor}" onclick="window.toggleTaxa('${c.id}', ${c.taxa.pago})"><i class="fas fa-wrench"></i> Inst.</div>`;
     }
-
-    // 2. Bolinhas das Parcelas
+    
+    // Parcelas
     if(c.parcelas) {
-        c.parcelas.forEach((p, index) => {
-            const classeStatus = p.pago ? 'pago' : 'pendente';
-            const statusTexto = p.pago ? 'Pago!' : 'Aguardando';
-            
-            // Passamos o ID e o INDEX da parcela no array
-            htmlGestao += `
-                <div class="ball-parcela ${classeStatus}" 
-                     title="Mês ${p.numero}: R$ ${parseFloat(p.valor).toFixed(2)} - ${statusTexto}"
-                     onclick="window.toggleParcela('${c.id}', ${index}, ${p.pago})">
-                     ${p.numero}
-                </div>`;
+        c.parcelas.forEach((p, i) => {
+            const st = p.pago ? 'pago' : 'pendente';
+            htmlGestao += `<div class="ball-parcela ${st}" title="Mês ${p.numero}: R$ ${p.valor}" onclick="window.toggleParcela('${c.id}', ${i}, ${p.pago})">${p.numero}</div>`;
         });
     }
     htmlGestao += '</div>';
 
-    // Monta a linha da tabela (com data-label para mobile)
     tr.innerHTML = `
         <td data-label="Início" style="color:var(--neon-blue); font-family:monospace;">${c.dataInicio.split('-').reverse().join('/')}</td>
-        <td data-label="Cliente" style="color:#fff; font-weight:bold;">${c.cliente}</td>
+        <td data-label="Cliente" style="font-weight:bold;">${c.cliente}</td>
         <td data-label="Plano">${c.plano}</td>
-        <td data-label="Progresso">${pagos}/${totalP} (${porcentagem}%)</td>
+        <td data-label="Progresso">${pagos}/${totalP}</td>
         <td data-label="Financeiro">${htmlGestao}</td>
-        <td data-label="Ações">
-            <button onclick="window.excluirCliente('${c.id}')" class="btn-logout" title="Excluir"><i class="fas fa-trash"></i></button>
-        </td>
+        <td data-label="Ações"><button onclick="window.excluirCliente('${c.id}')" class="btn-logout"><i class="fas fa-trash"></i></button></td>
     `;
-    listaClientes.appendChild(tr);
+    lista.appendChild(tr);
 }
 
-// --- SALVAR NOVO CLIENTE ---
+// =================================================================
+// 📝 CADASTROS
+// =================================================================
+
+// Novo Cliente
+const formCliente = document.getElementById('form-cliente');
 if(formCliente) {
     formCliente.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // 1. Coleta e constrói o array de parcelas
         const inputsValores = document.querySelectorAll('.input-valor-mes');
         let arrayParcelas = [];
-        
         inputsValores.forEach(input => {
-            arrayParcelas.push({
-                numero: parseInt(input.dataset.mes),
-                valor: parseFloat(input.value) || 0,
-                pago: false 
-            });
+            arrayParcelas.push({ numero: parseInt(input.dataset.mes), valor: parseFloat(input.value) || 0, pago: false });
         });
 
-        // 2. Coleta dados da Taxa
         const temTaxa = document.getElementById('check-taxa').checked;
         const valorTaxa = parseFloat(document.getElementById('valor-taxa').value) || 0;
 
-        // 3. Monta o objeto completo
-        const novoCliente = {
+        const novo = {
             cliente: document.getElementById('cliente').value,
             plano: document.getElementById('plano').value,
             dataInicio: document.getElementById('data-inicio').value,
-            taxa: {
-                ativa: temTaxa,
-                valor: temTaxa ? valorTaxa : 0,
-                pago: false
-            },
+            taxa: { ativa: temTaxa, valor: temTaxa ? valorTaxa : 0, pago: false },
             parcelas: arrayParcelas
         };
 
-        // 4. Envia para a pasta do usuário logado
-        push(dbRef, novoCliente);
-        
-        alert("Contrato Gerado com Sucesso!");
+        push(dbRef, novo);
+        alert("Contrato Gerado!");
         formCliente.reset();
-        
-        // Reseta visual
         document.getElementById('container-valor-taxa').style.display = 'none';
         window.gerarCamposParcelas(); 
-        window.toggleForm(); // Fecha o form no mobile
+        window.toggleForm('form-cliente');
+    });
+}
+
+// Novo Custo
+const formCustos = document.getElementById('form-custos');
+if(formCustos) {
+    formCustos.addEventListener('submit', (e) => {
+        e.preventDefault();
+        push(dbRefCustos, {
+            nome: document.getElementById('custo-nome').value,
+            valor: document.getElementById('custo-valor').value
+        });
+        formCustos.reset();
+        alert("Custo registrado!");
     });
 }
 
 // =================================================================
-// ⚡ AÇÕES (UPDATE/DELETE)
+// ⚡ AÇÕES
 // =================================================================
+window.toggleTaxa = (id, st) => update(ref(db, `${userPath}/clientes/${id}/taxa`), { pago: !st });
+window.toggleParcela = (id, idx, st) => update(ref(db, `${userPath}/clientes/${id}/parcelas/${idx}`), { pago: !st });
+window.excluirCliente = (id) => { if(confirm("Excluir cliente?")) remove(ref(db, `${userPath}/clientes/${id}`)); };
+window.excluirCusto = (id) => { if(confirm("Remover despesa?")) remove(ref(db, `${userPath}/custos/${id}`)); };
 
-// Atualizar status da Taxa
-window.toggleTaxa = (id, statusAtual) => {
-    update(ref(db, `${userPath}/${id}/taxa`), { pago: !statusAtual });
-};
-
-// Atualizar status de uma Parcela Específica
-window.toggleParcela = (id, indexParcela, statusAtual) => {
-    // Acessa diretamente o índice no array de parcelas
-    const pathParcela = `${userPath}/${id}/parcelas/${indexParcela}`;
-    update(ref(db, pathParcela), { pago: !statusAtual });
-};
-
-// Excluir Contrato
-window.excluirCliente = (id) => {
-    if(confirm("ATENÇÃO: Isso apagará todo o histórico financeiro deste cliente. Continuar?")) {
-        remove(ref(db, `${userPath}/${id}`));
-    }
-};
-
-// Filtro de Busca
 window.filtrarTabela = () => {
     const termo = document.getElementById('busca').value.toLowerCase();
-    const linhas = document.querySelectorAll('#lista-clientes tr');
-    linhas.forEach(l => {
-        l.style.display = l.innerText.toLowerCase().includes(termo) ? '' : 'none';
-    });
+    document.querySelectorAll('#lista-clientes tr').forEach(l => l.style.display = l.innerText.toLowerCase().includes(termo) ? '' : 'none');
 };

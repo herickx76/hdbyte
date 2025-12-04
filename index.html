@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot Manager AI - Carnê Digital</title>
+    <title>Bot Manager AI - Financeiro V4</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
             <div class="header-content">
                 <div class="brand">
                     <i class="fas fa-microchip"></i>
-                    <h1>BOT MANAGER <span style="color: var(--neon-red);">V3</span></h1>
+                    <h1>BOT MANAGER <span style="color: var(--neon-red);">V4</span></h1>
                 </div>
                 <div class="user-info">
                     <span id="usuario-logado">...</span>
@@ -45,21 +45,53 @@
             </div>
         </header>
 
+        <div class="dashboard-financeiro" style="margin-bottom: 20px;">
+            <div class="card-metric">
+                <span>Total Recebido</span>
+                <strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong>
+            </div>
+            <div class="card-metric">
+                <span>Custos Operacionais</span>
+                <strong id="total-custos" style="color: var(--neon-red);">R$ 0,00</strong>
+            </div>
+            <div class="card-metric highlight">
+                <span>Lucro Líquido</span>
+                <strong id="lucro-liquido" style="color: var(--neon-blue);">R$ 0,00</strong>
+            </div>
+        </div>
+
         <section class="card cyber-border">
-            <h2 onclick="toggleForm()" style="cursor: pointer; display: flex; justify-content: space-between;">
+            <h2 onclick="toggleForm('form-cliente')" style="cursor: pointer; display: flex; justify-content: space-between;">
                 <span><i class="fas fa-user-plus"></i> Novo Contrato</span>
                 <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
             </h2>
             
             <form id="form-cliente" style="display: none;">
                 
+                <div class="form-row" style="background: rgba(0,243,255,0.05); padding: 10px; border-radius: 5px; border: 1px dashed var(--neon-blue);">
+                    <div class="form-group" style="flex: 2;">
+                        <label style="color: var(--neon-blue);">Selecione o Modelo:</label>
+                        <select id="select-modelo-plano" onchange="autoPreencherPlano()">
+                            <option value="">-- Personalizado --</option>
+                            <option value="basico">🟦 PLANO 1 — BOT BÁSICO (Sem IA)</option>
+                            <option value="essencial">🟩 PLANO 2 — BOT IA ESSENCIAL</option>
+                            <option value="profissional">🟨 PLANO 3 — BOT IA PROFISSIONAL</option>
+                            <option value="premium">🟧 PLANO 4 — BOT IA PREMIUM</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center; padding-top: 20px;">
+                         <input type="checkbox" id="check-hospedagem" onchange="autoPreencherPlano()" style="width: 20px; height: 20px; margin-right: 10px;">
+                         <label for="check-hospedagem" style="margin: 0; cursor: pointer;">+ Hospedagem (R$ 20)</label>
+                    </div>
+                </div>
+
                 <div class="form-row">
                     <div class="form-group">
                         <label>Cliente / Telegram:</label>
                         <input type="text" id="cliente" required placeholder="@usuario">
                     </div>
                     <div class="form-group">
-                        <label>Nome do Plano:</label>
+                        <label>Nome do Plano (Auto):</label>
                         <input type="text" id="plano" required placeholder="Ex: Avançado+">
                     </div>
                 </div>
@@ -79,30 +111,63 @@
                     
                     <div id="container-valor-taxa" style="display: none; margin-top: 10px; border-top: 1px dashed #333; padding-top: 10px;">
                         <label>Valor da Taxa (R$):</label>
-                        <input type="number" id="valor-taxa" step="0.01" placeholder="Ex: 80.00">
+                        <input type="number" id="valor-taxa" step="0.01" placeholder="Sugerido pelo plano...">
                     </div>
                 </div>
 
                 <div class="parcelas-setup">
-                    <h3><i class="fas fa-calculator"></i> Configuração das Parcelas</h3>
+                    <h3><i class="fas fa-calculator"></i> Mensalidades</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Qtd. Parcelas:</label>
-                            <input type="number" id="qtd-parcelas" min="1" max="48" value="1" onchange="gerarCamposParcelas()">
+                            <label>Qtd. Meses/Parcelas:</label>
+                            <input type="number" id="qtd-parcelas" min="1" max="48" value="12" onchange="gerarCamposParcelas()">
                         </div>
                         <div class="form-group">
-                            <label>Valor Mensal Base (R$):</label>
-                            <input type="number" id="valor-base" step="0.01" placeholder="Ex: 150.00" onchange="gerarCamposParcelas()">
+                            <label>Valor Mensal (R$):</label>
+                            <input type="number" id="valor-base" step="0.01" placeholder="0.00" onchange="gerarCamposParcelas()">
                         </div>
                     </div>
                     
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Ajuste mensal individual (se necessário):</p>
-                    <div id="container-inputs-parcelas" class="grid-parcelas-input">
-                        </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Ajuste manual (se necessário):</p>
+                    <div id="container-inputs-parcelas" class="grid-parcelas-input"></div>
                 </div>
 
                 <button type="submit" class="btn-cyber btn-full">CRIAR CONTRATO</button>
             </form>
+        </section>
+
+        <section class="card cyber-border" style="border-top-color: var(--neon-red);">
+            <h2 onclick="toggleForm('form-custos')" style="cursor: pointer; display: flex; justify-content: space-between; color: var(--neon-red);">
+                <span><i class="fas fa-file-invoice-dollar"></i> Registrar Custo Operacional</span>
+                <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
+            </h2>
+            
+            <form id="form-custos" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Descrição do Custo:</label>
+                        <input type="text" id="custo-nome" required placeholder="Ex: VPS Contabo, OpenAI API...">
+                    </div>
+                    <div class="form-group">
+                        <label>Valor (R$):</label>
+                        <input type="number" id="custo-valor" step="0.01" required placeholder="0.00">
+                    </div>
+                </div>
+                <button type="submit" class="btn-cyber btn-full" style="border-color: var(--neon-red); color: var(--neon-red);">ADICIONAR DESPESA</button>
+            </form>
+
+            <div id="lista-custos-container" style="margin-top: 20px;">
+                <table class="tabela-custos">
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-custos"></tbody>
+                </table>
+            </div>
         </section>
 
         <section class="card">
@@ -119,24 +184,12 @@
                             <th>Cliente</th>
                             <th>Plano</th>
                             <th>Progresso</th>
-                            <th>Gestão Financeira (Clique para Pagar)</th>
+                            <th>Gestão Financeira</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="lista-clientes">
-                        </tbody>
+                    <tbody id="lista-clientes"></tbody>
                 </table>
-            </div>
-
-             <div class="dashboard-financeiro">
-                <div class="card-metric">
-                    <span>Total Recebido</span>
-                    <strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong>
-                </div>
-                <div class="card-metric">
-                    <span>A Receber</span>
-                    <strong id="total-pendente" style="color: var(--neon-red);">R$ 0,00</strong>
-                </div>
             </div>
         </section>
     </div>
