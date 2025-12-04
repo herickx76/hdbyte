@@ -7,13 +7,13 @@ import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from
 // ⚙️ CONFIGURAÇÃO (COLE SUAS CHAVES DA NOVA CONTA AQUI)
 // =================================================================
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY_AQUI",
-  authDomain: "SEU_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://SEU_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "SEU_MESSAGING_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyCxdXJiVA0ZJclCrpFgPAcU7CfE8ErXeAo",
+  authDomain: "sys-gestor-c6571.firebaseapp.com",
+  projectId: "sys-gestor-c6571",
+  storageBucket: "sys-gestor-c6571.firebasestorage.app",
+  messagingSenderId: "634332258432",
+  appId: "1:634332258432:web:0fe9b4bcb128e566dc4665",
+  measurementId: "G-831837W39V"
 };
 
 const app = initializeApp(firebaseConfig);
