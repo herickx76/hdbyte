@@ -3,554 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Automatize seu delivery em Assú com Inteligência Artificial. Atenda pelo WhatsApp, aceite áudios e organize seu financeiro com a HD Byte.">
-    <title>HD Byte - Automação com IA para Delivery</title>
-    <style>
-        :root {
-            --primary: #00E676; /* Verde "Zap" Neon */
-            --primary-glow: rgba(0, 230, 118, 0.4);
-            --secondary: #2979FF; /* Azul Tech */
-            --dark-bg: #050505;
-            --card-bg: #121212;
-            --text-light: #f5f5f5;
-            --text-gray: #a0a0a0;
-            --gold: #FFD700;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth; /* Garante a rolagem suave ao clicar nos links */
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden; /* Evita rolagem horizontal indesejada no mobile */
-        }
-
-        /* --- CLASSE DE ANIMAÇÃO (Scroll Reveal) --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- HERO SECTION (Topo) --- */
-        .hero {
-            background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh; /* Ocupa a tela inteira */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 150px;
-            background: linear-gradient(to top, var(--dark-bg), transparent);
-            pointer-events: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-        }
-
-        .logo {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            letter-spacing: -2px;
-            text-transform: uppercase;
-            text-shadow: 0 0 25px var(--primary-glow);
-        }
-        
-        .logo span { color: var(--text-light); }
-
-        .headline {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-        }
-
-        .headline span {
-            color: var(--primary);
-            display: inline-block;
-        }
-
-        .sub-headline {
-            font-size: 1.3rem;
-            color: #d1d1d1;
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: var(--primary);
-            color: #000;
-            font-weight: 800;
-            padding: 20px 45px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            box-shadow: 0 0 20px var(--primary-glow);
-            transition: all 0.3s ease;
-            border: 2px solid var(--primary);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 0 50px var(--primary-glow);
-            background: #00ff80;
-        }
-
-        /* --- FEATURES (Vantagens) --- */
-        .features {
-            padding: 6rem 2rem;
-            background-color: var(--dark-bg);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            color: var(--text-light);
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-gray);
-            margin-bottom: 4rem;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .grid-container {
-            display: grid;
-            /* Otimizado para mobile: minmax 280px garante que cabe em telas menores */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 20px;
-            border: 1px solid #222;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: #444;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-
-        .feature-card:hover .icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            display: inline-block;
-            transition: transform 0.3s;
-        }
-
-        .feature-title {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: var(--text-light);
-            font-weight: 700;
-        }
-        
-        .feature-card p {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-        }
-
-        /* --- PRICING (Preços) --- */
-        .pricing {
-            padding: 6rem 2rem;
-            background: linear-gradient(180deg, var(--dark-bg) 0%, #0d0d0d 100%);
-        }
-
-        .pricing-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            align-items: center; 
-        }
-
-        .price-card {
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 3rem 2rem;
-            width: 100%;
-            max-width: 380px;
-            position: relative;
-            border: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-            transition: 0.3s;
-        }
-
-        .price-card.popular {
-            border: 2px solid var(--gold);
-            /* Leve aumento de escala no desktop */
-            transform: scale(1.05);
-            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-            z-index: 2;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
-        }
-
-        .tag {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--gold);
-            color: #000;
-            padding: 8px 20px;
-            font-weight: 800;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .plan-name {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            color: var(--text-light);
-        }
-
-        .price {
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        /* Estilo para preço antigo/riscado se necessário no futuro */
-        .old-price {
-            text-decoration: line-through;
-            color: #666;
-            font-size: 1rem;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .price-value {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--text-light);
-            line-height: 1;
-            letter-spacing: -2px;
-        }
-
-        .price-period {
-            font-size: 1rem;
-            color: var(--text-gray);
-            margin-top: 5px;
-        }
-
-        .setup-fee {
-            text-align: center;
-            background: rgba(255,255,255,0.03);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: #ccc;
-            border: 1px dashed #333;
-        }
-
-        .benefits-list {
-            list-style: none;
-            margin-bottom: 2.5rem;
-            flex-grow: 1;
-        }
-
-        .benefits-list li {
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: flex-start;
-            color: #ccc;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .benefits-list li.check::before {
-            content: '✓';
-            color: var(--primary);
-            font-weight: 900;
-            margin-right: 12px;
-            min-width: 20px;
-        }
-        
-        .benefits-list li.cross {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
-
-        .benefits-list li.cross::before {
-            content: '✕';
-            color: #ff4444;
-            margin-right: 12px;
-            min-width: 20px;
-            text-decoration: none;
-        }
-
-        .btn-price {
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            display: block;
-            text-align: center;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #444;
-            color: var(--text-light);
-        }
-        
-        .btn-outline:hover {
-            border-color: var(--text-light);
-            background: #fff;
-            color: #000;
-        }
-
-        .btn-fill {
-            background: var(--gold);
-            color: #000;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-        }
-        
-        .btn-fill:hover {
-            background: #e6c200;
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 4rem 2rem;
-            border-top: 1px solid #222;
-            color: #666;
-            font-size: 0.9rem;
-            background: #080808;
-        }
-
-        footer strong { color: var(--text-light); }
-
-        /* --- RESPONSIVE MOBILE --- */
-        @media (max-width: 768px) {
-            .headline { font-size: 2.2rem; }
-            .sub-headline { font-size: 1.1rem; }
-            
-            .pricing-grid { 
-                flex-direction: column; 
-                gap: 3rem; 
-            }
-            
-            /* Remove o scale no mobile para não cortar a tela */
-            .price-card.popular { 
-                transform: scale(1); 
-                border-width: 2px;
-            }
-            
-            .hero { padding: 1rem; }
-            
-            /* Ajuste de margens para a animação não demorar a aparecer */
-            .reveal { transform: translateY(30px); }
-        }
-    </style>
+    <title>Bot Manager AI - Controle de Clientes</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <section class="hero reveal">
-        <div class="hero-content">
-            <div class="logo">HD <span>Byte</span></div>
-            <h1 class="headline">Seu Delivery Perdendo Vendas? <br><span>Nunca Mais.</span></h1>
-            <p class="sub-headline">O primeiro robô com Inteligência Artificial de Assú que ouve áudios, anota pedidos e organiza seu financeiro. Tudo no automático.</p>
-            <a href="#precos" class="cta-button">Quero Vender Mais Agora</a>
-        </div>
-    </section>
-
-    <section class="features">
-        <div class="reveal">
-            <h2 class="section-title">Tecnologia de Ponta</h2>
-            <p class="section-subtitle">Por que as empresas de Assú estão escolhendo a HD Byte?</p>
-        </div>
-        
-        <div class="grid-container">
-            <div class="feature-card reveal">
-                <span class="icon">🤖</span>
-                <h3 class="feature-title">Atendente 24h com IA</h3>
-                <p>Responde na hora, sem deixar o cliente esperando. Não fica doente, não chega atrasado e não pede aumento.</p>
+    <div id="tela-login" class="login-overlay">
+        <div class="login-card">
+            <div class="logo-area">
+                <i class="fas fa-robot fa-3x" style="color: var(--neon-red);"></i>
+                <h2>SYSTEM ACCESS</h2>
             </div>
-            <div class="feature-card reveal">
-                <span class="icon">🎙️</span>
-                <h3 class="feature-title">Ouve Áudios do WhatsApp</h3>
-                <p>Seu cliente tem preguiça de digitar? Sem problemas. Nossa IA escuta o áudio, entende e anota o pedido.</p>
-            </div>
-            <div class="feature-card reveal">
-                <span class="icon">📱</span>
-                <h3 class="feature-title">Cardápio Digital & QR</h3>
-                <p>Cardápio bonito, leve e fácil de mexer. Ideal para WhatsApp, Instagram e para colar nas mesas.</p>
-            </div>
-            <div class="feature-card reveal">
-                <span class="icon">💰</span>
-                <h3 class="feature-title">Zero Taxas por Pedido</h3>
-                <p>Chega de perder 12% a 15% para aplicativos de fora. Aqui o lucro é 100% seu.</p>
-            </div>
-            <div class="feature-card reveal">
-                <span class="icon">📈</span>
-                <h3 class="feature-title">Gestão & Financeiro</h3>
-                <p>Saiba exatamente quanto vendeu, quais os produtos campeões e controle o caixa sem dor de cabeça.</p>
-            </div>
-            <div class="feature-card reveal">
-                <span class="icon">🔄</span>
-                <h3 class="feature-title">Recuperador de Vendas</h3>
-                <p>O cliente sumiu? O robô manda uma mensagem automática para recuperar aquele pedido esquecido.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="pricing" id="precos">
-        <div class="reveal">
-            <h2 class="section-title">Planos para a Realidade de Assú</h2>
-            <p class="section-subtitle">Escolha o melhor para o seu negócio crescer hoje.</p>
-        </div>
-        
-        <div class="pricing-grid">
-            
-            <div class="price-card reveal">
-                <h3 class="plan-name">Plano Prata</h3>
-                <div class="price">
-                    <span style="display:block; font-size: 0.8rem; color: var(--primary); margin-bottom: 5px;">Básico Eficiente</span>
-                    <div class="price-value">R$ 97</div>
-                    <div class="price-period">/mês</div>
+            <p>Bot Manager Control</p>
+            <form id="form-login">
+                <div class="form-group">
+                    <label>USER ID</label>
+                    <input type="text" id="login-usuario" required autocomplete="off">
                 </div>
-                <div class="setup-fee">
-                    + Taxa Única de Implantação <br> <strong>R$ 250,00</strong>
+                <div class="form-group">
+                    <label>PASSWORD</label>
+                    <input type="password" id="login-senha" required>
                 </div>
-                <ul class="benefits-list">
-                    <li class="check">Robô de Atendimento (Texto)</li>
-                    <li class="check">Cardápio Digital Online</li>
-                    <li class="check">Pedidos Ilimitados</li>
-                    <li class="check">Painel de Pedidos no Balcão</li>
-                    <li class="check">QR Code para Mesas</li>
-                    <li class="cross">Suporte a Áudios (IA Avançada)</li>
-                    <li class="cross">Gestão Financeira Completa</li>
-                    <li class="cross">Cashback e Cupons</li>
-                </ul>
-                <a href="https://wa.me/5584996085794?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20Plano%20Prata" class="btn-price btn-outline" target="_blank">Começar com Prata</a>
-            </div>
-
-            <div class="price-card popular reveal">
-                <div class="tag">MAIS VENDIDO</div>
-                <h3 class="plan-name">Plano Ouro</h3>
-                <div class="price">
-                    <div class="price-value" style="color: var(--primary);">R$ 119,90</div>
-                    <div class="price-period">/mês</div>
-                </div>
-                <div class="setup-fee">
-                    + Taxa Única de Implantação <br> <strong>R$ 400,00</strong>
-                </div>
-                <ul class="benefits-list">
-                    <li class="check"><strong>IA que Ouve e Entende Áudios</strong></li>
-                    <li class="check">Robô de Atendimento Completo</li>
-                    <li class="check">Cardápio Digital Premium</li>
-                    <li class="check">Gestão Financeira & Gráficos</li>
-                    <li class="check">Recuperador de Carrinho</li>
-                    <li class="check">Sistema de Cupons e Cashback</li>
-                    <li class="check">Agendamento de Pedidos</li>
-                    <li class="check">Suporte Prioritário Local</li>
-                </ul>
-                <a href="https://wa.me/5584996085794?text=Ol%C3%A1%2C%20quero%20vender%20mais%20com%20o%20Plano%20Ouro" class="btn-price btn-fill" target="_blank">Quero o Plano Ouro</a>
-            </div>
-
+                <button type="submit" class="btn-cyber">INICIAR SISTEMA</button>
+            </form>
+            <p id="msg-erro" class="glitch-text" style="display: none;">ACESSO NEGADO</p>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        <p class="reveal">&copy; <span id="year"></span> <strong>HD Byte</strong> - Soluções em Tecnologia.</p>
-        <p class="reveal" style="margin-top: 10px; opacity: 0.7;">CNPJ: xx.xxx.xxx/0001-xx | WhatsApp: (84) 99608-5794</p>
-    </footer>
+    <div id="sistema-principal" class="container" style="display: none;">
+        <header class="main-header">
+            <div class="header-content">
+                <div class="brand">
+                    <i class="fas fa-microchip"></i>
+                    <h1>BOT MANAGER <span style="color: var(--neon-red);">AI</span></h1>
+                </div>
+                <div class="user-info">
+                    <span id="usuario-logado">...</span>
+                    <button onclick="fazerLogout()" class="btn-logout"><i class="fas fa-power-off"></i></button>
+                </div>
+            </div>
+            <div class="status-bar">
+                <p>SYSTEM STATUS: <span style="color: #0f0;">ONLINE</span> | DATABASE: <span style="color: var(--neon-blue);">CONNECTED</span></p>
+            </div>
+        </header>
 
-    <script>
-        // Atualiza o ano automaticamente
-        document.getElementById('year').textContent = new Date().getFullYear();
+        <section class="card cyber-border">
+            <h2><i class="fas fa-user-plus"></i> Adicionar Assinante</h2>
+            <form id="form-cliente">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Nome do Cliente / @Telegram:</label>
+                        <input type="text" id="cliente" required placeholder="Ex: @joaosilva">
+                    </div>
+                    <div class="form-group">
+                        <label>Plano Contratado:</label>
+                        <select id="plano" required>
+                            <option value="Mensal">Mensal</option>
+                            <option value="Trimestral">Trimestral</option>
+                            <option value="Semestral">Semestral</option>
+                            <option value="Vitalício">Vitalício</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Data de Início:</label>
+                        <input type="date" id="data-inicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Valor (R$):</label>
+                        <input type="number" id="valor" step="0.01" required placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Status Pagamento:</label>
+                        <select id="status-pagamento" required>
+                            <option value="pago">Confirmado (Pago)</option>
+                            <option value="pendente">Pendente</option>
+                        </select>
+                    </div>
+                </div>
 
-        // Script de Animação ao Rolar (Scroll Reveal)
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1 // O elemento aparece quando 10% dele estiver visível
-        };
+                <button type="submit" class="btn-cyber btn-full">REGISTRAR NO SISTEMA</button>
+            </form>
+        </section>
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Para de observar depois que animou uma vez
-                }
-            });
-        }, observerOptions);
+        <section class="card cyber-border">
+            <div class="header-lista">
+                <h2><i class="fas fa-database"></i> Base de Usuários Ativos</h2>
+                <div class="search-box">
+                    <input type="text" id="busca" placeholder="Filtrar por nome..." onkeyup="filtrarTabela()">
+                </div>
+            </div>
 
-        // Seleciona todos os elementos com a classe .reveal
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
-    </script>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data Início</th>
+                            <th>Cliente</th>
+                            <th>Plano</th>
+                            <th>Tempo de Uso</th>
+                            <th>Pagamento</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-clientes">
+                        </tbody>
+                </table>
+            </div>
 
+            <div class="dashboard-financeiro">
+                <div class="card-metric">
+                    <span><i class="fas fa-users"></i> Clientes Ativos</span>
+                    <strong id="total-clientes">0</strong>
+                </div>
+                <div class="card-metric highlight">
+                    <span><i class="fas fa-chart-line"></i> Rendimento (Mês Atual)</span>
+                    <strong id="rendimento-mes">R$ 0,00</strong>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="script.js"></script>
 </body>
 </html>
