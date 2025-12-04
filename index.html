@@ -6,8 +6,8 @@
     <title>HD Byte - Automação com IA para Delivery</title>
     <style>
         :root {
-            --primary: #00E676; /* Verde "Zap" Neon */
-            --secondary: #2979FF; /* Azul Tech */
+            --primary: #00E676;
+            --secondary: #2979FF;
             --dark-bg: #0a0a0a;
             --card-bg: #161616;
             --text-light: #f5f5f5;
@@ -28,7 +28,6 @@
             line-height: 1.6;
         }
 
-        /* --- HERO SECTION (Topo) --- */
         .hero {
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
@@ -102,18 +101,12 @@
             animation: pulse 2s infinite;
         }
 
-        .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 230, 118, 0.6);
-        }
-
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
             70% { box-shadow: 0 0 0 20px rgba(0, 230, 118, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
         }
 
-        /* --- FEATURES (Vantagens) --- */
         .features {
             padding: 5rem 2rem;
             background-color: #0f0f0f;
@@ -147,19 +140,6 @@
             transform: translateY(-5px);
         }
 
-        .icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .feature-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-        }
-
-        /* --- PRICING (Preços) --- */
         .pricing {
             padding: 5rem 2rem;
             background: linear-gradient(180deg, var(--dark-bg) 0%, #111 100%);
@@ -213,25 +193,14 @@
             text-align: center;
         }
 
-        .price {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+        .price { text-align: center; margin-bottom: 2rem; }
 
-        .promo-text {
-            color: var(--primary);
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            display: block;
-        }
+        .promo-text { display: none; }
 
         .price-value {
             font-size: 3.5rem;
             font-weight: 800;
-            color: var(--text-light);
+            color: var(--primary);
             line-height: 1;
         }
 
@@ -239,14 +208,6 @@
             font-size: 1rem;
             color: var(--text-gray);
             margin-bottom: 10px;
-        }
-
-        .regular-price {
-            font-size: 0.85rem;
-            color: #888;
-            border-top: 1px solid #333;
-            padding-top: 10px;
-            margin-top: 5px;
         }
 
         .setup-fee {
@@ -260,71 +221,11 @@
             margin-top: 15px;
         }
 
-        .benefits-list {
-            list-style: none;
-            margin-bottom: 2rem;
-            flex-grow: 1;
-        }
+        .benefits-list { list-style: none; margin-bottom: 2rem; flex-grow: 1; }
+        .benefits-list li { margin-bottom: 1rem; display: flex; align-items: center; color: #ccc; }
+        .benefits-list li.check::before { content: '✓'; color: var(--primary); margin-right: 10px; font-size: 1.2rem; }
+        .benefits-list li.cross::before { content: '✕'; color: #ff4444; margin-right: 10px; font-size: 1.2rem; }
 
-        .benefits-list li {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            color: #ccc;
-        }
-
-        .benefits-list li.check::before {
-            content: '✓';
-            color: var(--primary);
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .benefits-list li.cross::before {
-            content: '✕';
-            color: #ff4444;
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-
-        .btn-price {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            display: block;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--text-gray);
-            color: var(--text-light);
-        }
-        
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-fill {
-            background: var(--gold);
-            color: #000;
-        }
-        
-        .btn-fill:hover {
-            background: #e6c200;
-            transform: translateY(-2px);
-        }
-
-        /* --- FOOTER --- */
         footer {
             text-align: center;
             padding: 2rem;
@@ -332,101 +233,22 @@
             color: var(--text-gray);
             font-size: 0.9rem;
         }
-
-        @media (max-width: 768px) {
-            .headline { font-size: 2rem; }
-            .pricing-grid { flex-direction: column; align-items: center; }
-            .price-card.popular { transform: none; }
-        }
     </style>
 </head>
 <body>
 
-    <section class="hero">
-        <div class="hero-content">
-            <div class="logo">HD <span>Byte</span></div>
-            <h1 class="headline">Seu Delivery Perdendo Vendas no WhatsApp? <br><span>Nunca Mais.</span></h1>
-            <p class="sub-headline">O primeiro robô com Inteligência Artificial de Assú que ouve áudios, anota pedidos e organiza seu financeiro. Tudo no automático.</p>
-            <a href="#precos" class="cta-button">Quero Vender Mais Agora</a>
-        </div>
-    </section>
-
-    <section class="features">
-        <h2 class="section-title">Por que as empresas de Assú estão escolhendo a HD Byte?</h2>
-        <div class="grid-container">
-            <div class="feature-card">
-                <span class="icon">🤖</span>
-                <h3 class="feature-title">Atendente 24h com IA</h3>
-                <p>Responde na hora, sem deixar o cliente esperando. Não fica doente, não chega atrasado e não pede aumento.</p>
-            </div>
-            <div class="feature-card">
-                <span class="icon">🎙️</span>
-                <h3 class="feature-title">Ouve Áudios do WhatsApp</h3>
-                <p>Seu cliente tem preguiça de digitar? Sem problemas. Nossa IA escuta o áudio e anota o pedido certinho.</p>
-            </div>
-            <div class="feature-card">
-                <span class="icon">📱</span>
-                <h3 class="feature-title">Cardápio Digital & QR Code</h3>
-                <p>Cardápio bonito, leve e fácil de mexer. Ideal para WhatsApp, Instagram e para colar nas mesas.</p>
-            </div>
-            <div class="feature-card">
-                <span class="icon">💰</span>
-                <h3 class="feature-title">Zero Taxas por Pedido</h3>
-                <p>Chega de perder 12% a 15% para aplicativos de fora. Aqui o lucro é 100% seu.</p>
-            </div>
-            <div class="feature-card">
-                <span class="icon">📈</span>
-                <h3 class="feature-title">Gestão & Financeiro</h3>
-                <p>Saiba exatamente quanto vendeu, quais os produtos campeões e controle o caixa sem dor de cabeça.</p>
-            </div>
-            <div class="feature-card">
-                <span class="icon">🔄</span>
-                <h3 class="feature-title">Recuperador de Vendas</h3>
-                <p>O cliente parou de responder? O robô manda uma mensagem automática para recuperar aquele pedido esquecido.</p>
-            </div>
-        </div>
-    </section>
-
     <section class="pricing" id="precos">
         <h2 class="section-title">Planos Feitos para a Realidade de Assú</h2>
         <div class="pricing-grid">
-            
-            <div class="price-card">
-                <h3 class="plan-name">Plano Prata</h3>
-                <div class="price">
-                    <span class="promo-text">Oferta 2 Primeiros Meses</span>
-                    <div class="price-value">R$ 97,00</div>
-                    <div class="price-period">/mês</div>
-                    <div class="regular-price">A partir do 3º mês: R$ 130,00</div>
-                </div>
-                <div class="setup-fee">
-                    + Taxa Única de Implantação: <br> <strong>R$ 250,00</strong>
-                </div>
-                <ul class="benefits-list">
-                    <li class="check">Robô de Atendimento (Texto)</li>
-                    <li class="check">Cardápio Digital Online</li>
-                    <li class="check">Pedidos Ilimitados</li>
-                    <li class="check">Painel de Pedidos no Balcão</li>
-                    <li class="check">QR Code para Mesas</li>
-                    <li class="cross">Suporte a Áudios (IA Avançada)</li>
-                    <li class="cross">Gestão Financeira Completa</li>
-                    <li class="cross">Cashback e Cupons</li>
-                </ul>
-                <a href="https://wa.me/5584996085794?text=Ol%C3%A1%2C%20desejo%20adquirir%20o%20Plano%20Prata" class="btn-price btn-outline" target="_blank">Escolher Prata</a>
-            </div>
 
             <div class="price-card popular">
                 <div class="tag">MAIS VENDIDO</div>
                 <h3 class="plan-name">Plano Ouro</h3>
                 <div class="price">
-                    <span class="promo-text">Oferta 2 Primeiros Meses</span>
-                    <div class="price-value" style="color: var(--primary);">R$ 119,90</div>
+                    <div class="price-value">R$ 119,90</div>
                     <div class="price-period">/mês</div>
-                    <div class="regular-price">A partir do 3º mês: R$ 197,00</div>
                 </div>
-                <div class="setup-fee">
-                    + Taxa Única de Implantação: <br> <strong>R$ 400,00</strong>
-                </div>
+                <div class="setup-fee">+ Taxa Única de Implantação:<br><strong>R$ 400,00</strong></div>
                 <ul class="benefits-list">
                     <li class="check"><strong>IA que Ouve Áudios</strong></li>
                     <li class="check">Robô de Atendimento Completo</li>
@@ -437,16 +259,11 @@
                     <li class="check">Agendamento de Pedidos</li>
                     <li class="check">Suporte Prioritário Local</li>
                 </ul>
-                <a href="https://wa.me/5584996085794?text=Ol%C3%A1%2C%20desejo%20adquirir%20o%20Plano%20Ouro" class="btn-price btn-fill" target="_blank">Quero o Plano Ouro</a>
+                <a href="#" class="btn-price btn-fill">Quero o Plano Ouro</a>
             </div>
 
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2024 HD Byte - Soluções em Tecnologia para Assú e Região.</p>
-        <p>CNPJ: xx.xxx.xxx/0001-xx | WhatsApp: (84) 99608-5794</p>
-    </footer>
 
 </body>
 </html>
