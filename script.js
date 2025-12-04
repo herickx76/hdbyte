@@ -24,31 +24,21 @@ const auth = getAuth(app);
 let dbRef;      // Referência do banco
 let userPath;   // String do caminho (ex: 'bot_manager/herick')
 
-// =================================================================
-// 🔐 AUTENTICAÇÃO E ROTEAMENTO DE DADOS
-// =================================================================
+// --- LOGIN ---
 const telaLogin = document.getElementById('tela-login');
 const sistemaPrincipal = document.getElementById('sistema-principal');
 const formLogin = document.getElementById('form-login');
-const msgErro = document.getElementById('msg-erro');
-const tituloUsuario = document.getElementById('usuario-logado');
 
-// OUVINTE DE LOGIN: Aqui acontece a mágica da separação
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // Pega o nome antes do @ (ex: 'herick' ou 'reysson')
         const username = user.email.split('@')[0];
-        
-        // --- DEFINE A PASTA DO BANCO PARA ESTE USUÁRIO ---
         userPath = `bot_manager/${username}`;
         dbRef = ref(db, userPath);
         
-        // Atualiza Interface
         telaLogin.style.display = 'none';
         sistemaPrincipal.style.display = 'block';
-        tituloUsuario.innerText = username.toUpperCase(); // Mostra HERICK ou REYSSON
+        document.getElementById('usuario-logado').innerText = username.toUpperCase();
         
-        // Carrega APENAS os dados dessa pasta
         carregarClientes();
     } else {
         telaLogin.style.display = 'flex';
@@ -56,164 +46,173 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// FUNÇÃO DE LOGIN
 if (formLogin) {
     formLogin.addEventListener('submit', (e) => {
         e.preventDefault();
-        const usuarioInput = document.getElementById('login-usuario').value.trim().toLowerCase();
+        const usuario = document.getElementById('login-usuario').value.trim().toLowerCase();
         const senha = document.getElementById('login-senha').value.trim();
-        
-        // Define o domínio fixo
-        const emailCompleto = `${usuarioInput}@hdbyte.com`; 
-
-        signInWithEmailAndPassword(auth, emailCompleto, senha)
-            .then(() => {
-                msgErro.style.display = 'none';
-            })
-            .catch((error) => {
-                console.error(error);
-                msgErro.style.display = 'block';
-                msgErro.innerText = "USUÁRIO OU SENHA INVÁLIDOS";
-                document.querySelector('.login-card').style.borderColor = '#fff';
-                setTimeout(() => document.querySelector('.login-card').style.borderColor = 'var(--neon-red)', 200);
-            });
+        signInWithEmailAndPassword(auth, `${usuario}@hdbyte.com`, senha)
+            .catch(() => alert("Login inválido"));
     });
 }
 
 window.fazerLogout = () => signOut(auth);
 
-// =================================================================
-// 🧠 LÓGICA DO GERENCIADOR (ISOLADO)
-// =================================================================
+// --- LÓGICA DE INTERFACE DINÂMICA (INPUTS DE PARCELAS) ---
+window.toggleForm = () => {
+    const f = document.getElementById('form-cliente');
+    f.style.display = f.style.display === 'none' ? 'block' : 'none';
+};
+
+// Gera os inputs baseados na quantidade escolhida
+window.gerarCamposParcelas = () => {
+    const qtd = parseInt(document.getElementById('qtd-parcelas').value) || 1;
+    const valBase = document.getElementById('valor-base').value || "";
+    const container = document.getElementById('container-inputs-parcelas');
+    
+    container.innerHTML = ''; // Limpa anteriores
+
+    for(let i = 1; i <= qtd; i++) {
+        const div = document.createElement('div');
+        div.className = 'input-parcela-wrapper';
+        div.innerHTML = `
+            <label>Mês ${i}</label>
+            <input type="number" step="0.01" class="input-valor-mes" data-mes="${i}" value="${valBase}">
+        `;
+        container.appendChild(div);
+    }
+};
+
+// Inicializa com 1 campo
+if(document.getElementById('qtd-parcelas')) window.gerarCamposParcelas();
+
+
+// --- LÓGICA DO DATABASE ---
 const formCliente = document.getElementById('form-cliente');
 const listaClientes = document.getElementById('lista-clientes');
-const hoje = new Date();
-
-// Define data padrão no input
-if(document.getElementById('data-inicio')) {
-    document.getElementById('data-inicio').value = hoje.toISOString().split('T')[0];
-}
 
 function carregarClientes() {
-    // Escuta apenas o dbRef definido no login (pasta do usuário)
     onValue(dbRef, (snapshot) => {
         listaClientes.innerHTML = '';
-        let totalRendaMes = 0;
-        let totalClientes = 0;
-        
-        const mesAtual = hoje.getMonth();
-        const anoAtual = hoje.getFullYear();
+        let somaRecebido = 0;
+        let somaPendente = 0;
 
         const data = snapshot.val();
-        
-        // Array auxiliar para ordenar
-        let clientesArray = [];
-
         if (data) {
-            Object.keys(data).forEach(key => {
-                clientesArray.push({ id: key, ...data[key] });
-            });
+            // Converte objeto em array e ordena
+            const clientes = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            clientes.sort((a, b) => new Date(b.dataInicio) - new Date(a.dataInicio));
 
-            // Ordenar: Pendentes primeiro, depois data mais recente
-            clientesArray.sort((a, b) => new Date(b.dataInicio) - new Date(a.dataInicio));
+            clientes.forEach(c => {
+                // Renderiza HTML
+                renderizarLinha(c);
 
-            clientesArray.forEach(cliente => {
-                renderizarLinha(cliente);
-                totalClientes++;
-
-                // Cálculo Financeiro (Apenas Pagos do Mês Atual)
-                const dataCliente = new Date(cliente.dataInicio);
-                // Ajuste de fuso horário simples para garantir mês correto
-                const dataAdjusted = new Date(dataCliente.getTime() + dataCliente.getTimezoneOffset() * 60000);
-
-                if(cliente.pagamento === 'pago' && dataAdjusted.getMonth() === mesAtual && dataAdjusted.getFullYear() === anoAtual) {
-                    totalRendaMes += parseFloat(cliente.valor);
+                // Calcula totais
+                if(c.parcelas) {
+                    c.parcelas.forEach(p => {
+                        if(p.pago) somaRecebido += parseFloat(p.valor);
+                        else somaPendente += parseFloat(p.valor);
+                    });
                 }
             });
         }
-        
-        document.getElementById('total-clientes').innerText = totalClientes;
-        document.getElementById('rendimento-mes').innerText = `R$ ${totalRendaMes.toFixed(2).replace('.', ',')}`;
+        document.getElementById('total-recebido').innerText = `R$ ${somaRecebido.toFixed(2)}`;
+        document.getElementById('total-pendente').innerText = `R$ ${somaPendente.toFixed(2)}`;
     });
 }
 
 function renderizarLinha(c) {
     const tr = document.createElement('tr');
     
-    // Cálculo de dias corridos
-    const dataInicio = new Date(c.dataInicio);
-    const diffTime = Math.abs(hoje - dataInicio);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    // Calcula progresso (Ex: 2/12 Pagos)
+    const totalP = c.parcelas ? c.parcelas.length : 0;
+    const pagos = c.parcelas ? c.parcelas.filter(p => p.pago).length : 0;
+    const porcentagem = totalP > 0 ? Math.round((pagos / totalP) * 100) : 0;
     
-    // Formatação
-    const dataFormatada = c.dataInicio.split('-').reverse().join('/');
-    const badgeClass = c.pagamento === 'pago' ? 'badge-pago' : 'badge-pendente';
-    const statusTexto = c.pagamento === 'pago' ? 'PAGO' : 'PENDENTE';
+    // Cria as bolinhas interativas
+    let htmlBolinhas = '<div class="grid-pagamentos">';
+    if(c.parcelas) {
+        c.parcelas.forEach((p, index) => {
+            const classeStatus = p.pago ? 'pago' : 'pendente';
+            const statusTexto = p.pago ? 'Pago!' : 'Aguardando Pagamento';
+            
+            // Note que passamos o INDEX para saber qual mês atualizar
+            htmlBolinhas += `
+                <div class="ball-parcela ${classeStatus}" 
+                     title="Mês ${p.numero}: R$ ${p.valor} - ${statusTexto}"
+                     onclick="window.toggleParcela('${c.id}', ${index}, ${p.pago})">
+                     ${p.numero}
+                </div>`;
+        });
+    }
+    htmlBolinhas += '</div>';
 
     tr.innerHTML = `
-        <td style="color:var(--neon-blue); font-family: monospace;">${dataFormatada}</td>
-        <td style="font-weight:bold; color:#fff;">${c.nome}</td>
-        <td>${c.plano}</td>
-        <td><span class="dias-uso">${diffDays} dias</span></td>
-        <td>
-            <span class="badge ${badgeClass}" 
-                  onclick="window.alternarPagamento('${c.id}', '${c.pagamento}')" 
-                  style="cursor:pointer; user-select:none;">
-                  ${statusTexto}
-            </span>
-        </td>
-        <td>R$ ${parseFloat(c.valor).toFixed(2).replace('.', ',')}</td>
-        <td>
-            <button onclick="window.excluirCliente('${c.id}')" class="btn-acao btn-trash" title="Remover">
-                <i class="fas fa-trash"></i>
-            </button>
+        <td data-label="Início">${c.dataInicio.split('-').reverse().join('/')}</td>
+        <td data-label="Cliente" style="color:#fff; font-weight:bold;">${c.cliente}</td>
+        <td data-label="Plano">${c.plano}</td>
+        <td data-label="Progresso" style="color:var(--neon-blue);">${pagos}/${totalP} (${porcentagem}%)</td>
+        <td data-label="Parcelas">${htmlBolinhas}</td>
+        <td data-label="Ações">
+            <button onclick="window.excluirCliente('${c.id}')" class="btn-logout" style="border-color:#555;"><i class="fas fa-trash"></i></button>
         </td>
     `;
     listaClientes.appendChild(tr);
 }
 
-// CADASTRAR NOVO CLIENTE
+// --- SALVAR NOVO CLIENTE ---
 if(formCliente) {
     formCliente.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Salva na referência do usuário logado
-        push(dbRef, {
-            nome: document.getElementById('cliente').value,
-            plano: document.getElementById('plano').value,
-            dataInicio: document.getElementById('data-inicio').value,
-            valor: document.getElementById('valor').value,
-            pagamento: document.getElementById('status-pagamento').value
+        // Coleta os valores individuais dos inputs gerados
+        const inputsValores = document.querySelectorAll('.input-valor-mes');
+        let arrayParcelas = [];
+        
+        inputsValores.forEach(input => {
+            arrayParcelas.push({
+                numero: parseInt(input.dataset.mes),
+                valor: parseFloat(input.value) || 0,
+                pago: false // Começa sempre como não pago
+            });
         });
 
-        alert("Cliente Adicionado com Sucesso!");
+        const novoCliente = {
+            cliente: document.getElementById('cliente').value,
+            plano: document.getElementById('plano').value,
+            dataInicio: document.getElementById('data-inicio').value,
+            parcelas: arrayParcelas // Array complexo salvo no banco
+        };
+
+        push(dbRef, novoCliente);
+        alert("Contrato Gerado!");
         formCliente.reset();
-        document.getElementById('data-inicio').value = new Date().toISOString().split('T')[0];
+        window.gerarCamposParcelas(); // Reseta os inputs
+        window.toggleForm(); // Fecha o form no mobile
     });
 }
 
-// AÇÕES GLOBAIS (Usam userPath para segurança)
+// --- AÇÕES ---
+
+// Alternar status de UMA parcela específica
+window.toggleParcela = (id, indexParcela, statusAtual) => {
+    // Caminho exato: bot_manager/usuario/ID_CLIENTE/parcelas/INDEX/pago
+    const pathParcela = `${userPath}/${id}/parcelas/${indexParcela}`;
+    
+    // Inverte o status
+    update(ref(db, pathParcela), { pago: !statusAtual });
+};
 
 window.excluirCliente = (id) => {
-    if(confirm("Tem certeza que deseja apagar este registro?")) {
-        // Remove especificamente da pasta do usuário logado
+    if(confirm("Excluir contrato?")) {
         remove(ref(db, `${userPath}/${id}`));
     }
 };
 
-window.alternarPagamento = (id, statusAtual) => {
-    const novoStatus = statusAtual === 'pago' ? 'pendente' : 'pago';
-    // Atualiza especificamente na pasta do usuário logado
-    update(ref(db, `${userPath}/${id}`), { pagamento: novoStatus });
-};
-
-// BUSCA / FILTRO VISUAL
 window.filtrarTabela = () => {
     const termo = document.getElementById('busca').value.toLowerCase();
     const linhas = document.querySelectorAll('#lista-clientes tr');
-    
-    linhas.forEach(linha => {
-        const texto = linha.innerText.toLowerCase();
-        linha.style.display = texto.includes(termo) ? '' : 'none';
+    linhas.forEach(l => {
+        l.style.display = l.innerText.toLowerCase().includes(termo) ? '' : 'none';
     });
 };

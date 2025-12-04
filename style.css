@@ -1,166 +1,141 @@
-/* --- VARIAVEIS CYBERPUNK --- */
+/* --- VARIAVEIS (Mantidas) --- */
 :root {
     --bg-dark: #050a10;
     --bg-card: #0b1622;
     --neon-blue: #00f3ff;
     --neon-red: #ff2a2a;
-    --neon-red-dim: #5c0000;
     --text-main: #e0e6ed;
     --text-muted: #8b9bb4;
-    --border-tech: 1px solid rgba(0, 243, 255, 0.2);
 }
 
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     min-height: 100vh;
-    background-image: 
-        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-    background-size: 30px 30px;
 }
 
-/* FONTES ESPECIAIS */
-h1, h2, button, .status-bar, label {
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
+/* --- ESTILOS GERAIS --- */
+h1, h2, h3, button, label { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+
+.container { max-width: 1000px; margin: 0 auto; padding: 10px; }
+
+/* Login */
+.login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 999; }
+.login-card { background: var(--bg-card); padding: 30px; border: 1px solid var(--neon-red); width: 90%; max-width: 350px; text-align: center; }
+
+/* Cards e Forms */
+.card { background: var(--bg-card); padding: 15px; margin-bottom: 20px; border-radius: 5px; border: 1px solid rgba(0, 243, 255, 0.1); }
+.cyber-border { border-top: 2px solid var(--neon-blue); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+.form-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+.form-group { flex: 1; min-width: 140px; }
+
+input, select { 
+    width: 100%; background: #020406; border: 1px solid #1e3a56; 
+    color: #fff; padding: 10px; margin-top: 5px; box-sizing: border-box; 
+}
+input:focus { border-color: var(--neon-blue); outline: none; }
+
+.btn-cyber { background: var(--neon-blue); color: #000; border: none; padding: 12px; font-weight: bold; width: 100%; margin-top: 10px; cursor: pointer; }
+.btn-logout { background: transparent; border: 1px solid var(--neon-red); color: var(--neon-red); padding: 5px 10px; }
+
+/* --- GRID DE INPUTS DE PARCELAS (NO CADASTRO) --- */
+.parcelas-setup { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; border: 1px dashed #333; margin-bottom: 15px; }
+.grid-parcelas-input {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+.input-parcela-wrapper label { font-size: 0.7rem; color: var(--neon-blue); }
+
+/* --- VISUALIZADOR DE PARCELAS (NA TABELA) --- */
+.grid-pagamentos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
-/* --- LOGIN --- */
-.login-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #020406;
+.ball-parcela {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid #444;
+    background: #111;
+    color: #666;
+    font-size: 0.7rem;
     display: flex; justify-content: center; align-items: center;
-    z-index: 9999;
-}
-
-.login-card {
-    background: var(--bg-card);
-    padding: 40px;
-    width: 350px;
-    border: 2px solid var(--neon-red);
-    box-shadow: 0 0 20px var(--neon-red-dim);
-    text-align: center;
-    position: relative;
-}
-
-.logo-area i { text-shadow: 0 0 10px var(--neon-red); margin-bottom: 10px; }
-.login-card h2 { color: var(--neon-red); margin: 0; }
-.login-card p { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 20px; }
-
-/* --- LAYOUT GERAL --- */
-.container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
-
-.main-header {
-    border-bottom: 2px solid var(--neon-blue);
-    margin-bottom: 30px;
-    background: linear-gradient(90deg, rgba(0,243,255,0.1), transparent);
-    padding: 20px;
-    border-radius: 8px 8px 0 0;
-}
-
-.header-content { display: flex; justify-content: space-between; align-items: center; }
-.brand h1 { margin: 0; font-size: 1.8rem; color: #fff; text-shadow: 0 0 5px var(--neon-blue); }
-.status-bar { font-size: 0.7rem; color: var(--text-muted); margin-top: 10px; }
-
-.card {
-    background: var(--bg-card);
-    padding: 25px;
-    margin-bottom: 25px;
-    border-radius: 4px;
-    position: relative;
-}
-
-/* Borda Tech Brilhante */
-.cyber-border {
-    border: 1px solid #1e3a56;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-.cyber-border::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, var(--neon-red), transparent);
-}
-
-h2 {
-    color: var(--neon-blue);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 10px;
-    font-size: 1.2rem;
-}
-
-/* --- FORMULÁRIOS --- */
-.form-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
-.form-group { flex: 1; min-width: 200px; }
-label { color: var(--neon-blue); font-size: 0.8rem; margin-bottom: 5px; display: block; }
-
-input, select {
-    width: 100%;
-    background: #050a10;
-    border: 1px solid #1e3a56;
-    color: #fff;
-    padding: 12px;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--neon-red);
-    box-shadow: 0 0 8px rgba(255, 42, 42, 0.3);
-}
-
-/* --- BOTÕES --- */
-.btn-cyber {
-    background: transparent;
-    border: 1px solid var(--neon-red);
-    color: var(--neon-red);
-    padding: 12px 25px;
     cursor: pointer;
-    text-transform: uppercase;
-    font-weight: bold;
-    transition: 0.3s;
+    transition: 0.2s;
+    user-select: none;
 }
-.btn-cyber:hover {
-    background: var(--neon-red);
-    color: #000;
-    box-shadow: 0 0 15px var(--neon-red);
+
+/* Status das Bolinhas */
+.ball-parcela.pago {
+    background: #00ff00; color: #000; border-color: #00ff00; font-weight: bold; box-shadow: 0 0 5px #00ff00;
 }
-.btn-full { width: 100%; margin-top: 10px; }
-
-.btn-logout { background: none; border: 1px solid #333; color: #666; padding: 5px 10px; cursor: pointer; }
-.btn-logout:hover { color: #fff; border-color: #fff; }
-
-/* --- TABELA --- */
-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-th { text-align: left; padding: 10px; color: var(--text-muted); font-size: 0.8rem; border-bottom: 1px solid #1e3a56; }
-td { padding: 12px 10px; border-bottom: 1px solid #112240; font-size: 0.95rem; }
-
-/* Badges e Status */
-.badge { padding: 3px 8px; border-radius: 2px; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; }
-.badge-pago { background: rgba(0, 255, 0, 0.1); color: #00ff00; border: 1px solid #00ff00; }
-.badge-pendente { background: rgba(255, 165, 0, 0.1); color: orange; border: 1px solid orange; }
-
-.dias-uso { font-family: 'Orbitron'; color: var(--neon-blue); font-size: 1.1rem; }
-
-/* Ações */
-.btn-acao { background: none; border: none; cursor: pointer; color: var(--text-muted); margin: 0 5px; transition: 0.2s; }
-.btn-trash:hover { color: var(--neon-red); transform: scale(1.2); }
-.btn-check:hover { color: #00ff00; transform: scale(1.2); }
-
-/* --- FINANCEIRO --- */
-.dashboard-financeiro {
-    display: flex; gap: 20px; margin-top: 30px; border-top: 1px solid #1e3a56; padding-top: 20px;
+.ball-parcela.pendente {
+    background: transparent; color: #fff; border-color: #555;
 }
-.card-metric {
-    flex: 1;
-    background: #081018;
-    padding: 15px;
-    border: 1px solid #1e3a56;
-    display: flex; flex-direction: column; align-items: center;
+/* Bolinha Hover */
+.ball-parcela:hover { transform: scale(1.1); border-color: var(--neon-blue); }
+
+/* Tooltip do valor ao passar o mouse na bolinha */
+.ball-parcela[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 120%; left: 50%; transform: translateX(-50%);
+    background: #000; color: #fff; padding: 3px 6px; font-size: 0.7rem; border: 1px solid #fff;
+    z-index: 10; white-space: nowrap;
 }
-.card-metric span { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
-.card-metric strong { font-size: 1.5rem; color: #fff; font-family: 'Orbitron'; }
-.card-metric.highlight strong { color: var(--neon-red); text-shadow: 0 0 10px rgba(255,42,42,0.5); }
+
+
+/* --- RESPONSIVIDADE MOBILE (TABELA VIRA CARDS) --- */
+@media screen and (max-width: 768px) {
+    /* Esconde o cabeçalho da tabela */
+    table thead { display: none; }
+    
+    /* Transforma linhas em blocos */
+    table, tbody, tr, td { display: block; width: 100%; box-sizing: border-box; }
+    
+    tr {
+        margin-bottom: 20px;
+        background: #0e151d;
+        border: 1px solid #1e3a56;
+        border-radius: 8px;
+        padding: 10px;
+        position: relative;
+    }
+
+    /* Estiliza cada célula como uma linha key-value */
+    td {
+        text-align: right;
+        padding: 8px 0;
+        border-bottom: 1px solid #1b2633;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    td:last-child { border-bottom: none; }
+
+    /* Usa o atributo data-label pra criar o titulo da linha */
+    td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        color: var(--neon-blue);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    /* Ajustes específicos */
+    .grid-pagamentos { justify-content: flex-end; }
+    .header-content { flex-direction: column; text-align: center; gap: 10px; }
+}
+
+/* Dashboard Financeiro */
+.dashboard-financeiro { display: flex; gap: 10px; margin-top: 20px; }
+.card-metric { flex: 1; background: #000; padding: 10px; text-align: center; border: 1px solid #333; }
+.card-metric strong { display: block; font-size: 1.2rem; margin-top: 5px; }

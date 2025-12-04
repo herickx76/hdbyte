@@ -2,8 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot Manager AI - Controle de Clientes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Bot Manager AI - Carnê Digital</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -16,11 +15,10 @@
                 <i class="fas fa-robot fa-3x" style="color: var(--neon-red);"></i>
                 <h2>SYSTEM ACCESS</h2>
             </div>
-            <p>Bot Manager Control</p>
             <form id="form-login">
                 <div class="form-group">
                     <label>USER ID</label>
-                    <input type="text" id="login-usuario" required autocomplete="off">
+                    <input type="text" id="login-usuario" required autocomplete="off" placeholder="ex: herick">
                 </div>
                 <div class="form-group">
                     <label>PASSWORD</label>
@@ -37,77 +35,72 @@
             <div class="header-content">
                 <div class="brand">
                     <i class="fas fa-microchip"></i>
-                    <h1>BOT MANAGER <span style="color: var(--neon-red);">AI</span></h1>
+                    <h1>GESTOR HDBYTE <span style="color: var(--neon-red);">AGENCY</span></h1>
                 </div>
                 <div class="user-info">
                     <span id="usuario-logado">...</span>
                     <button onclick="fazerLogout()" class="btn-logout"><i class="fas fa-power-off"></i></button>
                 </div>
             </div>
-            <div class="status-bar">
-                <p>SYSTEM STATUS: <span style="color: #0f0;">ONLINE</span> | DATABASE: <span style="color: var(--neon-blue);">CONNECTED</span></p>
-            </div>
         </header>
 
         <section class="card cyber-border">
-            <h2><i class="fas fa-user-plus"></i> Adicionar Assinante</h2>
-            <form id="form-cliente">
-                <div class="form-row">
-                    <div class="form-group" style="flex: 2;">
-                        <label>Nome do Cliente / @Telegram:</label>
-                        <input type="text" id="cliente" required placeholder="Ex: @joaosilva">
+            <h2 onclick="toggleForm()" style="cursor: pointer;"><i class="fas fa-user-plus"></i> Novo Contrato (Clique para Abrir/Fechar)</h2>
+            <form id="form-cliente" style="display: none;"> <div class="form-row">
+                    <div class="form-group">
+                        <label>Cliente / Telegram:</label>
+                        <input type="text" id="cliente" required placeholder="@usuario">
                     </div>
                     <div class="form-group">
-                        <label>Plano Contratado:</label>
-                        <select id="plano" required>
-                            <option value="Mensal">Mensal</option>
-                            <option value="Trimestral">Trimestral</option>
-                            <option value="Semestral">Semestral</option>
-                            <option value="Vitalício">Vitalício</option>
-                        </select>
+                        <label>Nome do Plano:</label>
+                        <input type="text" id="plano" required placeholder="Ex: Avançado+">
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Data de Início:</label>
+                        <label>Data Início:</label>
                         <input type="date" id="data-inicio" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Valor (R$):</label>
-                        <input type="number" id="valor" step="0.01" required placeholder="0.00">
-                    </div>
-                    <div class="form-group">
-                        <label>Status Pagamento:</label>
-                        <select id="status-pagamento" required>
-                            <option value="pago">Confirmado (Pago)</option>
-                            <option value="pendente">Pendente</option>
-                        </select>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-cyber btn-full">REGISTRAR NO SISTEMA</button>
+                <div class="parcelas-setup">
+                    <h3><i class="fas fa-calculator"></i> Configuração Financeira</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Qtd. Parcelas:</label>
+                            <input type="number" id="qtd-parcelas" min="1" max="48" value="1" onchange="gerarCamposParcelas()">
+                        </div>
+                        <div class="form-group">
+                            <label>Valor Base (R$):</label>
+                            <input type="number" id="valor-base" step="0.01" placeholder="Ex: 150.00" onchange="gerarCamposParcelas()">
+                        </div>
+                    </div>
+                    
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Edite abaixo os meses com valores diferentes:</p>
+                    <div id="container-inputs-parcelas" class="grid-parcelas-input">
+                        </div>
+                </div>
+
+                <button type="submit" class="btn-cyber btn-full">CRIAR CONTRATO</button>
             </form>
         </section>
 
-        <section class="card cyber-border">
+        <section class="card">
             <div class="header-lista">
-                <h2><i class="fas fa-database"></i> Base de Usuários Ativos</h2>
-                <div class="search-box">
-                    <input type="text" id="busca" placeholder="Filtrar por nome..." onkeyup="filtrarTabela()">
-                </div>
+                <h2><i class="fas fa-list"></i> Carteira de Clientes</h2>
+                <input type="text" id="busca" class="search-input" placeholder="Buscar..." onkeyup="filtrarTabela()">
             </div>
 
             <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
-                            <th>Data Início</th>
+                            <th>Início</th>
                             <th>Cliente</th>
                             <th>Plano</th>
-                            <th>Tempo de Uso</th>
-                            <th>Pagamento</th>
-                            <th>Valor</th>
+                            <th>Progresso</th>
+                            <th>Gestão de Parcelas (Clique para Pagar)</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -116,14 +109,14 @@
                 </table>
             </div>
 
-            <div class="dashboard-financeiro">
+             <div class="dashboard-financeiro">
                 <div class="card-metric">
-                    <span><i class="fas fa-users"></i> Clientes Ativos</span>
-                    <strong id="total-clientes">0</strong>
+                    <span>Total Recebido (Geral)</span>
+                    <strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong>
                 </div>
-                <div class="card-metric highlight">
-                    <span><i class="fas fa-chart-line"></i> Rendimento (Mês Atual)</span>
-                    <strong id="rendimento-mes">R$ 0,00</strong>
+                <div class="card-metric">
+                    <span>A Receber (Restante)</span>
+                    <strong id="total-pendente" style="color: var(--neon-red);">R$ 0,00</strong>
                 </div>
             </div>
         </section>
