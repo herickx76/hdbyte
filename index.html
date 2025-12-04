@@ -25,22 +25,34 @@
         }
 
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* Garante a rolagem suave ao clicar nos links */
         }
 
         body {
             background-color: var(--dark-bg);
             color: var(--text-light);
             line-height: 1.6;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Evita rolagem horizontal indesejada no mobile */
+        }
+
+        /* --- CLASSE DE ANIMAÇÃO (Scroll Reveal) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* --- HERO SECTION (Topo) --- */
         .hero {
-            background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
-            min-height: 100vh;
+            min-height: 100vh; /* Ocupa a tela inteira */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -53,15 +65,15 @@
             content: '';
             position: absolute;
             bottom: 0; left: 0; right: 0;
-            height: 100px;
+            height: 150px;
             background: linear-gradient(to top, var(--dark-bg), transparent);
+            pointer-events: none;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
             max-width: 900px;
-            animation: fadeIn 1s ease-in;
         }
 
         .logo {
@@ -71,7 +83,7 @@
             margin-bottom: 1.5rem;
             letter-spacing: -2px;
             text-transform: uppercase;
-            text-shadow: 0 0 20px var(--primary-glow);
+            text-shadow: 0 0 25px var(--primary-glow);
         }
         
         .logo span { color: var(--text-light); }
@@ -113,8 +125,8 @@
         }
 
         .cta-button:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 0 40px var(--primary-glow);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 50px var(--primary-glow);
             background: #00ff80;
         }
 
@@ -129,9 +141,7 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
-            background: -webkit-linear-gradient(#fff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-light);
         }
         
         .section-subtitle {
@@ -139,11 +149,15 @@
             color: var(--text-gray);
             margin-bottom: 4rem;
             font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            /* Otimizado para mobile: minmax 280px garante que cabe em telas menores */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
@@ -154,35 +168,26 @@
             padding: 2.5rem;
             border-radius: 20px;
             border: 1px solid #222;
-            transition: 0.3s;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: var(--primary);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-            transform-origin: left;
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
         .feature-card:hover {
             transform: translateY(-10px);
-            border-color: #333;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: #444;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+
+        .feature-card:hover .icon {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .icon {
             font-size: 3rem;
             margin-bottom: 1.5rem;
-            display: block;
+            display: inline-block;
+            transition: transform 0.3s;
         }
 
         .feature-title {
@@ -210,7 +215,7 @@
             gap: 2.5rem;
             max-width: 1200px;
             margin: 0 auto;
-            align-items: center; /* Aligns items vertically */
+            align-items: center; 
         }
 
         .price-card {
@@ -228,10 +233,11 @@
 
         .price-card.popular {
             border: 2px solid var(--gold);
+            /* Leve aumento de escala no desktop */
             transform: scale(1.05);
             background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
             z-index: 2;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
         }
 
         .tag {
@@ -263,16 +269,13 @@
             position: relative;
         }
 
-        .promo-badge {
-            display: inline-block;
-            background: rgba(0, 230, 118, 0.15);
-            color: var(--primary);
-            font-size: 0.75rem;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 10px;
+        /* Estilo para preço antigo/riscado se necessário no futuro */
+        .old-price {
+            text-decoration: line-through;
+            color: #666;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 5px;
         }
 
         .price-value {
@@ -286,14 +289,7 @@
         .price-period {
             font-size: 1rem;
             color: var(--text-gray);
-            margin-bottom: 15px;
-        }
-
-        .regular-price {
-            font-size: 0.85rem;
-            color: #666;
             margin-top: 5px;
-            font-style: italic;
         }
 
         .setup-fee {
@@ -385,7 +381,7 @@
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
             border-top: 1px solid #222;
             color: #666;
             font-size: 0.9rem;
@@ -394,23 +390,32 @@
 
         footer strong { color: var(--text-light); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- RESPONSIVE --- */
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 768px) {
             .headline { font-size: 2.2rem; }
-            .pricing-grid { flex-direction: column; }
-            .price-card.popular { transform: scale(1); border-width: 2px; }
+            .sub-headline { font-size: 1.1rem; }
+            
+            .pricing-grid { 
+                flex-direction: column; 
+                gap: 3rem; 
+            }
+            
+            /* Remove o scale no mobile para não cortar a tela */
+            .price-card.popular { 
+                transform: scale(1); 
+                border-width: 2px;
+            }
+            
             .hero { padding: 1rem; }
+            
+            /* Ajuste de margens para a animação não demorar a aparecer */
+            .reveal { transform: translateY(30px); }
         }
     </style>
 </head>
 <body>
 
-    <section class="hero">
+    <section class="hero reveal">
         <div class="hero-content">
             <div class="logo">HD <span>Byte</span></div>
             <h1 class="headline">Seu Delivery Perdendo Vendas? <br><span>Nunca Mais.</span></h1>
@@ -420,36 +425,38 @@
     </section>
 
     <section class="features">
-        <h2 class="section-title">Tecnologia de Ponta</h2>
-        <p class="section-subtitle">Por que as empresas de Assú estão escolhendo a HD Byte?</p>
+        <div class="reveal">
+            <h2 class="section-title">Tecnologia de Ponta</h2>
+            <p class="section-subtitle">Por que as empresas de Assú estão escolhendo a HD Byte?</p>
+        </div>
         
         <div class="grid-container">
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <span class="icon">🤖</span>
                 <h3 class="feature-title">Atendente 24h com IA</h3>
                 <p>Responde na hora, sem deixar o cliente esperando. Não fica doente, não chega atrasado e não pede aumento.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <span class="icon">🎙️</span>
                 <h3 class="feature-title">Ouve Áudios do WhatsApp</h3>
                 <p>Seu cliente tem preguiça de digitar? Sem problemas. Nossa IA escuta o áudio, entende e anota o pedido.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <span class="icon">📱</span>
                 <h3 class="feature-title">Cardápio Digital & QR</h3>
                 <p>Cardápio bonito, leve e fácil de mexer. Ideal para WhatsApp, Instagram e para colar nas mesas.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <span class="icon">💰</span>
                 <h3 class="feature-title">Zero Taxas por Pedido</h3>
                 <p>Chega de perder 12% a 15% para aplicativos de fora. Aqui o lucro é 100% seu.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <span class="icon">📈</span>
                 <h3 class="feature-title">Gestão & Financeiro</h3>
                 <p>Saiba exatamente quanto vendeu, quais os produtos campeões e controle o caixa sem dor de cabeça.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card reveal">
                 <span class="icon">🔄</span>
                 <h3 class="feature-title">Recuperador de Vendas</h3>
                 <p>O cliente sumiu? O robô manda uma mensagem automática para recuperar aquele pedido esquecido.</p>
@@ -458,18 +465,19 @@
     </section>
 
     <section class="pricing" id="precos">
-        <h2 class="section-title">Planos para a Realidade de Assú</h2>
-        <p class="section-subtitle">Escolha o melhor para o seu negócio crescer hoje.</p>
+        <div class="reveal">
+            <h2 class="section-title">Planos para a Realidade de Assú</h2>
+            <p class="section-subtitle">Escolha o melhor para o seu negócio crescer hoje.</p>
+        </div>
         
         <div class="pricing-grid">
             
-            <div class="price-card">
+            <div class="price-card reveal">
                 <h3 class="plan-name">Plano Prata</h3>
                 <div class="price">
-                    <span class="promo-badge">Oferta 2 Primeiros Meses</span>
+                    <span style="display:block; font-size: 0.8rem; color: var(--primary); margin-bottom: 5px;">Básico Eficiente</span>
                     <div class="price-value">R$ 97</div>
                     <div class="price-period">/mês</div>
-                    <div class="regular-price">Depois: R$ 130,00</div>
                 </div>
                 <div class="setup-fee">
                     + Taxa Única de Implantação <br> <strong>R$ 250,00</strong>
@@ -487,14 +495,12 @@
                 <a href="https://wa.me/5584996085794?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20Plano%20Prata" class="btn-price btn-outline" target="_blank">Começar com Prata</a>
             </div>
 
-            <div class="price-card popular">
+            <div class="price-card popular reveal">
                 <div class="tag">MAIS VENDIDO</div>
                 <h3 class="plan-name">Plano Ouro</h3>
                 <div class="price">
-                    <span class="promo-badge">Oferta 2 Primeiros Meses</span>
-                    <div class="price-value" style="color: var(--primary);">R$ 119</div>
+                    <div class="price-value" style="color: var(--primary);">R$ 119,90</div>
                     <div class="price-period">/mês</div>
-                    <div class="regular-price">Depois: R$ 197,00</div>
                 </div>
                 <div class="setup-fee">
                     + Taxa Única de Implantação <br> <strong>R$ 400,00</strong>
@@ -516,13 +522,34 @@
     </section>
 
     <footer>
-        <p>&copy; <span id="year"></span> <strong>HD Byte</strong> - Soluções em Tecnologia.</p>
-        <p style="margin-top: 10px; opacity: 0.7;">CNPJ: xx.xxx.xxx/0001-xx | WhatsApp: (84) 99608-5794</p>
+        <p class="reveal">&copy; <span id="year"></span> <strong>HD Byte</strong> - Soluções em Tecnologia.</p>
+        <p class="reveal" style="margin-top: 10px; opacity: 0.7;">CNPJ: xx.xxx.xxx/0001-xx | WhatsApp: (84) 99608-5794</p>
     </footer>
 
     <script>
         // Atualiza o ano automaticamente
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Script de Animação ao Rolar (Scroll Reveal)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // O elemento aparece quando 10% dele estiver visível
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Para de observar depois que animou uma vez
+                }
+            });
+        }, observerOptions);
+
+        // Seleciona todos os elementos com a classe .reveal
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
     </script>
 
 </body>
