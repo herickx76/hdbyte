@@ -6,7 +6,7 @@
     <title>HDBYTE - Soluções em IA</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -17,126 +17,124 @@
                 <i class="fas fa-robot fa-2x" style="color: var(--neon-red);"></i>
                 <h1>HDBYTE <span style="color: var(--neon-blue);">AI SOLUTIONS</span></h1>
             </div>
-            <p class="hero-subtitle">Automação Inteligente para Negócios de Elite</p>
+            <p class="hero-subtitle">Automação Inteligente que Vende por Você</p>
         </header>
 
-<section class="pricing-container">
-    
-    <div class="plan-card">
-        <div class="plan-header">
-            <h3>BÁSICO (SEM IA)</h3>
-            <p class="desc-simples">Para quem quer apenas o essencial.</p>
-            <div class="price-box">
-                <span class="currency">R$</span>70<span class="period">/mês</span>
-            </div>
-            <div class="host-info">+ R$ 20 Hospedagem</div>
-        </div>
-        <ul class="features">
-            <li class="check">✅ <strong>Respostas Fixas:</strong> Responde apenas o que você configurar (ex: "preço", "horário").</li>
-            <li class="check">✅ Envia Cardápio/Localização.</li>
-            <li class="alert">⚠️ <strong>Sem Inteligência:</strong> Se o cliente fugir do roteiro, ele não entende.</li>
-            <li class="cross">❌ Não entende áudio ou imagem.</li>
-        </ul>
-        <div class="plan-footer">
-            <span class="badge-tech">ROBÔ SIMPLES</span>
-        </div>
-    </div>
-
-    <div class="plan-card featured-blue">
-        <div class="plan-header">
-            <h3>IA ESSENCIAL</h3>
-            <p class="desc-simples">Inteligente, mas limitado.</p>
-            <div class="price-box">
-                <span class="currency">R$</span>120<span class="period">/mês</span>
-            </div>
-            <div class="host-info">+ R$ 20 Hospedagem</div>
-        </div>
-        <ul class="features">
-            <li class="check">✅ <strong>Tem Inteligência Artificial:</strong> Conversa naturalmente.</li>
-            <li class="check">✅ Entende imagens (Básico).</li>
-            <li class="alert">⚠️ <strong>Limitações:</strong> IA otimizada para ser barata (pode ser repetitiva).</li>
-            <li class="cross">❌ <strong>Não ouve áudio.</strong></li>
-            <li class="cross">❌ <strong>Sem Banco de Dados:</strong> Não sabe quem é o cliente, não agenda sozinho.</li>
-        </ul>
-        <div class="plan-footer">
-            <span class="badge-tech">IA DE ENTRADA</span>
-        </div>
-    </div>
-
-    <div class="plan-card featured-red">
-        <div class="badge-oferta">🔥 MAIS VENDIDO</div>
-        <div class="plan-header">
-            <h3>IA PROFISSIONAL</h3>
-            <p class="desc-simples">Fluidez humana e velocidade máxima.</p>
+        <section class="pricing-container">
             
-            <div class="price-promo">
-                <span class="old-price">De R$ 180</span>
-                <span class="promo-tag">35% OFF (1º Mês)</span>
+            <div class="plan-card basic-tier">
+                <div class="plan-header">
+                    <h3>BÁSICO</h3>
+                    <p class="desc-simples">Respostas automáticas simples.</p>
+                    <div class="price-box">
+                        <span class="currency">R$</span>70<span class="period">/mês</span>
+                    </div>
+                    <div class="host-info">+ R$ 20 Hospedagem</div>
+                </div>
+                <ul class="features">
+                    <li class="check"><i class="fas fa-check"></i> Respostas por Palavras-Chave</li>
+                    <li class="check"><i class="fas fa-check"></i> Envia Cardápio/Localização</li>
+                    <li class="alert"><i class="fas fa-exclamation-triangle"></i> Sem Inteligência Artificial</li>
+                    <li class="cross"><i class="fas fa-times"></i> Não entende áudio/imagem</li>
+                </ul>
+                <div class="plan-footer">
+                    <button class="btn-contract" onclick="irParaWhatsApp('Básico (Sem IA)')">CONTRATAR BÁSICO</button>
+                </div>
             </div>
-            <div class="price-box highlight">
-                <span class="currency">R$</span>117<span class="period">*</span>
-            </div>
-            <p class="renewal-info">*R$ 180/mês após o 1º mês</p>
-            
-            <div class="host-info free">✨ HOSPEDAGEM GRÁTIS</div>
-        </div>
-        <ul class="features">
-            <li class="check">✅ <strong>IA 100% Pura:</strong> Conversa idêntica a um humano.</li>
-            <li class="check">✅ <strong>Ouve Áudios</strong> e vê Imagens perfeitamente.</li>
-            <li class="check">✅ Comandos de Admin ("Parar robô").</li>
-            <li class="alert">⚠️ <strong>Sem Integração de Agenda:</strong> Ele conversa bem, mas para agendar, ele precisa perguntar a você ou mandar o cliente olhar no site. Não vê seus horários livres.</li>
-        </ul>
-        <div class="plan-footer">
-            <button class="btn-contract" onclick="scrollToLogin()">CONTRATAR PRO</button>
-        </div>
-    </div>
 
-    <div class="plan-card premium-gold">
-        <div class="badge-oferta gold">👑 COMPLETO</div>
-        <div class="plan-header">
-            <h3>IA ELITE + SISTEMA</h3>
-            <p class="desc-simples">O robô vira sua secretária completa.</p>
-            
-            <div class="price-promo">
-                <span class="old-price">De R$ 250</span>
-                <span class="promo-tag">35% OFF (1º Mês)</span>
+            <div class="plan-card essential-tier">
+                <div class="plan-header">
+                    <h3>IA ESSENCIAL</h3>
+                    <p class="desc-simples">IA de entrada para pequenos negócios.</p>
+                    <div class="price-box blue-glow">
+                        <span class="currency">R$</span>120<span class="period">/mês</span>
+                    </div>
+                    <div class="host-info">+ R$ 20 Hospedagem</div>
+                </div>
+                <ul class="features">
+                    <li class="check"><i class="fas fa-brain"></i> IA Otimizada (Entende Texto)</li>
+                    <li class="check"><i class="fas fa-image"></i> Interpreta Imagens (Básico)</li>
+                    <li class="alert"><i class="fas fa-exclamation-triangle"></i> IA Limitada (Low Cost)</li>
+                    <li class="cross"><i class="fas fa-microphone-slash"></i> Não ouve áudio</li>
+                </ul>
+                <div class="plan-footer">
+                    <button class="btn-contract btn-blue" onclick="irParaWhatsApp('IA Essencial')">CONTRATAR ESSENCIAL</button>
+                </div>
             </div>
-            <div class="price-box highlight gold-text">
-                <span class="currency">R$</span>162<span class="period">*</span>
+
+            <div class="plan-card pro-tier featured">
+                <div class="badge-oferta">🔥 MAIS VENDIDO</div>
+                <div class="plan-header">
+                    <h3>IA PROFISSIONAL</h3>
+                    <p class="desc-simples">Velocidade máxima e fluidez humana.</p>
+                    
+                    <div class="price-promo">
+                        <span class="old-price">De R$ 180</span>
+                        <span class="promo-tag">35% OFF (1º Mês)</span>
+                    </div>
+                    <div class="price-box highlight">
+                        <span class="currency">R$</span>117<span class="period">*</span>
+                    </div>
+                    <p class="renewal-info">*R$ 180/mês após o 1º mês</p>
+                    <div class="host-info free">✨ HOSPEDAGEM GRÁTIS</div>
+                </div>
+                <ul class="features">
+                    <li class="check highlight"><i class="fas fa-robot"></i> <strong>IA 100% Pura e Rápida</strong></li>
+                    <li class="check"><i class="fas fa-microphone"></i> Ouve Áudios & Vê Imagens</li>
+                    <li class="check"><i class="fas fa-user-shield"></i> Comandos de Admin</li>
+                    <li class="alert"><i class="fas fa-info-circle"></i> Sem Banco de Dados</li>
+                </ul>
+                <div class="plan-footer">
+                    <button class="btn-contract btn-red pulse-btn" onclick="irParaWhatsApp('IA Profissional')">QUERO ESTE!</button>
+                </div>
             </div>
-            <p class="renewal-info">*R$ 250/mês após o 1º mês</p>
 
-            <div class="host-info free">✨ HOSPEDAGEM GRÁTIS</div>
-        </div>
-        <ul class="features">
-            <li class="check">✅ <strong>Tudo do PRO + CÉREBRO PRÓPRIO.</strong></li>
-            <li class="check">✅ <strong>Banco de Dados:</strong> Ele sabe os horários livres e agenda sozinho.</li>
-            <li class="check">✅ <strong>Memória Longa:</strong> Lembra do cliente, sabe o que ele pediu mês passado.</li>
-            <li class="check">✅ Faz cadastros e consulta estoque/agenda em tempo real.</li>
-        </ul>
-        <div class="plan-footer">
-            <button class="btn-contract gold-btn" onclick="scrollToLogin()">CONTRATAR ELITE</button>
-        </div>
-    </div>
+            <div class="plan-card elite-tier">
+                <div class="badge-oferta gold">👑 ELITE + SISTEMA</div>
+                <div class="plan-header">
+                    <h3>IA ELITE + DB</h3>
+                    <p class="desc-simples">Automação completa com memória.</p>
+                    
+                    <div class="price-promo">
+                        <span class="old-price">De R$ 250</span>
+                        <span class="promo-tag">35% OFF (1º Mês)</span>
+                    </div>
+                    <div class="price-box gold-text">
+                        <span class="currency">R$</span>162<span class="period">*</span>
+                    </div>
+                    <p class="renewal-info">*R$ 250/mês após o 1º mês</p>
+                    <div class="host-info free">✨ HOSPEDAGEM GRÁTIS</div>
+                </div>
+                <ul class="features">
+                    <li class="check highlight"><i class="fas fa-database"></i> <strong>Banco de Dados Integrado</strong></li>
+                    <li class="check"><i class="fas fa-history"></i> Memória Longa do Cliente</li>
+                    <li class="check"><i class="fas fa-calendar-check"></i> Agendamento Automático</li>
+                    <li class="check"><i class="fas fa-infinity"></i> Personalização Total</li>
+                </ul>
+                <div class="plan-footer">
+                    <button class="btn-contract btn-gold" onclick="irParaWhatsApp('IA Elite + DB')">CONTRATAR ELITE</button>
+                </div>
+            </div>
 
-</section>
+        </section>
 
         <footer class="login-footer">
             <div class="login-container-box">
-                <h2><i class="fas fa-lock"></i> Acesso Administrativo</h2>
+                <h2><i class="fas fa-lock"></i> Área Administrativa</h2>
                 <form id="form-login">
                     <div class="login-row">
-                        <input type="text" id="login-usuario" required autocomplete="off" placeholder="Usuário (ex: herick)">
+                        <input type="text" id="login-usuario" required autocomplete="off" placeholder="Usuário">
                         <input type="password" id="login-senha" required placeholder="Senha">
-                        <button type="submit" class="btn-cyber-login">ACESSAR</button>
+                        <button type="submit" class="btn-cyber-login">ENTRAR</button>
                     </div>
                 </form>
-                <p id="msg-erro" class="glitch-text" style="display: none; margin-top: 10px; color: var(--neon-red);">ACESSO NEGADO</p>
+                <p id="msg-erro" class="glitch-text" style="display: none; margin-top: 10px; color: var(--neon-red);">DADOS INCORRETOS</p>
             </div>
             <p class="copyright">© 2024 HDBYTE AI SYSTEMS</p>
         </footer>
 
     </div>
+
     <div id="sistema-principal" class="container" style="display: none;">
         <header class="main-header">
             <div class="header-content">
@@ -153,25 +151,24 @@
 
         <div class="dashboard-financeiro" style="margin-bottom: 20px;">
             <div class="card-metric"><span>Total Recebido</span><strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong></div>
-            <div class="card-metric"><span>Custos Operacionais</span><strong id="total-custos" style="color: var(--neon-red);">R$ 0,00</strong></div>
+            <div class="card-metric"><span>Custos</span><strong id="total-custos" style="color: var(--neon-red);">R$ 0,00</strong></div>
             <div class="card-metric highlight"><span>Lucro Líquido</span><strong id="lucro-liquido" style="color: var(--neon-blue);">R$ 0,00</strong></div>
         </div>
 
         <section class="card cyber-border">
             <h2 onclick="toggleForm('form-cliente')" style="cursor: pointer; display: flex; justify-content: space-between;">
-                <span><i class="fas fa-user-plus"></i> Novo Contrato</span>
-                <i class="fas fa-chevron-down"></i>
+                <span><i class="fas fa-user-plus"></i> Novo Contrato</span> <i class="fas fa-chevron-down"></i>
             </h2>
             <form id="form-cliente" style="display: none;">
                 <div class="form-row" style="background: rgba(0,243,255,0.05); padding: 10px; border-radius: 5px; border: 1px dashed var(--neon-blue);">
                     <div class="form-group" style="flex: 2;">
-                        <label>Selecione o Modelo:</label>
+                        <label>Modelo:</label>
                         <select id="select-modelo-plano" onchange="autoPreencherPlano()">
-                            <option value="">-- Personalizado --</option>
-                            <option value="basico">🟦 PLANO 1 — BOT BÁSICO</option>
+                            <option value="">-- Selecione --</option>
+                            <option value="basico">🟦 PLANO 1 — BÁSICO</option>
                             <option value="essencial">🟩 PLANO 2 — IA ESSENCIAL</option>
                             <option value="profissional">🟨 PLANO 3 — IA PRO</option>
-                            <option value="premium">🟧 PLANO 4 — IA ELITE + DB</option>
+                            <option value="premium">🟧 PLANO 4 — IA ELITE</option>
                         </select>
                     </div>
                     <div class="form-group" style="display: flex; align-items: center; padding-top: 20px;">
@@ -180,8 +177,8 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>Cliente:</label><input type="text" id="cliente" required placeholder="@usuario"></div>
-                    <div class="form-group"><label>Plano:</label><input type="text" id="plano" required placeholder="Ex: Pro"></div>
+                    <div class="form-group"><label>Cliente:</label><input type="text" id="cliente" required placeholder="@telegram"></div>
+                    <div class="form-group"><label>Plano:</label><input type="text" id="plano" required></div>
                 </div>
                 <div class="form-row"><div class="form-group"><label>Início:</label><input type="date" id="data-inicio" required></div></div>
                 <div class="taxa-setup">
@@ -202,8 +199,7 @@
 
         <section class="card cyber-border" style="border-top-color: var(--neon-red);">
             <h2 onclick="toggleForm('form-custos')" style="cursor: pointer; display: flex; justify-content: space-between; color: var(--neon-red);">
-                <span><i class="fas fa-file-invoice-dollar"></i> Custo Operacional</span>
-                <i class="fas fa-chevron-down"></i>
+                <span><i class="fas fa-file-invoice-dollar"></i> Custo Operacional</span> <i class="fas fa-chevron-down"></i>
             </h2>
             <form id="form-custos" style="display: none;">
                 <div class="form-row">

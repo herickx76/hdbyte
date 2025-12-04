@@ -35,29 +35,43 @@ const PLANOS_INFO = {
 };
 
 // =================================================================
+// 📞 FUNÇÃO DO WHATSAPP (NOVA)
+// =================================================================
+window.irParaWhatsApp = function(nomePlano) {
+    const numero = "5584996085794";
+    const mensagem = `Olá! Tenho interesse no *Plano ${nomePlano}* que vi no site. Poderia me explicar como funciona?`;
+    
+    // Cria o link codificado para não quebrar com espaços
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+    
+    // Abre em nova aba
+    window.open(url, '_blank');
+};
+
+
+// =================================================================
 // 🔐 LOGIN (ALTERADO PARA ESCONDER LANDING PAGE)
 // =================================================================
-const landingPage = document.getElementById('landing-page'); // A página inteira de vendas
+const landingPage = document.getElementById('landing-page');
 const sistemaPrincipal = document.getElementById('sistema-principal');
 const formLogin = document.getElementById('form-login');
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // --- USUÁRIO LOGADO ---
+        // --- LOGADO ---
         const username = user.email.split('@')[0];
         userPath = `bot_manager/${username}`;
         
         dbRef = ref(db, `${userPath}/clientes`);
         dbRefCustos = ref(db, `${userPath}/custos`);
         
-        // Esconde a Landing Page e mostra o Painel
         landingPage.style.display = 'none';
         sistemaPrincipal.style.display = 'block';
         
         document.getElementById('usuario-logado').innerText = username.toUpperCase();
         carregarDadosCompletos();
     } else {
-        // --- USUÁRIO DESLOGADO ---
+        // --- DESLOGADO (MOSTRA VITRINE) ---
         landingPage.style.display = 'block';
         sistemaPrincipal.style.display = 'none';
     }
@@ -74,8 +88,9 @@ if (formLogin) {
                 const msg = document.getElementById('msg-erro');
                 msg.style.display = 'block';
                 // Efeito visual de erro
-                document.querySelector('.login-container-box').style.borderColor = '#fff';
-                setTimeout(() => document.querySelector('.login-container-box').style.borderColor = '#333', 200);
+                const box = document.querySelector('.login-container-box');
+                box.style.borderColor = '#ff0000';
+                setTimeout(() => box.style.borderColor = '#333', 300);
             });
     });
 }
@@ -90,31 +105,24 @@ window.autoPreencherPlano = () => {
     
     if (selecao && PLANOS_INFO[selecao]) {
         const p = PLANOS_INFO[selecao];
-        
         document.getElementById('plano').value = p.nome;
         
-        // Configura Instalação
+        // Instalação
         document.getElementById('check-taxa').checked = true;
         window.toggleInputTaxa();
         document.getElementById('valor-taxa').value = p.instalacao;
         
-        // Lógica de Hospedagem Automática
+        // Host Grátis?
         if (p.hostFree) {
-            // Se o plano dá host grátis, desmarca a caixinha de cobrança extra
-            // E desabilita ela pra você lembrar que é grátis
             checkHospedagemInput.checked = false;
             checkHospedagemInput.disabled = true;
-            // Adicione uma label visual se quiser, ou apenas deixe assim
         } else {
-            // Se não é grátis, habilita pra você marcar se quiser
             checkHospedagemInput.disabled = false;
-            checkHospedagemInput.checked = true; // Sugere marcar
+            checkHospedagemInput.checked = true;
         }
         
-        // Lógica Mensalidade
+        // Valor Mensal
         let valorMensalFinal = p.mensal;
-        
-        // Se o host não é grátis E a caixinha tá marcada, soma 20
         if (!p.hostFree && checkHospedagemInput.checked) {
             valorMensalFinal += 20;
         }
@@ -125,7 +133,7 @@ window.autoPreencherPlano = () => {
 };
 
 // =================================================================
-// 🧠 RESTANTE DA LÓGICA (MANTIDA IGUAL AO PASSO ANTERIOR)
+// 🧠 RESTANTE DA LÓGICA DO SISTEMA
 // =================================================================
 window.toggleForm = (idForm) => {
     const f = document.getElementById(idForm);
@@ -253,7 +261,7 @@ if(formCustos) {
     });
 }
 
-// AÇÕES
+// AÇÕES GERAIS
 window.toggleTaxa = (id, st) => update(ref(db, `${userPath}/clientes/${id}/taxa`), { pago: !st });
 window.toggleParcela = (id, idx, st) => update(ref(db, `${userPath}/clientes/${id}/parcelas/${idx}`), { pago: !st });
 window.excluirCliente = (id) => { if(confirm("Excluir cliente?")) remove(ref(db, `${userPath}/clientes/${id}`)); };
@@ -261,12 +269,4 @@ window.excluirCusto = (id) => { if(confirm("Remover despesa?")) remove(ref(db, `
 window.filtrarTabela = () => {
     const termo = document.getElementById('busca').value.toLowerCase();
     document.querySelectorAll('#lista-clientes tr').forEach(l => l.style.display = l.innerText.toLowerCase().includes(termo) ? '' : 'none');
-};
-
-window.scrollToLogin = () => {
-    document.querySelector('.login-footer').scrollIntoView({ behavior: 'smooth' });
-    // Pisca a borda do login pra chamar atenção
-    const loginBox = document.querySelector('.login-container-box');
-    loginBox.style.borderColor = '#00ff00';
-    setTimeout(() => loginBox.style.borderColor = '#333', 1000);
 };
