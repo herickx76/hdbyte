@@ -20,77 +20,106 @@
             <p class="hero-subtitle">Automação Inteligente para Negócios de Elite</p>
         </header>
 
-        <section class="pricing-container">
+<section class="pricing-container">
+    
+    <div class="plan-card">
+        <div class="plan-header">
+            <h3>BÁSICO (SEM IA)</h3>
+            <p class="desc-simples">Para quem quer apenas o essencial.</p>
+            <div class="price-box">
+                <span class="currency">R$</span>70<span class="period">/mês</span>
+            </div>
+            <div class="host-info">+ R$ 20 Hospedagem</div>
+        </div>
+        <ul class="features">
+            <li class="check">✅ <strong>Respostas Fixas:</strong> Responde apenas o que você configurar (ex: "preço", "horário").</li>
+            <li class="check">✅ Envia Cardápio/Localização.</li>
+            <li class="alert">⚠️ <strong>Sem Inteligência:</strong> Se o cliente fugir do roteiro, ele não entende.</li>
+            <li class="cross">❌ Não entende áudio ou imagem.</li>
+        </ul>
+        <div class="plan-footer">
+            <span class="badge-tech">ROBÔ SIMPLES</span>
+        </div>
+    </div>
+
+    <div class="plan-card featured-blue">
+        <div class="plan-header">
+            <h3>IA ESSENCIAL</h3>
+            <p class="desc-simples">Inteligente, mas limitado.</p>
+            <div class="price-box">
+                <span class="currency">R$</span>120<span class="period">/mês</span>
+            </div>
+            <div class="host-info">+ R$ 20 Hospedagem</div>
+        </div>
+        <ul class="features">
+            <li class="check">✅ <strong>Tem Inteligência Artificial:</strong> Conversa naturalmente.</li>
+            <li class="check">✅ Entende imagens (Básico).</li>
+            <li class="alert">⚠️ <strong>Limitações:</strong> IA otimizada para ser barata (pode ser repetitiva).</li>
+            <li class="cross">❌ <strong>Não ouve áudio.</strong></li>
+            <li class="cross">❌ <strong>Sem Banco de Dados:</strong> Não sabe quem é o cliente, não agenda sozinho.</li>
+        </ul>
+        <div class="plan-footer">
+            <span class="badge-tech">IA DE ENTRADA</span>
+        </div>
+    </div>
+
+    <div class="plan-card featured-red">
+        <div class="badge-oferta">🔥 MAIS VENDIDO</div>
+        <div class="plan-header">
+            <h3>IA PROFISSIONAL</h3>
+            <p class="desc-simples">Fluidez humana e velocidade máxima.</p>
             
-            <div class="plan-card">
-                <div class="plan-header">
-                    <h3>BOT BÁSICO</h3>
-                    <div class="price">R$ 70<span class="period">/mês</span></div>
-                </div>
-                <ul class="features">
-                    <li><i class="fas fa-key"></i> Resposta por <strong>Palavras-Chave</strong></li>
-                    <li><i class="fas fa-map-marker-alt"></i> Envia Localização & Cardápio</li>
-                    <li><i class="fas fa-bolt"></i> Respostas Instantâneas</li>
-                    <li class="disabled"><i class="fas fa-times"></i> Sem Inteligência Artificial</li>
-                    <li><i class="fas fa-server"></i> Hospedagem: +R$ 20,00</li>
-                </ul>
-                <div class="plan-footer">
-                    <span class="badge-tech">KEYWORDS</span>
-                </div>
+            <div class="price-promo">
+                <span class="old-price">De R$ 180</span>
+                <span class="promo-tag">35% OFF (1º Mês)</span>
             </div>
-
-            <div class="plan-card featured-blue">
-                <div class="plan-header">
-                    <h3>IA ESSENCIAL</h3>
-                    <div class="price">R$ 120<span class="period">/mês</span></div>
-                </div>
-                <ul class="features">
-                    <li><i class="fas fa-brain"></i> <strong>IA Otimizada</strong> (Low Cost)</li>
-                    <li><i class="fas fa-comment-alt"></i> Entende Texto Natural</li>
-                    <li><i class="fas fa-image"></i> Leitura de Imagens (Básica)</li>
-                    <li class="disabled"><i class="fas fa-microphone-slash"></i> Não transcreve áudio</li>
-                    <li><i class="fas fa-server"></i> Hospedagem: +R$ 20,00</li>
-                </ul>
-                <div class="plan-footer">
-                    <span class="badge-tech">SMART AI</span>
-                </div>
+            <div class="price-box highlight">
+                <span class="currency">R$</span>117<span class="period">*</span>
             </div>
+            <p class="renewal-info">*R$ 180/mês após o 1º mês</p>
+            
+            <div class="host-info free">✨ HOSPEDAGEM GRÁTIS</div>
+        </div>
+        <ul class="features">
+            <li class="check">✅ <strong>IA 100% Pura:</strong> Conversa idêntica a um humano.</li>
+            <li class="check">✅ <strong>Ouve Áudios</strong> e vê Imagens perfeitamente.</li>
+            <li class="check">✅ Comandos de Admin ("Parar robô").</li>
+            <li class="alert">⚠️ <strong>Sem Integração de Agenda:</strong> Ele conversa bem, mas para agendar, ele precisa perguntar a você ou mandar o cliente olhar no site. Não vê seus horários livres.</li>
+        </ul>
+        <div class="plan-footer">
+            <button class="btn-contract" onclick="scrollToLogin()">CONTRATAR PRO</button>
+        </div>
+    </div>
 
-            <div class="plan-card featured-red">
-                <div class="plan-header">
-                    <h3>IA PRO 100%</h3>
-                    <div class="price">R$ 180<span class="period">/mês</span></div>
-                </div>
-                <ul class="features">
-                    <li><i class="fas fa-microchip"></i> <strong>IA Pura (Sem Otimização)</strong></li>
-                    <li><i class="fas fa-comments"></i> Fluidez Humana Máxima</li>
-                    <li><i class="fas fa-user-shield"></i> Comandos de Admin</li>
-                    <li><i class="fas fa-stop-circle"></i> Função "Parar Robô"</li>
-                    <li><i class="fas fa-server"></i> Hospedagem: +R$ 20,00</li>
-                </ul>
-                <div class="plan-footer">
-                    <span class="badge-tech">FULL POWER</span>
-                </div>
+    <div class="plan-card premium-gold">
+        <div class="badge-oferta gold">👑 COMPLETO</div>
+        <div class="plan-header">
+            <h3>IA ELITE + SISTEMA</h3>
+            <p class="desc-simples">O robô vira sua secretária completa.</p>
+            
+            <div class="price-promo">
+                <span class="old-price">De R$ 250</span>
+                <span class="promo-tag">35% OFF (1º Mês)</span>
             </div>
-
-            <div class="plan-card premium-gold">
-                <div class="plan-header">
-                    <h3>IA ELITE + DB</h3>
-                    <div class="price">R$ 250+<span class="period">/mês</span></div>
-                </div>
-                <ul class="features">
-                    <li><i class="fas fa-database"></i> <strong>Memória & Banco de Dados</strong></li>
-                    <li><i class="fas fa-history"></i> Lembra do Cliente/Histórico</li>
-                    <li><i class="fas fa-user-check"></i> Personalização Extrema</li>
-                    <li><i class="fas fa-calendar-alt"></i> Ideal para Agendamentos</li>
-                    <li><i class="fas fa-server"></i> Hospedagem: +R$ 20,00</li>
-                </ul>
-                <div class="plan-footer">
-                    <span class="badge-tech">MEMORY SYSTEM</span>
-                </div>
+            <div class="price-box highlight gold-text">
+                <span class="currency">R$</span>162<span class="period">*</span>
             </div>
+            <p class="renewal-info">*R$ 250/mês após o 1º mês</p>
 
-        </section>
+            <div class="host-info free">✨ HOSPEDAGEM GRÁTIS</div>
+        </div>
+        <ul class="features">
+            <li class="check">✅ <strong>Tudo do PRO + CÉREBRO PRÓPRIO.</strong></li>
+            <li class="check">✅ <strong>Banco de Dados:</strong> Ele sabe os horários livres e agenda sozinho.</li>
+            <li class="check">✅ <strong>Memória Longa:</strong> Lembra do cliente, sabe o que ele pediu mês passado.</li>
+            <li class="check">✅ Faz cadastros e consulta estoque/agenda em tempo real.</li>
+        </ul>
+        <div class="plan-footer">
+            <button class="btn-contract gold-btn" onclick="scrollToLogin()">CONTRATAR ELITE</button>
+        </div>
+    </div>
+
+</section>
 
         <footer class="login-footer">
             <div class="login-container-box">

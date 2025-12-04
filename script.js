@@ -25,12 +25,13 @@ let dbRef;
 let dbRefCustos; 
 let userPath;
 
-// === TABELA DE PREÇOS (AUTO-PREENCHIMENTO) ===
 const PLANOS_INFO = {
-    "basico": { nome: "Bot Básico (0% IA)", instalacao: 70, mensal: 70 }, // Ajuste instalação conforme sua estratégia
-    "essencial": { nome: "Bot IA Essencial", instalacao: 300, mensal: 120 },
-    "profissional": { nome: "Bot IA Profissional", instalacao: 400, mensal: 180 },
-    "premium": { nome: "Bot IA Elite + DB", instalacao: 500, mensal: 250 }
+    "basico": { nome: "Bot Básico (Sem IA)", instalacao: 200, mensal: 70, hostFree: false },
+    "essencial": { nome: "Bot IA Essencial", instalacao: 300, mensal: 120, hostFree: false },
+    // Plano PRO: Instalação 400, Mensal 180
+    "profissional": { nome: "Bot IA Profissional", instalacao: 400, mensal: 180, hostFree: true },
+    // Plano Elite: Instalação 500, Mensal 250
+    "premium": { nome: "Bot IA Elite + DB", instalacao: 500, mensal: 250, hostFree: true }
 };
 
 // =================================================================
@@ -85,21 +86,38 @@ window.fazerLogout = () => signOut(auth);
 // =================================================================
 window.autoPreencherPlano = () => {
     const selecao = document.getElementById('select-modelo-plano').value;
-    const checkHospedagem = document.getElementById('check-hospedagem').checked;
+    const checkHospedagemInput = document.getElementById('check-hospedagem');
     
     if (selecao && PLANOS_INFO[selecao]) {
         const p = PLANOS_INFO[selecao];
         
         document.getElementById('plano').value = p.nome;
         
-        // Lógica de Instalação
+        // Configura Instalação
         document.getElementById('check-taxa').checked = true;
         window.toggleInputTaxa();
         document.getElementById('valor-taxa').value = p.instalacao;
         
+        // Lógica de Hospedagem Automática
+        if (p.hostFree) {
+            // Se o plano dá host grátis, desmarca a caixinha de cobrança extra
+            // E desabilita ela pra você lembrar que é grátis
+            checkHospedagemInput.checked = false;
+            checkHospedagemInput.disabled = true;
+            // Adicione uma label visual se quiser, ou apenas deixe assim
+        } else {
+            // Se não é grátis, habilita pra você marcar se quiser
+            checkHospedagemInput.disabled = false;
+            checkHospedagemInput.checked = true; // Sugere marcar
+        }
+        
         // Lógica Mensalidade
         let valorMensalFinal = p.mensal;
-        if (checkHospedagem) valorMensalFinal += 20;
+        
+        // Se o host não é grátis E a caixinha tá marcada, soma 20
+        if (!p.hostFree && checkHospedagemInput.checked) {
+            valorMensalFinal += 20;
+        }
         
         document.getElementById('valor-base').value = valorMensalFinal;
         window.gerarCamposParcelas();
@@ -243,4 +261,12 @@ window.excluirCusto = (id) => { if(confirm("Remover despesa?")) remove(ref(db, `
 window.filtrarTabela = () => {
     const termo = document.getElementById('busca').value.toLowerCase();
     document.querySelectorAll('#lista-clientes tr').forEach(l => l.style.display = l.innerText.toLowerCase().includes(termo) ? '' : 'none');
+};
+
+window.scrollToLogin = () => {
+    document.querySelector('.login-footer').scrollIntoView({ behavior: 'smooth' });
+    // Pisca a borda do login pra chamar atenção
+    const loginBox = document.querySelector('.login-container-box');
+    loginBox.style.borderColor = '#00ff00';
+    setTimeout(() => loginBox.style.borderColor = '#333', 1000);
 };
