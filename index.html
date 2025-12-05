@@ -3,119 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDBYTE - AI Solutions</title>
+    <title>HDBYTE | Inteligência Artificial</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="toast-container"></div>
 
+    <div class="bg-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
     <div id="landing-page">
         
         <header class="hero-header">
-            <div class="logo-area">
-                <i class="fas fa-robot fa-2x" style="color: var(--neon-red);"></i>
-                <h1>HDBYTE <span style="color: var(--neon-blue);">AI</span></h1>
+            <div class="hero-content">
+                <div class="logo-area">
+                    <i class="fas fa-robot"></i> <span>HDBYTE</span>
+                </div>
+                <h1>TRANSFORME SEU <br><span class="gradient-text">WHATSAPP EM UMA MÁQUINA</span></h1>
+                <p class="hero-subtitle">Você já entendeu o poder da IA. Agora escolha a ferramenta certa para escalar seu atendimento.</p>
+                
+                <div class="trust-badge">
+                    <i class="fas fa-shield-alt"></i> Tecnologia criptografada e segura
+                </div>
             </div>
-            <p class="hero-subtitle">Atenda seus clientes 24 horas por dia com IA.</p>
         </header>
 
         <section class="pricing-wrapper">
-            <h2 class="section-title">Planos e Preços</h2>
+            <div class="pricing-header">
+                <h2>ESCOLHA SEU PLANO</h2>
+                <p>Oferta especial por tempo limitado para novos parceiros.</p>
+            </div>
+
             <div class="pricing-container">
                 
-                <div class="plan-card basic-tier">
-                    <div class="plan-header">
-                        <h3>BÁSICO</h3>
-                        <p class="desc-simples">Respostas automáticas básicas 24h.</p>
-                        <div class="price-box"><span class="currency">R$</span>70<span class="period">/mês</span></div>
-                        <div class="host-info">+ R$ 20 Hospedagem</div>
-                    </div>
-                    <ul class="features">
-                        <li class="check"><i class="fas fa-check"></i> Respostas pré-definidas</li>
-                        <li class="check"><i class="fas fa-check"></i> Cardápio e localização</li>
-                        <li class="cross"><i class="fas fa-times"></i> Sem IA (somente respostas fixas)</li>
-                    </ul>
-                    <div class="plan-footer">
-                        <button class="btn-contract" onclick="irParaWhatsApp('Básico')">CONTRATAR AGORA</button>
-                    </div>
-                </div>
-
-                <div class="plan-card essential-tier">
-                    <div class="plan-header">
-                        <h3>ESSENCIAL</h3>
-                        <p class="desc-simples">Atendimento inteligente e automatizado.</p>
-                        <div class="price-box blue-glow"><span class="currency">R$</span>120<span class="period">/mês</span></div>
-                        <div class="host-info">+ R$ 20 Hospedagem</div>
-                    </div>
-                    <ul class="features">
-                        <li class="check"><i class="fas fa-brain"></i> IA otimizada</li>
-                        <li class="check"><i class="fas fa-image"></i> Entende imagens</li>
-                        <li class="cross"><i class="fas fa-microphone-slash"></i> Sem respostas por voz</li>
-                    </ul>
-                    <div class="plan-footer">
-                        <button class="btn-contract btn-blue" onclick="irParaWhatsApp('Essencial')">CONTRATAR AGORA</button>
-                    </div>
-                </div>
-
-                <div class="plan-card pro-tier featured">
-                    <div class="badge-oferta">🔥 MAIS VENDIDO</div>
-                    <div class="plan-header">
-                        <h3>IA PRO</h3>
-                        <p class="desc-simples">Respostas naturais e velozes, quase como um humano.</p>
-                        <div class="price-promo">
-                            <span class="old-price">R$ 180,00</span>
-                            <span class="promo-tag">35% OFF</span>
+                <div class="plan-card basic">
+                    <div class="card-glass"></div>
+                    <div class="card-content">
+                        <div class="plan-name">BÁSICO</div>
+                        <div class="plan-price">
+                            <span class="currency">R$</span>70<span class="period">/mês</span>
                         </div>
-                        <div class="price-box highlight"><span class="currency">R$</span>117<span class="period"></span></div>
-                        <p class="renewal-info">*R$ 180 após 1º mês</p>
-                        <div class="host-info free">HOSPEDAGEM GRÁTIS</div>
-                    </div>
-                    <ul class="features">
-                        <li class="check highlight"><i class="fas fa-robot"></i> <strong>IA avançada e natural</strong></li>
-                        <li class="check"><i class="fas fa-microphone"></i> Respostas por áudio e imagem</li>
-                    </ul>
-                    <div class="plan-footer">
-                        <button class="btn-contract btn-red pulse-btn" onclick="irParaWhatsApp('Pro')">CONTRATAR AGORA</button>
+                        <p class="host-add">+ R$ 20 Hospedagem</p>
+                        <hr class="divider">
+                        <ul class="features">
+                            <li><i class="fas fa-check"></i> Respostas pré-definidas</li>
+                            <li><i class="fas fa-check"></i> Cardápio/Localização</li>
+                            <li class="muted"><i class="fas fa-times"></i> Sem Inteligência Artificial</li>
+                        </ul>
+                        <button class="btn-cta outline" onclick="irParaWhatsApp('Básico')">SELECIONAR</button>
                     </div>
                 </div>
 
-                <div class="plan-card elite-tier">
-                    <div class="badge-oferta gold">👑 ELITE</div>
-                    <div class="plan-header">
-                        <h3>IA ELITE</h3>
-                        <p class="desc-simples">Sistema completo: IA com memória e agendamento.</p>
-                        <div class="price-promo">
-                            <span class="old-price">R$ 250,00</span>
-                            <span class="promo-tag">35% OFF</span>
+                <div class="plan-card essential">
+                    <div class="card-glass"></div>
+                    <div class="card-content">
+                        <div class="plan-name">ESSENCIAL</div>
+                        <div class="plan-price">
+                            <span class="currency">R$</span>120<span class="period">/mês</span>
                         </div>
-                        <div class="price-box gold-text"><span class="currency">R$</span>162<span class="period"></span></div>
-                        <p class="renewal-info">*R$ 250 após 1º mês</p>
-                        <div class="host-info free">HOSPEDAGEM GRÁTIS</div>
-                    </div>
-                    <ul class="features">
-                        <li class="check highlight"><i class="fas fa-database"></i> <strong>Banco de Dados integrado</strong></li>
-                        <li class="check"><i class="fas fa-calendar-check"></i> Agendamento automático</li>
-                        <li class="check"><i class="fas fa-history"></i> Memória de longo prazo</li>
-                    </ul>
-                    <div class="plan-footer">
-                        <button class="btn-contract btn-gold" onclick="irParaWhatsApp('Elite')">CONTRATAR AGORA</button>
+                        <p class="host-add">+ R$ 20 Hospedagem</p>
+                        <hr class="divider">
+                        <ul class="features">
+                            <li class="bright"><i class="fas fa-brain"></i> <strong>IA Otimizada</strong></li>
+                            <li><i class="fas fa-image"></i> Lê e entende imagens</li>
+                            <li class="muted"><i class="fas fa-microphone-slash"></i> Sem áudio</li>
+                        </ul>
+                        <button class="btn-cta blue" onclick="irParaWhatsApp('Essencial')">SELECIONAR</button>
                     </div>
                 </div>
+
+                <div class="plan-card pro featured">
+                    <div class="card-glass"></div>
+                    <div class="popular-tag">🔥 MAIS ESCOLHIDO</div>
+                    <div class="card-content">
+                        <div class="plan-name">IA PRO</div>
+                        <p class="desc-hero">Humanização extrema.</p>
+                        
+                        <div class="discount-box">
+                            <span class="old">R$ 180</span>
+                            <span class="tag-off">35% OFF</span>
+                        </div>
+                        
+                        <div class="plan-price highlight">
+                            <span class="currency">R$</span>117<span class="period"></span>
+                        </div>
+                        <p class="renewal">*R$ 180 na renovação</p>
+                        
+                        <div class="free-host">
+                            <i class="fas fa-server"></i> HOSPEDAGEM GRÁTIS
+                        </div>
+
+                        <hr class="divider">
+                        
+                        <ul class="features">
+                            <li class="bright"><i class="fas fa-robot"></i> <strong>IA Nível Humano (GPT)</strong></li>
+                            <li class="bright"><i class="fas fa-microphone"></i> <strong>Responde Áudios</strong></li>
+                            <li><i class="fas fa-image"></i> Analisa Imagens</li>
+                        </ul>
+                        <button class="btn-cta red pulse" onclick="irParaWhatsApp('Pro')">GARANTIR ESSA OFERTA</button>
+                        <p class="guarantee"><i class="fas fa-lock"></i> Compra segura</p>
+                    </div>
+                </div>
+
+                <div class="plan-card elite">
+                    <div class="card-glass"></div>
+                    <div class="elite-tag">👑 MÁXIMA PERFORMANCE</div>
+                    <div class="card-content">
+                        <div class="plan-name gold-text">ELITE + DB</div>
+                        
+                        <div class="discount-box">
+                            <span class="old">R$ 250</span>
+                            <span class="tag-off gold-bg">35% OFF</span>
+                        </div>
+
+                        <div class="plan-price gold-text">
+                            <span class="currency">R$</span>162<span class="period"></span>
+                        </div>
+                        <p class="renewal">*R$ 250 na renovação</p>
+                        
+                        <div class="free-host gold-border">
+                            <i class="fas fa-server"></i> HOSPEDAGEM GRÁTIS
+                        </div>
+
+                        <hr class="divider">
+                        <ul class="features">
+                            <li class="gold-txt"><i class="fas fa-database"></i> <strong>Banco de Dados</strong></li>
+                            <li><i class="fas fa-calendar-check"></i> Agendamentos</li>
+                            <li><i class="fas fa-history"></i> Memória Infinita</li>
+                        </ul>
+                        <button class="btn-cta gold" onclick="irParaWhatsApp('Elite')">QUERO O MÁXIMO</button>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <footer class="login-footer">
-            <div class="login-container-box">
-                <h3><i class="fas fa-lock"></i> Acesso Restrito</h3>
+        <footer class="footer-landing">
+            <p>&copy; 2024 HDBYTE AI Solutions. Todos os direitos reservados.</p>
+            <div id="login-trigger" onclick="toggleLoginArea()">
+                <i class="fas fa-fingerprint"></i> Área do Gestor
+            </div>
+            
+            <div id="login-area" class="hidden-login">
                 <form id="form-login">
-                    <div class="login-row">
-                        <input type="text" id="login-usuario" placeholder="Usuário (ex: admin)" required>
-                        <input type="password" id="login-senha" placeholder="Senha" required>
-                        <button type="submit" class="btn-cyber-login">ENTRAR</button>
-                    </div>
+                    <input type="text" id="login-usuario" placeholder="Admin ID" required>
+                    <input type="password" id="login-senha" placeholder="Senha" required>
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
                 </form>
             </div>
         </footer>
@@ -123,90 +161,66 @@
     </div>
 
     <div id="sistema-principal" class="container-dashboard" style="display: none;">
-        
         <header class="main-header">
-            <div class="brand">
-                <i class="fas fa-microchip"></i>
-                <h1>BOT MANAGER <span style="color: var(--neon-red);">V5</span></h1>
-            </div>
-            <div class="user-info">
-                <span id="usuario-logado">...</span>
-                <button onclick="fazerLogout()" class="btn-logout" title="Sair"><i class="fas fa-power-off"></i></button>
-            </div>
+            <div class="brand"><i class="fas fa-microchip"></i><h1>MANAGER <span style="color: var(--neon-red);">V5</span></h1></div>
+            <div class="user-info"><span id="usuario-logado">...</span><button onclick="fazerLogout()" class="btn-logout"><i class="fas fa-power-off"></i></button></div>
         </header>
-
         <div class="dashboard-financeiro">
             <div class="card-metric"><span>Recebido</span><strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong></div>
             <div class="card-metric"><span>Custos</span><strong id="total-custos" style="color: var(--neon-red);">R$ 0,00</strong></div>
             <div class="card-metric highlight"><span>Líquido</span><strong id="lucro-liquido" style="color: var(--neon-blue);">R$ 0,00</strong></div>
         </div>
-
         <section class="card cyber-border">
-            <h2 onclick="toggleForm('form-cliente')" style="cursor: pointer; display: flex; justify-content: space-between;">
-                <span><i class="fas fa-user-plus"></i> Novo Contrato</span> <i class="fas fa-chevron-down"></i>
-            </h2>
+            <h2 onclick="toggleForm('form-cliente')" style="cursor: pointer;"><span><i class="fas fa-user-plus"></i> Novo Contrato</span></h2>
             <form id="form-cliente" style="display: none;">
                 <div class="form-grid highlight-grid">
-                    <div class="form-group span-2">
-                        <label>Modelo:</label>
+                    <div class="form-group span-2"><label>Modelo:</label>
                         <select id="select-modelo-plano" onchange="autoPreencherPlano()">
-                            <option value="">-- Selecione --</option>
-                            <option value="basico">🟦 BÁSICO</option>
-                            <option value="essencial">🟩 ESSENCIAL</option>
-                            <option value="profissional">🟨 PRO</option>
-                            <option value="premium">🟧 ELITE</option>
+                            <option value="">-- Selecione --</option><option value="basico">🟦 BÁSICO</option><option value="essencial">🟩 ESSENCIAL</option><option value="profissional">🟨 PRO</option><option value="premium">🟧 ELITE</option>
                         </select>
                     </div>
-                    <div class="form-group checkbox-group">
-                         <input type="checkbox" id="check-hospedagem" onchange="autoPreencherPlano()">
-                         <label for="check-hospedagem">+ Host (R$ 20)</label>
-                    </div>
+                    <div class="form-group checkbox-group"><input type="checkbox" id="check-hospedagem" onchange="autoPreencherPlano()"><label for="check-hospedagem">+ Host</label></div>
                 </div>
                 <div class="form-grid">
-                    <div class="form-group"><label>Cliente (@Telegram):</label><input type="text" id="cliente" required placeholder="@usuario"></div>
+                    <div class="form-group"><label>Cliente:</label><input type="text" id="cliente" required></div>
                     <div class="form-group"><label>Plano:</label><input type="text" id="plano" required></div>
                     <div class="form-group"><label>Início:</label><input type="date" id="data-inicio" required></div>
                 </div>
                 <div class="taxa-setup">
-                    <div class="checkbox-line"><input type="checkbox" id="check-taxa" onchange="toggleInputTaxa()"><label for="check-taxa">Taxa de Instalação?</label></div>
-                    <div id="container-valor-taxa" style="display: none; margin-top: 10px;"><input type="number" id="valor-taxa" step="0.01" placeholder="Valor (R$)"></div>
+                    <div class="checkbox-line"><input type="checkbox" id="check-taxa" onchange="toggleInputTaxa()"><label>Taxa?</label></div>
+                    <div id="container-valor-taxa" style="display:none"><input type="number" id="valor-taxa"></div>
                 </div>
                 <div class="parcelas-setup">
-                    <h3><i class="fas fa-calculator"></i> Mensalidades</h3>
+                    <h3>Mensalidades</h3>
                     <div class="form-grid">
-                        <div class="form-group"><label>Qtd:</label><input type="number" id="qtd-parcelas" min="1" max="48" value="12" onchange="gerarCamposParcelas()"></div>
-                        <div class="form-group"><label>Valor (R$):</label><input type="number" id="valor-base" step="0.01" onchange="gerarCamposParcelas()"></div>
+                        <div class="form-group"><label>Qtd:</label><input type="number" id="qtd-parcelas" value="12" onchange="gerarCamposParcelas()"></div>
+                        <div class="form-group"><label>Valor:</label><input type="number" id="valor-base" onchange="gerarCamposParcelas()"></div>
                     </div>
                     <div id="container-inputs-parcelas" class="grid-parcelas-mini"></div>
                 </div>
-                <button type="submit" class="btn-cyber btn-full">CRIAR CONTRATO</button>
+                <button type="submit" class="btn-cyber btn-full">CRIAR</button>
             </form>
         </section>
-
         <section class="card cyber-border red-border">
-            <h2 onclick="toggleForm('form-custos')" style="cursor: pointer; display: flex; justify-content: space-between; color: var(--neon-red);">
-                <span><i class="fas fa-file-invoice-dollar"></i> Custos</span> <i class="fas fa-chevron-down"></i>
-            </h2>
+            <h2 onclick="toggleForm('form-custos')" style="cursor: pointer; color: var(--neon-red);"><span><i class="fas fa-file-invoice-dollar"></i> Custos</span></h2>
             <form id="form-custos" style="display: none;">
-                <div class="form-grid">
-                    <div class="form-group span-2"><label>Descrição:</label><input type="text" id="custo-nome" required></div>
-                    <div class="form-group"><label>Valor:</label><input type="number" id="custo-valor" step="0.01" required></div>
-                </div>
-                <button type="submit" class="btn-cyber btn-red-outline">ADD CUSTO</button>
+                <div class="form-grid"><div class="form-group span-2"><input type="text" id="custo-nome" placeholder="Desc"></div><div class="form-group"><input type="number" id="custo-valor" placeholder="Val"></div></div>
+                <button type="submit" class="btn-cyber btn-red-outline">ADD</button>
             </form>
-            <div id="lista-custos-container">
-                <table class="tabela-custos"><tbody id="lista-custos"></tbody></table>
-            </div>
+            <div id="lista-custos-container"><table class="tabela-custos"><tbody id="lista-custos"></tbody></table></div>
         </section>
-
         <section class="card">
             <div class="header-lista"><h2>Carteira</h2><input type="text" id="busca" class="search-input" placeholder="Buscar..." onkeyup="filtrarTabela()"></div>
-            <div class="table-responsive">
-                <table><thead><tr><th>Início</th><th>Cliente</th><th>Plano</th><th>Progresso</th><th>Financeiro</th><th>X</th></tr></thead><tbody id="lista-clientes"></tbody></table>
-            </div>
+            <div class="table-responsive"><table><tbody id="lista-clientes"></tbody></table></div>
         </section>
     </div>
 
     <script type="module" src="script.js"></script>
+    <script>
+        function toggleLoginArea() {
+            const area = document.getElementById('login-area');
+            area.style.display = area.style.display === 'flex' ? 'none' : 'flex';
+        }
+    </script>
 </body>
 </html>
