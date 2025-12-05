@@ -101,11 +101,11 @@ body {
 }
 
 /* =========================================
-   PRICING (O CORAÇÃO DA VENDA)
+   PRICING (O CORAÇÃO DA VENDA) - ATUALIZADO
    ========================================= */
 .pricing-wrapper {
     padding: 40px 20px 100px;
-    max-width: 1300px;
+    max-width: 1400px; /* Largura máxima maior para caber 4 */
     margin: 0 auto;
 }
 .pricing-header {
@@ -115,23 +115,27 @@ body {
 .pricing-header h2 { font-family: 'Orbitron'; font-size: 2rem; margin-bottom: 10px; }
 .pricing-header p { color: var(--text-muted); }
 
+/* GRID INTELIGENTE */
 .pricing-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    /* Tenta colocar 4 colunas. Se não der, o @media ajusta */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 20px;
-    align-items: center; /* Alinha verticalmente pelo centro */
+    align-items: center; /* Centraliza verticalmente (Pro é mais alto) */
 }
 
 /* CARD BASE */
 .plan-card {
     position: relative;
-    width: 300px; /* Largura fixa para consistência */
-    min-height: 500px;
+    width: 100%; /* Ocupa a célula do grid */
+    min-height: 600px; /* Altura mínima igual para todos */
     border-radius: 20px;
-    padding: 2px; /* Espaço para borda gradiente */
+    padding: 1px;
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
+
 .card-glass {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -141,87 +145,92 @@ body {
     border: 1px solid var(--glass-border);
     z-index: 0;
 }
+
 .card-content {
     position: relative;
     z-index: 1;
-    padding: 30px;
+    padding: 30px 20px; /* Padding lateral ajustado */
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 /* DESIGN ESPECÍFICO POR PLANO */
-.basic { margin-top: 20px; }
-.essential { margin-top: 20px; }
-
-/* PRO (DESTAQUE) */
 .pro {
-    width: 340px; /* Mais largo */
-    min-height: 580px; /* Mais alto */
+    min-height: 640px; /* PRO fica um pouco mais alto */
     background: linear-gradient(145deg, var(--neon-red), #500000);
-    transform: scale(1.05);
     z-index: 2;
     box-shadow: 0 0 40px rgba(255, 42, 42, 0.2);
+    /* Removemos o scale fixo para não quebrar o grid, usamos altura maior */
+    transform: scale(1.03); 
 }
 .pro .card-glass { background: rgba(20, 0, 0, 0.9); border: 1px solid var(--neon-red); }
-
-.elite { margin-top: 20px; }
 .elite .card-glass { border: 1px solid var(--gold); background: rgba(20, 20, 0, 0.8); }
 
-/* TIPOGRAFIA DO CARD */
-.plan-name { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; }
-.desc-hero { color: #fff; font-size: 1rem; margin-bottom: 15px; font-weight: 600; }
+/* TIPOGRAFIA E PREÇOS */
+.plan-name { font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; text-align: center; }
+.desc-hero { color: #fff; font-size: 0.9rem; margin-bottom: 15px; font-weight: 600; text-align: center; min-height: 20px; }
+
 .popular-tag {
     position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
     background: var(--neon-red); color: white; padding: 5px 15px;
     border-radius: 20px; font-weight: 800; font-size: 0.8rem; z-index: 3;
-    box-shadow: 0 0 15px var(--neon-red);
+    box-shadow: 0 0 15px var(--neon-red); white-space: nowrap;
 }
 .elite-tag {
     position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
     background: var(--gold); color: black; padding: 5px 15px;
-    border-radius: 20px; font-weight: 800; font-size: 0.8rem; z-index: 3;
+    border-radius: 20px; font-weight: 800; font-size: 0.8rem; z-index: 3; white-space: nowrap;
 }
 
-/* PREÇOS */
-.discount-box { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
-.old { text-decoration: line-through; color: var(--text-muted); font-size: 0.9rem; }
-.tag-off { background: rgba(0,255,0,0.2); color: #4ade80; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; border: 1px solid #4ade80; }
+.price-container { text-align: center; margin: 15px 0; }
+.discount-box { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
+.old { text-decoration: line-through; color: var(--text-muted); font-size: 0.85rem; }
+.tag-off { background: rgba(0,255,0,0.2); color: #4ade80; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; border: 1px solid #4ade80; }
 .tag-off.gold-bg { background: rgba(255,215,0,0.2); color: var(--gold); border-color: var(--gold); }
 
-.plan-price { font-size: 3rem; font-weight: 800; color: #fff; letter-spacing: -2px; }
-.plan-price .currency { font-size: 1.5rem; vertical-align: top; }
-.plan-price .period { font-size: 1rem; color: var(--text-muted); font-weight: 400; letter-spacing: normal; }
+.plan-price { font-size: 2.5rem; font-weight: 800; color: #fff; letter-spacing: -2px; line-height: 1; }
+.plan-price .currency { font-size: 1.2rem; vertical-align: top; }
+.plan-price .period { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; letter-spacing: normal; }
 .highlight { color: var(--neon-red); text-shadow: 0 0 20px rgba(255, 42, 42, 0.5); }
 .gold-text { color: var(--gold); text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
 
-.host-add { font-size: 0.85rem; color: var(--text-muted); margin: 5px 0 20px; }
+.host-add { font-size: 0.8rem; color: var(--text-muted); margin: 5px 0; text-align: center; }
 .free-host { 
     background: rgba(0,255,0,0.1); border: 1px solid #00ff00; color: #00ff00;
-    padding: 8px; border-radius: 8px; font-weight: 700; font-size: 0.8rem;
-    text-align: center; margin: 10px 0; display: inline-block; width: 100%; box-sizing: border-box;
+    padding: 5px; border-radius: 6px; font-weight: 700; font-size: 0.75rem;
+    text-align: center; margin: 10px auto; display: block; width: fit-content;
 }
 .free-host.gold-border { border-color: var(--gold); color: var(--gold); background: rgba(255,215,0,0.1); }
-.renewal { font-size: 0.75rem; color: var(--text-muted); margin-top: -10px; margin-bottom: 10px; }
+.renewal { font-size: 0.7rem; color: var(--text-muted); text-align: center; display: block; margin-top: 5px; }
 
-/* LISTA DE FEATURES */
-.divider { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0; }
-.features { list-style: none; padding: 0; margin: 0 0 30px 0; flex-grow: 1; }
-.features li { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 0.95rem; color: #ccc; }
+/* LISTA DE FEATURES PADRONIZADA */
+.divider { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0; }
+.features { list-style: none; padding: 0; margin: 0 0 20px 0; flex-grow: 1; }
+.features li { 
+    display: flex; align-items: center; gap: 10px; padding: 8px 0; 
+    font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.03); 
+}
+.features li:last-child { border-bottom: none; }
 .features li i { width: 20px; text-align: center; }
-.features li.muted { opacity: 0.5; }
-.features li.bright { color: #fff; }
-.features li .fa-check { color: #4ade80; }
-.features li .fa-times { color: #666; }
-.features li .fa-brain { color: var(--neon-blue); }
-.features li .fa-robot { color: var(--neon-red); }
-.features li.gold-txt { color: var(--gold); }
+
+/* Estados dos Itens */
+.feat-included { color: #e0e6ed; }
+.feat-excluded { color: #444; text-decoration: line-through; opacity: 0.6; } /* Item cinza apagado */
+
+.feat-included .fa-check { color: #4ade80; } /* Check Verde Padrão */
+.feat-excluded .fa-times { color: #555; }
+
+/* Destaques Especiais */
+.pro .feat-included .fa-check { color: var(--neon-red); text-shadow: 0 0 5px red; }
+.elite .feat-included .fa-check { color: var(--gold); text-shadow: 0 0 5px gold; }
+.feat-highlight { color: #fff; font-weight: 600; }
 
 /* BOTÕES (CTA) */
 .btn-cta {
-    width: 100%; padding: 16px; border-radius: 8px; font-weight: 800;
+    width: 100%; padding: 14px; border-radius: 8px; font-weight: 800;
     font-family: 'Orbitron'; letter-spacing: 1px; cursor: pointer;
-    transition: 0.3s; text-transform: uppercase; font-size: 0.9rem;
+    transition: 0.3s; text-transform: uppercase; font-size: 0.85rem;
     border: none; margin-top: auto;
 }
 .outline { background: transparent; border: 1px solid #555; color: #fff; }
@@ -238,16 +247,28 @@ body {
 
 .gold { background: linear-gradient(90deg, #ffd700, #ffea61); color: #000; }
 .gold:hover { box-shadow: 0 0 25px var(--gold); }
-
 .pulse { animation: pulse-btn 2s infinite; }
-@keyframes pulse-btn {
-    0% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(255, 42, 42, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0); }
+
+/* =========================================
+   MEDIA QUERIES (RESPONSIVIDADE INTELIGENTE)
+   ========================================= */
+
+/* Notebooks e Tablets (Ajuste para 2x2) */
+@media (max-width: 1400px) {
+    .pricing-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 Colunas (2 em cima, 2 em baixo) */
+        max-width: 800px; /* Limita largura para ficarem centralizados */
+        margin: 0 auto;
+    }
+    .pro { transform: none; min-height: 600px; } /* Remove o scale para alinhar no grid */
 }
 
-.guarantee { text-align: center; font-size: 0.75rem; color: #888; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-
+/* Celulares (1 por linha) */
+@media (max-width: 700px) {
+    .pricing-container {
+        grid-template-columns: 1fr;
+    }
+}
 /* FOOTER / LOGIN */
 .footer-landing {
     text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.05);
