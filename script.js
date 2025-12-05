@@ -19,7 +19,7 @@ const firebaseConfig = {
 // FUNÇÃO WHATSAPP CORRIGIDA PARA TODOS OS PLANOS
 window.irParaWhatsApp = function(nomePlano) {
     const numero = "5584996085794";
-    const mensagem = `Olá! Tenho interesse no *Plano ${nomePlano}* que vi no site. Como funciona?`;
+    const mensagem = `Tenho interesse no *Plano ${nomePlano}*`;
     window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`, '_blank');
 };
 
