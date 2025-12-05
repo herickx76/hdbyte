@@ -21,18 +21,39 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, button, label, .badge-tech, .promo-tag { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+h1, h2, h3, button, label, .badge-tech, .promo-tag {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
 
 /* =========================================
-   LANDING PAGE (VITRINE LARGONA)
+   LANDING PAGE HEADER
    ========================================= */
 .hero-header {
-    text-align: center; padding: 80px 20px 60px;
+    text-align: center;
+    padding: 80px 20px 60px;
     background: radial-gradient(circle at top, #112240 0%, #050a10 80%);
     border-bottom: 1px solid rgba(0, 243, 255, 0.1);
 }
-.hero-header h1 { font-size: 3rem; color: #fff; margin: 0; text-shadow: 0 0 15px rgba(0,0,0,0.5); }
-.hero-subtitle { color: var(--text-muted); margin-top: 10px; font-size: 1.2rem; }
+.hero-header h1 {
+    font-size: 3rem;
+    color: #fff;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+.hero-subtitle {
+    color: var(--text-muted);
+    margin-top: 10px;
+    font-size: 1.3rem;
+}
+
+/* Título da seção de planos */
+.section-title {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 2rem;
+    color: var(--neon-blue);
+}
 
 /* WRAPPER PARA CENTRALIZAR O GRID DE PREÇOS */
 .pricing-wrapper {
@@ -45,72 +66,201 @@ h1, h2, h3, button, label, .badge-tech, .promo-tag { font-family: 'Orbitron', sa
 
 .pricing-container {
     display: grid;
-    /* Isso garante que os cards tenham tamanho bom e pulem linha se precisar */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 25px;
     width: 100%;
-    max-width: 1400px; /* BEM LARGO para os 4 planos */
+    max-width: 1400px;
 }
 
-/* CARDS DE PREÇO (BONITOS E ESPAÇADOS) */
+/* CARDS DE PREÇO */
 .plan-card {
     background: var(--bg-card);
     border-radius: 12px;
     padding: 30px;
     border: 1px solid rgba(255,255,255,0.05);
-    display: flex; flex-direction: column; justify-content: space-between;
-    transition: 0.3s; position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.3s;
+    position: relative;
     min-height: 550px;
 }
-.plan-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+.plan-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
 
 /* Bordas coloridas */
 .basic-tier { border-top: 4px solid #666; }
 .essential-tier { border-top: 4px solid var(--neon-blue); }
 .pro-tier { border-top: 4px solid var(--neon-red); }
-.elite-tier { border: 1px solid var(--gold); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1); }
+.elite-tier {
+    border: 1px solid var(--gold);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+}
 
-/* Conteúdo Card */
-.plan-header h3 { font-size: 1.5rem; margin-bottom: 5px; color: #fff; }
-.desc-simples { font-size: 0.9rem; color: #999; margin: 0 0 15px 0; min-height: 40px; }
+/* Conteúdo do Card */
+.plan-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: #fff;
+}
+.desc-simples {
+    font-size: 0.9rem;
+    color: #999;
+    margin: 0 0 15px 0;
+    min-height: 40px;
+}
 
-.price-box { font-size: 2.5rem; font-weight: 800; color: #fff; margin: 15px 0; }
-.price-box .currency { font-size: 1.2rem; vertical-align: top; }
-.price-box .period { font-size: 1rem; color: #666; font-weight: normal; }
+.price-box {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 15px 0;
+}
+.price-box .currency {
+    font-size: 1.2rem;
+    vertical-align: top;
+}
+.price-box .period {
+    font-size: 1rem;
+    color: #666;
+    font-weight: normal;
+}
 
 .blue-glow { text-shadow: 0 0 10px rgba(0,243,255,0.4); }
 .highlight { color: var(--neon-red); text-shadow: 0 0 15px rgba(255,42,42,0.4); }
 .gold-text { color: var(--gold); text-shadow: 0 0 15px rgba(255,215,0,0.4); }
 
-/* Promoção e Host */
-.price-promo { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9rem; }
-.old-price { text-decoration: line-through; color: #666; }
-.promo-tag { background: #00ff00; color: #000; font-size: 0.7rem; font-weight: bold; padding: 2px 6px; border-radius: 4px; animation: pulse 2s infinite; }
-.host-info { font-size: 0.8rem; margin-top: 10px; padding: 5px 10px; background: rgba(255,255,255,0.05); border-radius: 20px; color: #aaa; display: inline-block; }
-.host-info.free { background: rgba(0, 255, 0, 0.1); border: 1px solid #00ff00; color: #00ff00; font-weight: bold; }
+/* Promoção e Hospedagem */
+.price-promo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+.old-price {
+    text-decoration: line-through;
+    color: #666;
+}
+.promo-tag {
+    background: #00ff00;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    animation: pulse 2s infinite;
+}
+.host-info {
+    font-size: 0.8rem;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    color: #aaa;
+    display: inline-block;
+}
+.host-info.free {
+    background: rgba(0, 255, 0, 0.1);
+    border: 2px solid #00ff00;
+    color: #00ff00;
+    font-weight: bold;
+}
 
 /* Features */
-.features { list-style: none; padding: 0; margin: 25px 0; }
-.features li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; color: #ccc; display: flex; gap: 10px; }
-.features li i { width: 20px; text-align: center; }
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+}
+.features li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.95rem;
+    color: #ccc;
+    display: flex;
+    gap: 10px;
+}
+.features li i {
+    width: 20px;
+    text-align: center;
+}
 .check i { color: #00ff00; }
 .cross i { color: #555; }
-.alert i { color: #ffd700; }
 
 /* Badges e Botões */
-.badge-oferta { position: absolute; top: 0; left: 0; width: 100%; background: var(--neon-red); color: #fff; font-size: 0.75rem; font-weight: bold; text-align: center; padding: 5px 0; text-transform: uppercase; letter-spacing: 1px; }
-.badge-oferta.gold { background: var(--gold); color: #000; }
+.badge-oferta {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    background: var(--neon-red);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.badge-oferta.gold {
+    background: var(--gold);
+    color: #000;
+}
 
-.btn-contract { background: transparent; border: 1px solid #555; color: #ccc; width: 100%; padding: 15px; cursor: pointer; font-weight: bold; border-radius: 6px; transition: 0.3s; margin-top: auto; }
-.btn-contract:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.05); }
-.btn-blue { border-color: var(--neon-blue); color: var(--neon-blue); }
-.btn-blue:hover { background: var(--neon-blue); color: #000; }
-.btn-red { background: var(--neon-red); color: #fff; border: none; }
-.btn-red:hover { box-shadow: 0 0 15px var(--neon-red); }
-.btn-gold { background: var(--gold); color: #000; border: none; }
-.btn-gold:hover { box-shadow: 0 0 15px var(--gold); }
+.btn-contract {
+    background: transparent;
+    border: 1px solid #555;
+    color: #ccc;
+    width: 100%;
+    padding: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: 0.3s;
+    margin-top: auto;
+}
+.btn-contract:hover {
+    border-color: #fff;
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+.btn-blue {
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+}
+.btn-blue:hover {
+    background: var(--neon-blue);
+    color: #000;
+}
+.btn-red {
+    background: var(--neon-red);
+    color: #fff;
+    border: none;
+}
+.btn-red:hover {
+    box-shadow: 0 0 15px var(--neon-red);
+}
+.btn-gold {
+    background: var(--gold);
+    color: #000;
+    border: none;
+}
+.btn-gold:hover {
+    box-shadow: 0 0 15px var(--gold);
+}
 
-@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+/* Animação pulsante para botão em destaque */
+.pulse-btn {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
 
 /* Login Footer */
 .login-footer { background: #000; padding: 60px 20px; text-align: center; border-top: 1px solid #1e3a56; }

@@ -64,7 +64,8 @@ if (formLogin) {
         e.preventDefault();
         const usuario = document.getElementById('login-usuario').value.trim().toLowerCase();
         const senha = document.getElementById('login-senha').value.trim();
-        signInWithEmailAndPassword(auth, `${usuario}@hdbyte.com`, senha).catch(() => alert("Dados Incorretos"));
+        signInWithEmailAndPassword(auth, `${usuario}@hdbyte.com`, senha)
+            .catch(() => alert("Usuário ou senha incorretos"));
     });
 }
 window.fazerLogout = () => signOut(auth);
@@ -169,20 +170,35 @@ function renderizarCliente(c) {
 
 // Eventos
 const fc = document.getElementById('form-cliente');
-if(fc) fc.addEventListener('submit', e => {
+if (fc) fc.addEventListener('submit', e => {
     e.preventDefault();
+    // Cria objeto de parcelas
     const parcs = [];
-    document.querySelectorAll('.input-valor-mes').forEach(i => parcs.push({numero:parseInt(i.dataset.mes), valor:parseFloat(i.value)||0, pago:false}));
+    document.querySelectorAll('.input-valor-mes').forEach(i => {
+        parcs.push({ numero: parseInt(i.dataset.mes), valor: parseFloat(i.value) || 0, pago: false });
+    });
     const tTaxa = document.getElementById('check-taxa').checked;
-    const vTaxa = parseFloat(document.getElementById('valor-taxa').value)||0;
-    push(dbRef, { cliente: document.getElementById('cliente').value, plano: document.getElementById('plano').value, dataInicio: document.getElementById('data-inicio').value, taxa: {ativa:tTaxa, valor:tTaxa?vTaxa:0, pago:false}, parcelas: parcs });
-    alert("Criado!"); fc.reset(); document.getElementById('container-valor-taxa').style.display='none'; window.gerarCamposParcelas();
+    const vTaxa = parseFloat(document.getElementById('valor-taxa').value) || 0;
+    push(dbRef, {
+        cliente: document.getElementById('cliente').value,
+        plano: document.getElementById('plano').value,
+        dataInicio: document.getElementById('data-inicio').value,
+        taxa: { ativa: tTaxa, valor: tTaxa ? vTaxa : 0, pago: false },
+        parcelas: parcs
+    });
+    alert("Contrato criado com sucesso!");
+    fc.reset();
+    document.getElementById('container-valor-taxa').style.display = 'none';
+    window.gerarCamposParcelas();
 });
 
 const fCust = document.getElementById('form-custos');
-if(fCust) fCust.addEventListener('submit', e => {
+if (fCust) fCust.addEventListener('submit', e => {
     e.preventDefault();
-    push(dbRefCustos, {nome:document.getElementById('custo-nome').value, valor:document.getElementById('custo-valor').value});
+    push(dbRefCustos, {
+        nome: document.getElementById('custo-nome').value,
+        valor: document.getElementById('custo-valor').value
+    });
     fCust.reset();
 });
 
@@ -192,5 +208,7 @@ window.excluirCliente = (id) => { if(confirm("Apagar?")) remove(ref(db, `${userP
 window.excluirCusto = (id) => { if(confirm("Apagar?")) remove(ref(db, `${userPath}/custos/${id}`)); };
 window.filtrarTabela = () => {
     const t = document.getElementById('busca').value.toLowerCase();
-    document.querySelectorAll('#lista-clientes tr').forEach(l => l.style.display = l.innerText.toLowerCase().includes(t)?'':'none');
+    document.querySelectorAll('#lista-clientes tr').forEach(l => {
+        l.style.display = l.innerText.toLowerCase().includes(t) ? '' : 'none';
+    });
 };
