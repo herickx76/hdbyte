@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDBYTE - Soluções em IA</title>
+    <title>HDBYTE - Manager V5</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -11,212 +11,221 @@
 <body>
 
     <div id="landing-page">
-        
         <header class="hero-header">
             <div class="logo-area">
                 <i class="fas fa-robot fa-2x" style="color: var(--neon-red);"></i>
-                <h1>HDBYTE <span style="color: var(--neon-blue);">AI SOLUTIONS</span></h1>
+                <h1>HDBYTE <span style="color: var(--neon-blue);">AI</span></h1>
             </div>
-            <p class="hero-subtitle">Automação Inteligente que Vende por Você</p>
+            <p class="hero-subtitle">Automação Inteligente</p>
         </header>
 
         <section class="pricing-container">
-            
             <div class="plan-card basic-tier">
                 <div class="plan-header">
                     <h3>BÁSICO</h3>
-                    <p class="desc-simples">Respostas automáticas simples.</p>
-                    <div class="price-box">
-                        <span class="currency">R$</span>70<span class="period">/mês</span>
-                    </div>
+                    <p class="desc-simples">Simples e funcional.</p>
+                    <div class="price-box"><span class="currency">R$</span>70<span class="period">/mês</span></div>
                     <div class="host-info">+ R$ 20 Hospedagem</div>
                 </div>
                 <ul class="features">
-                    <li class="check"><i class="fas fa-check"></i> Respostas por Palavras-Chave</li>
-                    <li class="check"><i class="fas fa-check"></i> Envia Cardápio/Localização</li>
-                    <li class="alert"><i class="fas fa-exclamation-triangle"></i> Sem Inteligência Artificial</li>
-                    <li class="cross"><i class="fas fa-times"></i> Não entende áudio/imagem</li>
+                    <li class="check"><i class="fas fa-check"></i> Respostas Fixas</li>
+                    <li class="check"><i class="fas fa-check"></i> Cardápio/Localização</li>
+                    <li class="cross"><i class="fas fa-times"></i> Sem IA</li>
                 </ul>
-                <div class="plan-footer">
-                    <button class="btn-contract" onclick="irParaWhatsApp('Básico (Sem IA)')">CONTRATAR BÁSICO</button>
-                </div>
+                <div class="plan-footer"><button class="btn-contract" onclick="irParaWhatsApp('Básico')">CONTRATAR</button></div>
             </div>
 
             <div class="plan-card essential-tier">
                 <div class="plan-header">
                     <h3>IA ESSENCIAL</h3>
-                    <p class="desc-simples">IA de entrada para pequenos negócios.</p>
-                    <div class="price-box blue-glow">
-                        <span class="currency">R$</span>120<span class="period">/mês</span>
-                    </div>
+                    <p class="desc-simples">IA de entrada.</p>
+                    <div class="price-box blue-glow"><span class="currency">R$</span>120<span class="period">/mês</span></div>
                     <div class="host-info">+ R$ 20 Hospedagem</div>
                 </div>
                 <ul class="features">
-                    <li class="check"><i class="fas fa-brain"></i> IA Otimizada (Entende Texto)</li>
-                    <li class="check"><i class="fas fa-image"></i> Interpreta Imagens (Básico)</li>
-                    <li class="alert"><i class="fas fa-exclamation-triangle"></i> IA Limitada (Low Cost)</li>
-                    <li class="cross"><i class="fas fa-microphone-slash"></i> Não ouve áudio</li>
+                    <li class="check"><i class="fas fa-brain"></i> IA Otimizada</li>
+                    <li class="check"><i class="fas fa-image"></i> Vê Imagens</li>
+                    <li class="cross"><i class="fas fa-microphone-slash"></i> Sem áudio</li>
                 </ul>
-                <div class="plan-footer">
-                    <button class="btn-contract btn-blue" onclick="irParaWhatsApp('IA Essencial')">CONTRATAR ESSENCIAL</button>
-                </div>
+                <div class="plan-footer"><button class="btn-contract btn-blue" onclick="irParaWhatsApp('Essencial')">CONTRATAR</button></div>
             </div>
 
             <div class="plan-card pro-tier featured">
-                <div class="badge-oferta">🔥 MAIS VENDIDO</div>
+                <div class="badge-oferta">🔥 POPULAR</div>
                 <div class="plan-header">
-                    <h3>IA PROFISSIONAL</h3>
-                    <p class="desc-simples">Velocidade máxima e fluidez humana.</p>
-                    
-                    <div class="price-promo">
-                        <span class="old-price">De R$ 180</span>
-                        <span class="promo-tag">35% OFF (1º Mês)</span>
-                    </div>
-                    <div class="price-box highlight">
-                        <span class="currency">R$</span>117<span class="period">*</span>
-                    </div>
-                    <p class="renewal-info">*R$ 180/mês após o 1º mês</p>
-                    <div class="host-info free">✨ HOSPEDAGEM GRÁTIS</div>
+                    <h3>IA PRO</h3>
+                    <div class="price-promo"><span class="old-price">De 180</span><span class="promo-tag">OFF</span></div>
+                    <div class="price-box highlight"><span class="currency">R$</span>117<span class="period">*</span></div>
+                    <p class="renewal-info">*R$ 180 após 1º mês</p>
+                    <div class="host-info free">HOSPEDAGEM GRÁTIS</div>
                 </div>
                 <ul class="features">
-                    <li class="check highlight"><i class="fas fa-robot"></i> <strong>IA 100% Pura e Rápida</strong></li>
-                    <li class="check"><i class="fas fa-microphone"></i> Ouve Áudios & Vê Imagens</li>
-                    <li class="check"><i class="fas fa-user-shield"></i> Comandos de Admin</li>
-                    <li class="alert"><i class="fas fa-info-circle"></i> Sem Banco de Dados</li>
+                    <li class="check highlight"><i class="fas fa-robot"></i> <strong>IA 100% Pura</strong></li>
+                    <li class="check"><i class="fas fa-microphone"></i> Áudio e Imagem</li>
                 </ul>
-                <div class="plan-footer">
-                    <button class="btn-contract btn-red pulse-btn" onclick="irParaWhatsApp('IA Profissional')">QUERO ESTE!</button>
-                </div>
+                <div class="plan-footer"><button class="btn-contract btn-red pulse-btn" onclick="irParaWhatsApp('Pro')">QUERO ESTE</button></div>
             </div>
 
             <div class="plan-card elite-tier">
-                <div class="badge-oferta gold">👑 ELITE + SISTEMA</div>
+                <div class="badge-oferta gold">👑 ELITE</div>
                 <div class="plan-header">
-                    <h3>IA ELITE + DB</h3>
-                    <p class="desc-simples">Automação completa com memória.</p>
-                    
-                    <div class="price-promo">
-                        <span class="old-price">De R$ 250</span>
-                        <span class="promo-tag">35% OFF (1º Mês)</span>
-                    </div>
-                    <div class="price-box gold-text">
-                        <span class="currency">R$</span>162<span class="period">*</span>
-                    </div>
-                    <p class="renewal-info">*R$ 250/mês após o 1º mês</p>
-                    <div class="host-info free">✨ HOSPEDAGEM GRÁTIS</div>
+                    <h3>ELITE + DB</h3>
+                    <div class="price-promo"><span class="old-price">De 250</span><span class="promo-tag">OFF</span></div>
+                    <div class="price-box gold-text"><span class="currency">R$</span>162<span class="period">*</span></div>
+                    <p class="renewal-info">*R$ 250 após 1º mês</p>
+                    <div class="host-info free">HOSPEDAGEM GRÁTIS</div>
                 </div>
                 <ul class="features">
-                    <li class="check highlight"><i class="fas fa-database"></i> <strong>Banco de Dados Integrado</strong></li>
-                    <li class="check"><i class="fas fa-history"></i> Memória Longa do Cliente</li>
-                    <li class="check"><i class="fas fa-calendar-check"></i> Agendamento Automático</li>
-                    <li class="check"><i class="fas fa-infinity"></i> Personalização Total</li>
+                    <li class="check highlight"><i class="fas fa-database"></i> <strong>Banco de Dados</strong></li>
+                    <li class="check"><i class="fas fa-calendar-check"></i> Agendamento Auto</li>
                 </ul>
-                <div class="plan-footer">
-                    <button class="btn-contract btn-gold" onclick="irParaWhatsApp('IA Elite + DB')">CONTRATAR ELITE</button>
-                </div>
+                <div class="plan-footer"><button class="btn-contract btn-gold" onclick="irParaWhatsApp('Elite')">CONTRATAR</button></div>
             </div>
-
         </section>
 
         <footer class="login-footer">
             <div class="login-container-box">
-                <h2><i class="fas fa-lock"></i> Área Administrativa</h2>
+                <h2>Acesso Restrito</h2>
                 <form id="form-login">
                     <div class="login-row">
-                        <input type="text" id="login-usuario" required autocomplete="off" placeholder="Usuário">
+                        <input type="text" id="login-usuario" required placeholder="Usuário">
                         <input type="password" id="login-senha" required placeholder="Senha">
                         <button type="submit" class="btn-cyber-login">ENTRAR</button>
                     </div>
                 </form>
-                <p id="msg-erro" class="glitch-text" style="display: none; margin-top: 10px; color: var(--neon-red);">DADOS INCORRETOS</p>
             </div>
-            <p class="copyright">© 2024 HDBYTE AI SYSTEMS</p>
         </footer>
-
     </div>
 
     <div id="sistema-principal" class="container" style="display: none;">
+        
         <header class="main-header">
-            <div class="header-content">
-                <div class="brand">
-                    <i class="fas fa-microchip"></i>
-                    <h1>BOT MANAGER <span style="color: var(--neon-red);">V5</span></h1>
-                </div>
-                <div class="user-info">
-                    <span id="usuario-logado">...</span>
-                    <button onclick="fazerLogout()" class="btn-logout"><i class="fas fa-power-off"></i></button>
-                </div>
+            <div class="brand">
+                <i class="fas fa-microchip"></i>
+                <h1>BOT MANAGER <span style="color: var(--neon-red);">V5</span></h1>
+            </div>
+            <div class="user-info">
+                <span id="usuario-logado">...</span>
+                <button onclick="fazerLogout()" class="btn-logout"><i class="fas fa-power-off"></i></button>
             </div>
         </header>
 
-        <div class="dashboard-financeiro" style="margin-bottom: 20px;">
-            <div class="card-metric"><span>Total Recebido</span><strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong></div>
+        <div class="dashboard-financeiro">
+            <div class="card-metric"><span>Recebido</span><strong id="total-recebido" style="color: #0f0;">R$ 0,00</strong></div>
             <div class="card-metric"><span>Custos</span><strong id="total-custos" style="color: var(--neon-red);">R$ 0,00</strong></div>
-            <div class="card-metric highlight"><span>Lucro Líquido</span><strong id="lucro-liquido" style="color: var(--neon-blue);">R$ 0,00</strong></div>
+            <div class="card-metric highlight"><span>Líquido</span><strong id="lucro-liquido" style="color: var(--neon-blue);">R$ 0,00</strong></div>
         </div>
 
         <section class="card cyber-border">
             <h2 onclick="toggleForm('form-cliente')" style="cursor: pointer; display: flex; justify-content: space-between;">
                 <span><i class="fas fa-user-plus"></i> Novo Contrato</span> <i class="fas fa-chevron-down"></i>
             </h2>
+            
             <form id="form-cliente" style="display: none;">
-                <div class="form-row" style="background: rgba(0,243,255,0.05); padding: 10px; border-radius: 5px; border: 1px dashed var(--neon-blue);">
-                    <div class="form-group" style="flex: 2;">
-                        <label>Modelo:</label>
+                <div class="form-grid highlight-grid">
+                    <div class="form-group span-2">
+                        <label>Modelo de Plano:</label>
                         <select id="select-modelo-plano" onchange="autoPreencherPlano()">
                             <option value="">-- Selecione --</option>
-                            <option value="basico">🟦 PLANO 1 — BÁSICO</option>
-                            <option value="essencial">🟩 PLANO 2 — IA ESSENCIAL</option>
-                            <option value="profissional">🟨 PLANO 3 — IA PRO</option>
-                            <option value="premium">🟧 PLANO 4 — IA ELITE</option>
+                            <option value="basico">🟦 BÁSICO</option>
+                            <option value="essencial">🟩 ESSENCIAL</option>
+                            <option value="profissional">🟨 PRO</option>
+                            <option value="premium">🟧 ELITE</option>
                         </select>
                     </div>
-                    <div class="form-group" style="display: flex; align-items: center; padding-top: 20px;">
-                         <input type="checkbox" id="check-hospedagem" onchange="autoPreencherPlano()" style="margin-right: 10px;">
+                    <div class="form-group checkbox-group">
+                         <input type="checkbox" id="check-hospedagem" onchange="autoPreencherPlano()">
                          <label for="check-hospedagem">+ Hospedagem (R$ 20)</label>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Cliente:</label><input type="text" id="cliente" required placeholder="@telegram"></div>
-                    <div class="form-group"><label>Plano:</label><input type="text" id="plano" required></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Cliente (@Telegram):</label>
+                        <input type="text" id="cliente" required placeholder="@usuario">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome do Plano:</label>
+                        <input type="text" id="plano" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data Início:</label>
+                        <input type="date" id="data-inicio" required>
+                    </div>
                 </div>
-                <div class="form-row"><div class="form-group"><label>Início:</label><input type="date" id="data-inicio" required></div></div>
+
                 <div class="taxa-setup">
-                    <div style="display: flex; align-items: center; gap: 10px;"><input type="checkbox" id="check-taxa" onchange="toggleInputTaxa()"><label for="check-taxa">Cobrar Taxa de Instalação?</label></div>
-                    <div id="container-valor-taxa" style="display: none; margin-top: 10px;"><label>Valor (R$):</label><input type="number" id="valor-taxa" step="0.01"></div>
+                    <div class="checkbox-line">
+                        <input type="checkbox" id="check-taxa" onchange="toggleInputTaxa()">
+                        <label for="check-taxa">Cobrar Taxa de Instalação?</label>
+                    </div>
+                    <div id="container-valor-taxa" style="display: none; margin-top: 10px;">
+                        <input type="number" id="valor-taxa" step="0.01" placeholder="Valor da Taxa (R$)">
+                    </div>
                 </div>
+
                 <div class="parcelas-setup">
                     <h3><i class="fas fa-calculator"></i> Mensalidades</h3>
-                    <div class="form-row">
-                        <div class="form-group"><label>Qtd:</label><input type="number" id="qtd-parcelas" min="1" max="48" value="12" onchange="gerarCamposParcelas()"></div>
-                        <div class="form-group"><label>Valor (R$):</label><input type="number" id="valor-base" step="0.01" onchange="gerarCamposParcelas()"></div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Qtd. Meses:</label>
+                            <input type="number" id="qtd-parcelas" min="1" max="48" value="12" onchange="gerarCamposParcelas()">
+                        </div>
+                        <div class="form-group">
+                            <label>Valor Mensal (R$):</label>
+                            <input type="number" id="valor-base" step="0.01" onchange="gerarCamposParcelas()">
+                        </div>
                     </div>
-                    <div id="container-inputs-parcelas" class="grid-parcelas-input"></div>
+                    <div id="container-inputs-parcelas" class="grid-parcelas-mini"></div>
                 </div>
+
                 <button type="submit" class="btn-cyber btn-full">CRIAR CONTRATO</button>
             </form>
         </section>
 
-        <section class="card cyber-border" style="border-top-color: var(--neon-red);">
+        <section class="card cyber-border red-border">
             <h2 onclick="toggleForm('form-custos')" style="cursor: pointer; display: flex; justify-content: space-between; color: var(--neon-red);">
-                <span><i class="fas fa-file-invoice-dollar"></i> Custo Operacional</span> <i class="fas fa-chevron-down"></i>
+                <span><i class="fas fa-file-invoice-dollar"></i> Custos</span> <i class="fas fa-chevron-down"></i>
             </h2>
             <form id="form-custos" style="display: none;">
-                <div class="form-row">
-                    <div class="form-group" style="flex: 2;"><label>Descrição:</label><input type="text" id="custo-nome" required></div>
-                    <div class="form-group"><label>Valor:</label><input type="number" id="custo-valor" step="0.01" required></div>
+                <div class="form-grid">
+                    <div class="form-group span-2">
+                        <label>Descrição:</label>
+                        <input type="text" id="custo-nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Valor:</label>
+                        <input type="number" id="custo-valor" step="0.01" required>
+                    </div>
                 </div>
-                <button type="submit" class="btn-cyber btn-full" style="border-color: var(--neon-red); color: var(--neon-red);">ADD CUSTO</button>
+                <button type="submit" class="btn-cyber btn-red-outline">ADD CUSTO</button>
             </form>
-            <div id="lista-custos-container" style="margin-top: 20px;">
-                <table class="tabela-custos"><thead><tr><th>Descrição</th><th>Valor</th><th>X</th></tr></thead><tbody id="lista-custos"></tbody></table>
+            <div id="lista-custos-container">
+                <table class="tabela-custos">
+                    <tbody id="lista-custos"></tbody>
+                </table>
             </div>
         </section>
 
         <section class="card">
-            <div class="header-lista"><h2>Carteira</h2><input type="text" id="busca" class="search-input" placeholder="Buscar..." onkeyup="filtrarTabela()"></div>
+            <div class="header-lista">
+                <h2>Carteira</h2>
+                <input type="text" id="busca" class="search-input" placeholder="Buscar..." onkeyup="filtrarTabela()">
+            </div>
             <div class="table-responsive">
-                <table><thead><tr><th>Início</th><th>Cliente</th><th>Plano</th><th>Progresso</th><th>Financeiro</th><th>X</th></tr></thead><tbody id="lista-clientes"></tbody></table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Início</th>
+                            <th>Cliente</th>
+                            <th>Plano</th>
+                            <th>Progresso</th>
+                            <th>Financeiro</th>
+                            <th>X</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-clientes"></tbody>
+                </table>
             </div>
         </section>
     </div>
