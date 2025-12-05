@@ -248,27 +248,69 @@ body {
 .gold { background: linear-gradient(90deg, #ffd700, #ffea61); color: #000; }
 .gold:hover { box-shadow: 0 0 25px var(--gold); }
 .pulse { animation: pulse-btn 2s infinite; }
-
 /* =========================================
-   MEDIA QUERIES (RESPONSIVIDADE INTELIGENTE)
+   MEDIA QUERIES (RESPONSIVIDADE CORRIGIDA)
    ========================================= */
 
-/* Notebooks e Tablets (Ajuste para 2x2) */
+/* 1. Notebooks e Tablets (Modo Grade 2x2) */
 @media (max-width: 1400px) {
     .pricing-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 Colunas (2 em cima, 2 em baixo) */
-        max-width: 800px; /* Limita largura para ficarem centralizados */
+        grid-template-columns: repeat(2, 1fr); /* 2 Colunas */
+        max-width: 800px;
         margin: 0 auto;
+        /* Garante que os itens dentro das células fiquem no centro */
+        justify-items: center; 
     }
-    .pro { transform: none; min-height: 600px; } /* Remove o scale para alinhar no grid */
+    
+    .plan-card {
+        /* Garante que o card não estique demais se a célula for larga */
+        max-width: 380px; 
+        margin: 0 auto; /* Centralização de segurança */
+    }
+
+    .pro { 
+        transform: none; 
+        min-height: 600px; 
+    }
 }
 
-/* Celulares (1 por linha) */
-@media (max-width: 700px) {
+/* 2. Mobile e Tablets Pequenos (Modo Pilha Centralizada) */
+/* Unifiquei as regras de 900px e 700px aqui para evitar conflitos */
+@media (max-width: 950px) {
     .pricing-container {
-        grid-template-columns: 1fr;
+        /* Mudamos para Flexbox para empilhar perfeitamente no centro */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* O SEGREDO: Isso centraliza os filhos horizontalmente */
+        gap: 30px;
+    }
+
+    .plan-card {
+        width: 100%; /* Ocupa largura disponível... */
+        max-width: 340px; /* ...mas para em 340px para ficar elegante */
+        margin-left: auto; /* Força o centro */
+        margin-right: auto; /* Força o centro */
+        margin-bottom: 0; /* O gap do container cuida do espaço */
+        min-height: auto;
+    }
+
+    /* O plano PRO ganha um destaque sutil mesmo no mobile */
+    .pro {
+        width: 100%;
+        max-width: 360px; /* Ligeiramente maior que os outros */
+        transform: scale(1.02); /* Leve zoom */
+        order: -1; /* Opcional: Se quiser que o PRO apareça primeiro no mobile, descomente isso */
+    }
+
+    .hero-header h1 { 
+        font-size: 2.2rem; 
+    }
+    
+    .pricing-wrapper {
+        padding: 40px 15px; /* Menos padding lateral na tela pequena */
     }
 }
+
 /* FOOTER / LOGIN */
 .footer-landing {
     text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.05);
