@@ -10,6 +10,8 @@
 </head>
 <body>
 
+    <div id="toast-container"></div>
+
     <div id="landing-page">
         
         <header class="hero-header">
@@ -105,6 +107,19 @@
             </div>
         </section>
 
+        <footer class="login-footer">
+            <div class="login-container-box">
+                <h3><i class="fas fa-lock"></i> Acesso Restrito</h3>
+                <form id="form-login">
+                    <div class="login-row">
+                        <input type="text" id="login-usuario" placeholder="Usuário (ex: admin)" required>
+                        <input type="password" id="login-senha" placeholder="Senha" required>
+                        <button type="submit" class="btn-cyber-login">ENTRAR</button>
+                    </div>
+                </form>
+            </div>
+        </footer>
+
     </div>
 
     <div id="sistema-principal" class="container-dashboard" style="display: none;">
@@ -116,7 +131,7 @@
             </div>
             <div class="user-info">
                 <span id="usuario-logado">...</span>
-                <button onclick="fazerLogout()" class="btn-logout"><i class="fas fa-power-off"></i></button>
+                <button onclick="fazerLogout()" class="btn-logout" title="Sair"><i class="fas fa-power-off"></i></button>
             </div>
         </header>
 
